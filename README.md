@@ -88,4 +88,8 @@ React, TypeScript, Vite, XState, Recharts, Vitest. Deployed to GitHub Pages by G
 
 ---
 
-Designed and built by [Jen Kelleman](https://aiwithjen.com).
+## About the designer
+
+**[Jen Kelleman](https://aiwithjen.com)** · [GitHub](https://github.com/jkelleman) · [LinkedIn](https://linkedin.com/in/jenniferkelleman)
+
+Conversation and product designer for AI systems. 12+ yrs designing how products talk to people, from voice UI to agentic AI at Microsoft. Boston.
