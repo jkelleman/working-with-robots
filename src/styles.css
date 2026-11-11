@@ -1188,3 +1188,25 @@ dialog.wi-sheet { padding: 0; }
 .intro-story-box .intro-lingo { border-left-color: var(--green); }
 :root[data-contrast='high'] .intro-story-box { background: #000; border-color: #fff; }
 @media (max-width: 700px) { .intro-story-box { padding: 18px 16px; } }
+
+/* =====================================================================
+   Touch of green: one quiet accent per page, never a fill.
+   ===================================================================== */
+:root { --touch: #1f9d55; }
+@media (prefers-color-scheme: dark) { :root:not([data-contrast='high']) { --touch: #3fbf78; } }
+/* Header: green underline on the active page */
+.app-header nav a.active { box-shadow: inset 0 -2px 0 var(--touch); }
+/* Page banners: status dot on the eyebrow, hairline at the bottom */
+.page-header-eyebrow::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--touch); border-radius: 50%; margin-right: 10px; vertical-align: 1px; box-shadow: 0 0 0 3px rgba(31,157,85,.25); }
+.page-header, .concept { border-bottom: 2px solid var(--touch); }
+/* Section numbers */
+.story-h::before { color: var(--touch); }
+/* Small accents */
+.persona-quote, .intro-lingo, .intro-callout { border-left-color: var(--touch); }
+.proc-num, .flow-num { background: var(--touch); }
+.more[open] > summary .more-chev { border-color: var(--touch); }
+.page a:not(.btn), .src-head a { text-decoration-color: var(--touch); }
+.stat-value { color: var(--ink); }
+.persona-tag, .intro-eyebrow, .concept-eyebrow { color: var(--touch); }
+.intro-foot .btn-primary { background: var(--ink); }
+:root[data-contrast='high'] { --touch: #fff; }
