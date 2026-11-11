@@ -17,10 +17,10 @@ export interface HappyStep {
 }
 
 export const HAPPY_PATH: HappyStep[] = [
-  { id: 'arrive', label: 'Robot brings shelf', hint: 'Hands clear', states: ['working.podArriving'] },
-  { id: 'pick', label: 'Grab and scan', hint: 'From the lit bin', states: ['working.pick'] },
-  { id: 'put', label: 'Put in tote', hint: 'The lit tote, then its button', states: ['working.put'] },
-  { id: 'done', label: 'Task done', hint: 'Next task loads', states: ['working.confirm', 'done'] },
+  { id: 'arrive', label: 'Pod arrives', hint: 'Drive unit docks the pod', states: ['working.podArriving'] },
+  { id: 'pick', label: 'Pick and scan', hint: 'From the lit bin', states: ['working.pick'] },
+  { id: 'put', label: 'Put to tote', hint: 'Lit tote on the put wall', states: ['working.put'] },
+  { id: 'done', label: 'Task complete', hint: 'Pod leaves, next one docks', states: ['working.confirm', 'done'] },
 ];
 
 export interface Scenario {
@@ -36,20 +36,20 @@ export interface Scenario {
 const good = SAMPLE_TASKS[0].sku;
 
 export const SCENARIOS: Scenario[] = [
-  { id: 'podLate', label: 'Robot is late', at: 'arrive', kind: 'exception', state: 'working.exception.podLate',
-    outcome: 'Wait, then pick', events: [{ type: 'POD_TIMEOUT' }] },
-  { id: 'wrongItem', label: 'Wrong item scanned', at: 'pick', kind: 'exception', state: 'working.exception.wrongItem',
-    outcome: 'Back to pick', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: 'SKU-99999' }] },
-  { id: 'missingItem', label: 'Bin is empty', at: 'pick', kind: 'exception', state: 'working.exception.missingItem',
-    outcome: 'Skip to next task', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_MISSING' }] },
-  { id: 'damagedItem', label: 'Item is damaged', at: 'pick', kind: 'exception', state: 'working.exception.damagedItem',
-    outcome: 'Skip to next task', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_DAMAGED' }] },
-  { id: 'scannerFault', label: 'Scanner fails', at: 'pick', kind: 'exception', state: 'working.exception.scannerFault',
-    outcome: 'Verify by hand, then put', events: [{ type: 'POD_ARRIVED' }, { type: 'SCANNER_FAULT' }] },
-  { id: 'toteFull', label: 'Tote is full', at: 'put', kind: 'exception', state: 'working.exception.toteFull',
-    outcome: 'Swap tote, then put', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: good }, { type: 'TOTE_FULL' }] },
-  { id: 'safetyStop', label: 'Light curtain broken', at: 'any', kind: 'safety', state: 'safetyStop.halted',
-    outcome: 'Confirm clear, hold to resume', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: good }, { type: 'LIGHT_CURTAIN_BROKEN' }] },
+  { id: 'podLate', label: 'Starved station', at: 'arrive', kind: 'exception', state: 'working.exception.podLate',
+    outcome: 'Pod is late: wait, then pick', events: [{ type: 'POD_TIMEOUT' }] },
+  { id: 'wrongItem', label: 'Mispick', at: 'pick', kind: 'exception', state: 'working.exception.wrongItem',
+    outcome: 'Wrong item: return it, pick again', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: 'SKU-99999' }] },
+  { id: 'missingItem', label: 'Short pick', at: 'pick', kind: 'exception', state: 'working.exception.missingItem',
+    outcome: 'Bin empty: flag it, next task', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_MISSING' }] },
+  { id: 'damagedItem', label: 'Damaged item', at: 'pick', kind: 'exception', state: 'working.exception.damagedItem',
+    outcome: 'To the damage tote, next task', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_DAMAGED' }] },
+  { id: 'scannerFault', label: 'Scanner fault', at: 'pick', kind: 'exception', state: 'working.exception.scannerFault',
+    outcome: 'Key in the item, then put', events: [{ type: 'POD_ARRIVED' }, { type: 'SCANNER_FAULT' }] },
+  { id: 'toteFull', label: 'Tote full', at: 'put', kind: 'exception', state: 'working.exception.toteFull',
+    outcome: 'Tote swap, then put', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: good }, { type: 'TOTE_FULL' }] },
+  { id: 'safetyStop', label: 'Light curtain trip', at: 'any', kind: 'safety', state: 'safetyStop.halted',
+    outcome: 'E-stop: confirm clear, hold to resume', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: good }, { type: 'LIGHT_CURTAIN_BROKEN' }] },
 ];
 
 /** Which happy-path step the current state belongs to (exceptions map to the step they branched from). */

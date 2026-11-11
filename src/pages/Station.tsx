@@ -129,8 +129,8 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         return (
           <>
             <button className="btn btn-primary" onClick={() => send({ type: 'SCAN', sku: task!.sku })}>Scan item</button>
-            <button className="btn" onClick={() => send({ type: 'REPORT_MISSING' })}>Item not in bin</button>
-            <button className="btn" onClick={() => send({ type: 'REPORT_DAMAGED' })}>Item damaged</button>
+            <button className="btn" onClick={() => send({ type: 'REPORT_MISSING' })}>Short pick</button>
+            <button className="btn" onClick={() => send({ type: 'REPORT_DAMAGED' })}>Damaged item</button>
           </>
         );
       case 'working.put':
@@ -145,11 +145,11 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       case 'working.exception.wrongItem':
         return <button className="btn btn-primary" onClick={() => send({ type: 'RESOLVE' })}>Item returned to bin</button>;
       case 'working.exception.missingItem':
-        return <button className="btn btn-primary" onClick={() => send({ type: 'RESOLVE' })}>Skip and flag bin</button>;
+        return <button className="btn btn-primary" onClick={() => send({ type: 'RESOLVE' })}>Flag bin</button>;
       case 'working.exception.damagedItem':
         return <button className="btn btn-primary" onClick={() => send({ type: 'RESOLVE' })}>Done, in damage tote</button>;
       case 'working.exception.scannerFault':
-        return <button className="btn btn-primary" onClick={() => send({ type: 'MANUAL_VERIFY' })}>Verify manually</button>;
+        return <button className="btn btn-primary" onClick={() => send({ type: 'MANUAL_VERIFY' })}>Key in item</button>;
       case 'working.exception.toteFull':
         return <button className="btn btn-primary" onClick={() => send({ type: 'RESOLVE' })}>Tote swapped</button>;
       case 'working.exception.podLate':
@@ -203,11 +203,11 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           <div className="actions">{actions}</div>
 
           {inException && !escalating && (
-            <button className="btn btn-link" onClick={() => setEscalating(true)}>Still stuck? Call your lead</button>
+            <button className="btn btn-link" onClick={() => setEscalating(true)}>Still stuck? Pull the andon</button>
           )}
           {inException && escalating && (
             <fieldset className="escalate">
-              <legend>What's the problem?</legend>
+              <legend>Andon: what's the problem?</legend>
               {REASONS.map((r) => (
                 <button key={r} className="btn" onClick={() => send({ type: 'ESCALATE', reason: r })}>{r}</button>
               ))}
@@ -233,12 +233,12 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       <section className="sim" aria-label="Simulate floor events">
         <h3>Simulate floor events</h3>
         <div className="sim-grid">
-          <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Robot arrives</button>
-          <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Robot runs late</button>
+          <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Pod arrives</button>
+          <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Pod runs late</button>
           <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCAN', sku: 'SKU-99999' })}>Scan wrong item</button>
           <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCANNER_FAULT' })}>Scanner fault</button>
-          <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Lead clears task</button>
-          <button className="btn btn-sm btn-danger" disabled={!key.startsWith('working')} onClick={() => send({ type: 'LIGHT_CURTAIN_BROKEN' })}>Break light curtain</button>
+          <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Problem Solve clears task</button>
+          <button className="btn btn-sm btn-danger" disabled={!key.startsWith('working')} onClick={() => send({ type: 'LIGHT_CURTAIN_BROKEN' })}>Trip light curtain</button>
         </div>
         <details>
           <summary>Exception log ({ctx.log.length})</summary>

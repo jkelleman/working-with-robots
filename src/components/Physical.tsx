@@ -32,6 +32,7 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
         <div className="tower-pole" />
       </div>
       <figcaption>
+        <span className="tower-kind">Stack light · </span>
         <span className={`tower-label sev-${signal.severity}`}>{signal.towerLabel || 'Off'}</span>
         <span className="muted"> · {signal.pattern === 'fast' ? 'fast blink' : signal.pattern === 'slow' ? 'slow blink' : 'steady'}</span>
       </figcaption>
@@ -44,7 +45,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
     <figure className={`pod pod-${motion}`} aria-label={`Shelf brought by robot${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. Robot ${motion === 'docked' ? 'docked at station' : motion === 'arriving' ? 'arriving' : 'delayed'}.`}>
-      <p className="touch-title">Storage shelf <span>stays in the warehouse</span></p>
+      <p className="touch-title">Pod <span>mobile storage shelf, never shipped</span></p>
       <div className="pod-rig">
       <div className="pod-grid">
         {BIN_ROWS.map((r) =>
@@ -62,7 +63,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
       </div>
       <svg className="pod-robot" viewBox="0 0 120 40" aria-hidden="true"><DriveUnit x={4} y={2} w={112} /></svg>
       </div>
-      <figcaption>{motion === 'arriving' ? 'Robot is bringing the shelf…' : motion === 'stalled' ? 'Robot is running late' : signal.litBin ? `Lit bin ${signal.litBin}: your item is here` : 'Shelf docked'}</figcaption>
+      <figcaption>{motion === 'arriving' ? 'Drive unit bringing the pod…' : motion === 'stalled' ? 'Pod is late: station starved' : signal.litBin ? `Pick-to-light: bin ${signal.litBin}` : 'Pod docked'}</figcaption>
     </figure>
   );
 }
@@ -71,7 +72,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
 export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet; task?: PickTask; justPut?: boolean; onPress?: (slot: string) => void }) {
   return (
     <figure className="totes" aria-label="Customer order totes">
-      <p className="touch-title">Order totes <span>these go to customers</span></p>
+      <p className="touch-title">Put wall <span>order totes that ship</span></p>
       <div className="tote-grid">
         {TOTE_SLOTS.map((t) => {
           const lit = signal.litTote === t;
@@ -91,7 +92,7 @@ export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet
           );
         })}
       </div>
-      <figcaption>{signal.litTote ? `Lit tote ${signal.litTote}: put it here, then press its button` : 'Waiting for the next item'}</figcaption>
+      <figcaption>{signal.litTote ? `Put-to-light: tote ${signal.litTote}. Press its button to confirm.` : 'Waiting for the next pick'}</figcaption>
     </figure>
   );
 }
@@ -102,15 +103,15 @@ export function WhatsWhat() {
     <ul className="whats" aria-label="What's what">
       <li>
         <svg viewBox="0 0 44 40" aria-hidden="true"><Pod x={8} y={0} w={28} lit={null} /><DriveUnit x={8} y={28} w={28} /></svg>
-        <span><strong>Storage shelf</strong> The robot brings it, then takes it back. Never shipped.</span>
+        <span><strong>Pod + drive unit</strong> A shelf of bins and the robot that carries it. Goes back to storage.</span>
       </li>
       <li>
         <svg viewBox="0 0 40 40" aria-hidden="true"><ItemIcon kind="bottle" /></svg>
-        <span><strong>Product</strong> The one item you take out. This is what ships.</span>
+        <span><strong>Item (SKU)</strong> The product you pick. This is what ships.</span>
       </li>
       <li>
         <svg viewBox="0 0 44 40" aria-hidden="true"><path d="M2 12 h40 l-4 24 h-32z" fill="#5b636b" /><rect x="14" y="5" width="16" height="4" rx="2" fill="#1f9d55" /></svg>
-        <span><strong>Order tote</strong> The customer’s box. Goes to packing when the order is complete.</span>
+        <span><strong>Order tote</strong> One customer order. Goes to packing when complete.</span>
       </li>
     </ul>
   );

@@ -1,7 +1,7 @@
 import { DriveUnit, ItemIcon, Pod } from './Illustrations';
 
 /**
- * Explains the control loop: robots don't decide on their own. A warehouse
+ * Explains the control loop. A warehouse
  * control system dispatches them, and the station reports each step back.
  */
 
@@ -61,11 +61,11 @@ function LightIcon() {
 }
 
 const STEPS = [
-  { icon: <OrderIcon />, title: 'Order comes in', text: 'The warehouse system finds a shelf holding the item.' },
-  { icon: <FetchIcon />, title: 'Robot is dispatched', text: 'It drives under that shelf, lifts it, and brings it here.' },
-  { icon: <LightIcon />, title: 'Robot docks', text: 'Docking is the cue: the station lights the right bin.' },
-  { icon: <ScanIcon />, title: 'Worker confirms', text: 'The scan and the tote button tell the system each step is done.' },
-  { icon: <ReturnIcon />, title: 'Shelf goes back', text: 'The robot returns it. The next robot is already queued.' },
+  { icon: <OrderIcon />, title: 'Order drops', text: 'The WES finds a pod holding the item and assigns this station.' },
+  { icon: <FetchIcon />, title: 'Drive unit dispatched', text: 'The fleet manager sends a drive unit to lift the pod and bring it here.' },
+  { icon: <LightIcon />, title: 'Pod docks', text: 'Docking is the cue: pick-to-light shows the right bin.' },
+  { icon: <ScanIcon />, title: 'Associate confirms', text: 'The scan and the put-wall button tell the WES each step is done.' },
+  { icon: <ReturnIcon />, title: 'Pod returns to storage', text: 'The drive unit takes it back. The next pod is already queued.' },
 ];
 
 export default function HowItWorks() {
@@ -73,8 +73,8 @@ export default function HowItWorks() {
     <section className="how" aria-labelledby="how-title">
       <h3 id="how-title">How do the robots know what to do?</h3>
       <p className="how-lede">
-        They don’t decide on their own. A warehouse control system gives each robot its job, and the station reports
-        every step back.
+        A warehouse execution system (WES) and a fleet manager assign each drive unit its job, and the pick station
+        reports every step back.
       </p>
       <ol className="how-loop">
         {STEPS.map((s, i) => (
@@ -87,9 +87,9 @@ export default function HowItWorks() {
       </ol>
       <p className="how-safety">
         <span className="how-oct" aria-hidden="true" />
-        <span><strong>Safety is separate:</strong> breaking the light curtain stops every robot in the zone instantly, whatever the system was doing.</span>
+        <span><strong>Safety is separate:</strong> a light curtain trip stops every drive unit in the zone instantly (an E-stop), whatever the WES was doing.</span>
       </p>
-      <p className="how-note">In this prototype, the “Simulate floor events” buttons stand in for the robots and the warehouse system.</p>
+      <p className="how-note">In this prototype, the “Simulate floor events” buttons stand in for the drive units and the WES.</p>
     </section>
   );
 }

@@ -8,7 +8,7 @@ _Generated from [`src/data/patterns.ts`](src/data/patterns.ts) by `npm run patte
 - [Task card](#task-card)
 - [Exception card](#exception-card)
 - [Safety stop](#safety-stop)
-- [Escalation](#escalation)
+- [Andon (escalation)](#andon-escalation)
 - [Confirmation](#confirmation)
 - [Progress](#progress)
 - [Screen-to-light handoff](#screen-to-light-handoff)
@@ -19,11 +19,11 @@ Tell the worker, at a glance and from any angle, what the station needs.
 
 **When to use:** Every state. It is the backbone all other patterns sit on.
 
-**States:** Ready · Robot moving · Pick/Put · Attention · Lead called · Stop
+**States:** Ready · Pod inbound · Pick/Put · Exception · Andon · E-stop
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
-| Colored top band + headline | One tower tier, color + blink rate + shape | Tone family by severity | Pulse count by severity |
+| Colored top band + headline | One stack light tier, color + blink rate + shape | Tone family by severity | Pulse count by severity |
 
 **Do**
 
@@ -61,7 +61,7 @@ Show exactly what to pick and where it goes, readable at arm’s length.
 
 Name the problem in plain words and give one next step.
 
-**When to use:** Wrong item, missing item, damaged item, scanner fault, tote full, pod late.
+**When to use:** Mispick, short pick, damaged item, scanner fault, tote full, starved station.
 
 **States:** Raised · Self-resolved · Escalated
 
@@ -102,13 +102,13 @@ Halt work instantly and make restarting a deliberate act.
 - Allow a single tap to resume
 - Let reduced-sound settings silence it
 
-## Escalation
+## Andon (escalation)
 
-Get a lead to the station with the right context, without the worker leaving.
+Pull the andon: get Problem Solve to the station with the right context, without the associate leaving.
 
 **When to use:** When self-recovery fails or a safety or damage judgment is needed.
 
-**States:** Choosing reason · Lead called · Cleared
+**States:** Choosing reason · Andon pulled · Cleared
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |

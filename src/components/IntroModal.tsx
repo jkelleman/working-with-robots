@@ -7,18 +7,24 @@ import { StepIcon } from './Illustrations';
  */
 
 const STEPS = [
-  { kind: 'deliver', title: 'Robot brings a storage shelf', text: 'No walking the aisles.' },
-  { kind: 'pick', title: 'Take the product from the lit bin', text: 'Scan to confirm.' },
-  { kind: 'put', title: 'Drop it in the customer’s tote', text: 'The shelf goes back; the product ships.' },
+  { kind: 'deliver', title: 'A drive unit brings a pod', text: 'Goods-to-person: no walking aisles.' },
+  { kind: 'pick', title: 'Pick from the lit bin', text: 'Pick-to-light. Scan to confirm.' },
+  { kind: 'put', title: 'Put to the lit tote', text: 'Put-to-light. The tote ships.' },
 ] as const;
 
 const TERMS: Array<[string, string]> = [
-  ['Storage shelf', 'Bins of products a robot carries over, then back. Never shipped.'],
-  ['Lit bin', 'The bin whose light is on. Your item is in it.'],
-  ['Lit tote', 'The customer’s order box with its light on. This ships.'],
-  ['Light tower', 'Stacked beacon showing station status.'],
-  ['Light curtain', 'Safety beam; breaking it stops the robots.'],
-  ['Exception', 'Anything that interrupts a normal pick.'],
+  ['Goods-to-person (GTP)', 'Robots bring storage to the associate instead of the associate walking the aisles.'],
+  ['Pod', 'A mobile shelf of fabric bins holding items. Never shipped.'],
+  ['Drive unit (AMR)', 'The low robot that lifts a pod and carries it. AMR = autonomous mobile robot.'],
+  ['Pick station', 'Where the associate works: screen, scanner, stack light, put wall.'],
+  ['Pick-to-light / put-to-light', 'A light marks which bin to pick from, and which tote to put to.'],
+  ['Put wall', 'The rack of order totes. Each tote is one customer order.'],
+  ['Stack light', 'The tower of colored lights showing station status from across the floor.'],
+  ['Light curtain', 'An invisible safety beam across the pod opening. A trip stops nearby drive units (an E-stop).'],
+  ['Short pick / mispick', 'Short: the bin doesn’t have the item. Mispick: the wrong item was picked.'],
+  ['Starved station', 'The associate is ready but the next pod hasn’t arrived.'],
+  ['Andon / Problem Solve', 'Andon is the call for help. Problem Solve is the team that answers it.'],
+  ['WES and fleet manager', 'Software that decides which pod goes to which station and dispatches the drive units.'],
 ];
 
 const BUILT = ['XState state machine', 'Web Audio · Vibration · Speech APIs', '23 automated tests', 'React + TypeScript', 'GitHub Actions'];
@@ -52,9 +58,9 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
         <section>
           <h3>Use case and scenario</h3>
           <dl className="intro-story">
-            <div><dt>Use case</dt><dd>Picking customer orders at a robotic fulfillment station.</dd></div>
-            <div><dt>Who</dt><dd>Maya, a picker three weeks into the job, on a 10-hour night shift.</dd></div>
-            <div><dt>Tonight</dt><dd>An empty bin, a full tote, a jammed scanner, and a hand through the light curtain.</dd></div>
+            <div><dt>Use case</dt><dd>Goods-to-person picking at a robotic pick station.</dd></div>
+            <div><dt>Who</dt><dd>Maya, an associate (picker) three weeks into the job, on a 10-hour night shift.</dd></div>
+            <div><dt>Tonight</dt><dd>A short pick, a full tote, a scanner fault, and a light curtain trip.</dd></div>
             <div><dt>The test</dt><dd>Does her station always tell her what to do next, safely?</dd></div>
           </dl>
         </section>
@@ -70,7 +76,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
               </li>
             ))}
           </ol>
-          <p className="intro-callout">Seven things can knock Maya off this path. The scenario map shows each one, and the prototype designs the way back.</p>
+          <p className="intro-callout">Seven exceptions can knock Maya off this path. The scenario map shows each one, and the prototype designs the way back.</p>
         </section>
 
         <section>

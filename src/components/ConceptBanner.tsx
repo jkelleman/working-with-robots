@@ -14,20 +14,20 @@ export default function ConceptBanner() {
     <section className="concept" aria-labelledby="concept-title">
       <div className="concept-inner">
         <div className="concept-copy">
-          <p className="concept-eyebrow">Design concept · Robotic fulfillment</p>
+          <p className="concept-eyebrow">Design concept · Goods-to-person (GTP) picking</p>
           <h1 id="concept-title" className="concept-title">Guiding people who work alongside robots</h1>
           <dl className="concept-story">
             <div>
               <dt>Use case</dt>
-              <dd>Filling customer orders. Robots carry storage shelves to Maya; she takes out each product and drops it in the customer’s box.</dd>
+              <dd>Goods-to-person picking. Drive units carry pods (mobile shelves) to Maya’s pick station; she picks each item and puts it to the customer’s order tote.</dd>
             </div>
             <div>
               <dt>Scenario</dt>
-              <dd>Maya, three weeks in, works the night shift. Tonight she’ll hit an empty bin, a full tote, and a safety stop.</dd>
+              <dd>Maya, an associate three weeks in, works nights. Tonight: a short pick, a full tote, and a light curtain trip.</dd>
             </div>
           </dl>
 
-          <p className="concept-lede">This prototype designs what her station shows, lights, and sounds at every step. It tests four claims:</p>
+          <p className="concept-lede">This prototype designs what her pick station shows, lights, and sounds at every step. It tests four claims:</p>
 
           <ul className="concept-claims">
             {CLAIMS.map((c) => (
