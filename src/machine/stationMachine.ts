@@ -18,7 +18,7 @@ export type ExceptionType =
   | 'podLate';
 
 export type EscalationReason =
-  | 'Item not in bin after recount'
+  | 'Short pick after recount'
   | 'Damage needs inspection'
   | 'Equipment fault'
   | 'Safety concern'

@@ -4,23 +4,23 @@ import PageHeader, { PatternsArt } from '../components/PageHeader';
 const slug = (name: string) => name.toLowerCase().replace(/\W+/g, '-');
 
 const WHY = [
-  { title: 'Safety depends on it', text: 'A worker who learns that red means stop at one station has to see the same thing at every station. Inconsistency on a robot floor isn’t cosmetic.' },
+  { title: 'Safety depends on it', text: 'An associate who learns that red means stop at one station has to see the same thing at every station. Inconsistency on a robot floor isn’t cosmetic.' },
   { title: 'Many teams build stations', text: 'Hardware, software, and operations teams each touch the experience. Shared patterns let them decide once, instead of re-deciding per program.' },
   { title: 'New people ramp faster', text: 'Designers, engineers, and site trainers get one reference for what each signal means and when to use it.' },
 ];
 
 const HOW = [
   { title: 'Map every state', text: 'Start from the station’s state machine: 15 states, from ready to safety stop.' },
-  { title: 'Ask what the worker needs', text: 'For each state: what happened, what to do next, and how urgent it is.' },
+  { title: 'Ask what the associate needs', text: 'For each state: what happened, what to do next, and how urgent it is.' },
   { title: 'Group the repeats', text: 'Six exceptions turned out to need the same thing: one problem, one next step. That became the Exception card.' },
-  { title: 'Map every channel', text: 'Give each pattern one meaning on the screen, light tower, sound, and vibration, so no channel says something different.' },
+  { title: 'Map every channel', text: 'Give each pattern one meaning on the screen, stack light, sound, and vibration, so no channel says something different.' },
   { title: 'Lock rules into code', text: 'Rules like “only the safety stop uses red” are automated tests, so a future change can’t quietly break them.' },
 ];
 
 const SCALE = [
   { title: 'New robotic programs', text: 'A new station type adds its own states, then maps them to existing patterns. A new exception reuses the Exception card instead of inventing a screen.' },
   { title: 'New sites', text: 'The patterns ship with the rollout playbook and a printed standard work card, so every site trains to the same signals.' },
-  { title: 'New patterns', text: 'Propose with evidence from the floor, review with design, safety, and engineering, test with workers, then publish and version it.' },
+  { title: 'New patterns', text: 'Propose with evidence from the floor, review with design, safety, and engineering, test with associates, then publish and version it.' },
 ];
 
 export default function Patterns() {
@@ -87,7 +87,7 @@ export default function Patterns() {
         </article>
       ))}
 
-      <p className="story-note">Concept work: these patterns come from designing this prototype. On a real program they would be validated through field research and usability testing with workers before rollout.</p>
+      <p className="story-note">Concept work: these patterns come from designing this prototype. On a real program they would be validated through field research and usability testing with associates before rollout.</p>
     </div>
     </>
   );

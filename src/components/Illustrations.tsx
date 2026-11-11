@@ -101,7 +101,7 @@ function Tote({ x, y, lit = false }: { x: number; y: number; lit?: boolean }) {
 export function StationScene({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 360 190" role="img"
-      aria-label="Illustration: a robot carries a shelf of bins to a workstation, where a worker picks from a lit bin.">
+      aria-label="Illustration: a drive unit carries a pod to a pick station, where an associate picks from a lit bin.">
       <rect x={0} y={170} width={360} height={4} rx={2} fill={C.steel} opacity={0.5} />
       {/* motion trail */}
       <g opacity={0.35} stroke={C.steelLight} strokeWidth={3} strokeLinecap="round">

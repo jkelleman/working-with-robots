@@ -17,9 +17,9 @@
 
 - [ ] Posture during pick: reaching, bending, twisting; which bin rows cause the most reach
 - [ ] Repetitive motion: wrist and shoulder movements per task
-- [ ] Gloves: can workers use the touchscreen, scanner and tote buttons while wearing them?
+- [ ] Gloves: can associates use the touchscreen, scanner and tote buttons while wearing them?
 - [ ] Noise: can tones be heard over conveyors and neighboring stations? Are earplugs worn?
-- [ ] Glare and lighting: can the screen and pick-to-light be read from where the worker stands?
+- [ ] Glare and lighting: can the screen and pick-to-light be read from where the associate stands?
 - [ ] Line of sight: where do eyes go between screen, pod, and totes?
 
 **Work and signals**
@@ -28,12 +28,12 @@
 - [ ] Which signals are ignored, and why
 - [ ] Workarounds: sticky notes, verbal shortcuts, skipping steps
 - [ ] Every exception: what happened, how it was noticed, how long to recover, whether help was needed
-- [ ] Every safety stop: cause, how the worker reacted, how they knew it was safe to resume
+- [ ] Every safety stop: cause, how the associate reacted, how they knew it was safe to resume
 
 **People**
 
-- [ ] When and how leads are called; how long until they arrive
-- [ ] How knowledge passes between experienced and new workers
+- [ ] When and how the andon is pulled; how long until Problem Solve arrives
+- [ ] How knowledge passes between experienced and new associates
 
 ## Questions to ask (after the task, not during)
 

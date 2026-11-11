@@ -19,7 +19,7 @@ function Shape({ shape }: { shape: SignalSet['shape'] }) {
 /** A stacked light tower. The lit tier blinks at a rate that encodes urgency, and carries a shape for color-blind users. */
 export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe: boolean }) {
   return (
-    <figure className="tower" aria-label={`Light tower: ${signal.towerLabel || 'off'}`}>
+    <figure className="tower" aria-label={`Stack light: ${signal.towerLabel || 'off'}`}>
       <div className="tower-stack">
         {TIERS.map((t) => {
           const on = signal.tower === t;
@@ -44,7 +44,7 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
 export function PodBins({ signal }: { signal: SignalSet }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
-    <figure className={`pod pod-${motion}`} aria-label={`Shelf brought by robot${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. Robot ${motion === 'docked' ? 'docked at station' : motion === 'arriving' ? 'arriving' : 'delayed'}.`}>
+    <figure className={`pod pod-${motion}`} aria-label={`Pod${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. ${motion === 'docked' ? 'Docked at the station' : motion === 'arriving' ? 'Drive unit arriving' : 'Pod is late, station starved'}.`}>
       <p className="touch-title">Pod <span>mobile storage shelf, never shipped</span></p>
       <div className="pod-rig">
       <div className="pod-grid">
@@ -71,7 +71,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
 /** Customer order totes. The lit tote is where the item goes; its button confirms the put. */
 export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet; task?: PickTask; justPut?: boolean; onPress?: (slot: string) => void }) {
   return (
-    <figure className="totes" aria-label="Customer order totes">
+    <figure className="totes" aria-label="Put wall of customer order totes">
       <p className="touch-title">Put wall <span>order totes that ship</span></p>
       <div className="tote-grid">
         {TOTE_SLOTS.map((t) => {
@@ -103,7 +103,7 @@ export function WhatsWhat() {
     <ul className="whats" aria-label="What's what">
       <li>
         <svg viewBox="0 0 44 40" aria-hidden="true"><Pod x={8} y={0} w={28} lit={null} /><DriveUnit x={8} y={28} w={28} /></svg>
-        <span><strong>Pod + drive unit</strong> A shelf of bins and the robot that carries it. Goes back to storage.</span>
+        <span><strong>Pod + drive unit</strong> A mobile shelf of bins and the AMR that carries it. Returns to storage.</span>
       </li>
       <li>
         <svg viewBox="0 0 40 40" aria-hidden="true"><ItemIcon kind="bottle" /></svg>

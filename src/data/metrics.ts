@@ -19,7 +19,7 @@ export interface DayMetrics {
   phase: 'Baseline' | 'New exception flows';
 }
 
-export const EXCEPTION_TYPES = ['Wrong item', 'Missing item', 'Damaged', 'Scanner fault', 'Tote full', 'Pod late'] as const;
+export const EXCEPTION_TYPES = ['Mispick', 'Short pick', 'Damaged', 'Scanner fault', 'Tote full', 'Starved station'] as const;
 
 export function generateMetrics(seed = 14) {
   const rand = mulberry32(seed);
@@ -53,9 +53,9 @@ export function generateMetrics(seed = 14) {
 }
 
 export const DESIGN_LEVERS: Record<string, string> = {
-  'Units per hour': 'Fewer screen reads per task: put the bin and tote IDs in the light, not only on the screen.',
+  'Units per hour': 'Fewer screen reads per task: show bin and tote IDs in the pick-to-light and put-to-light, not only on screen.',
   'Task cycle time': 'Pre-stage the next task during the put so the screen is ready when the pod lands.',
-  'Exception rate': 'Show item photos at pick to cut wrong-item scans, the largest exception type.',
-  'Time to recover': 'One clear next step per exception; self-serve recovery before escalation.',
-  'Safety stops': 'Pod-opening light curtain plus a hold-to-resume control prevents rushed restarts.',
+  'Exception rate': 'Show item photos at pick to cut mispicks, the largest exception type.',
+  'Time to recover': 'One clear next step per exception; self-serve recovery before pulling the andon.',
+  'Safety stops': 'A light curtain at the pod opening plus hold-to-resume prevents rushed restarts after an E-stop.',
 };

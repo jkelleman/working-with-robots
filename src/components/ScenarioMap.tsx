@@ -22,7 +22,7 @@ export default function ScenarioMap({
   return (
     <section className="scenario-map" aria-labelledby="scenario-map-title">
       <div className="sm-head">
-        <h2 id="scenario-map-title">Scenario map</h2>
+        <h2 id="scenario-map-title">Scenario map <span className="sm-sub">the 4 steps of every pick</span></h2>
         <p className="sm-legend">
           <span className="sm-key sm-key-happy">Happy path</span>
           <span className="sm-key sm-key-exc">Goes wrong here</span>

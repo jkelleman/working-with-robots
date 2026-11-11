@@ -1,11 +1,11 @@
 # Training outline
 
 **Length:** 30 minutes at the station, then 2 hours of supported work with a buddy.
-**Who:** every worker on the station, every shift. Leads get an extra 15 minutes on escalations.
+**Who:** every associate on the station, every shift. Shift leads and Problem Solve get an extra 15 minutes on andon handling.
 
 ## Module 1: Read the station (5 min)
 
-- The light tower: what each color, blink rate, and shape means
+- The stack light: what each color, blink rate, and shape means
 - Red and the octagon mean one thing only: stop
 - Where the bin and tote IDs show up: screen and lights
 
@@ -18,16 +18,16 @@
 
 Practice each one on the prototype:
 
-- Wrong item → put it back, pick the right one
-- Empty bin → recount once, then skip and flag
+- Mispick → put it back, pick the right one
+- Short pick → recount once, then flag the bin
 - Damaged item → damage tote, then Done
-- Scanner down → check the label, verify manually
-- Tote full → swap the tote
-- Still stuck → call your lead and pick a reason
+- Scanner fault → check the label, key in the item
+- Tote full → tote swap
+- Still stuck → pull the andon and pick a reason
 
 ## Module 4: Safety stop (5 min)
 
-- What breaks the light curtain, and why the robots stop
+- What breaks the light curtain, and why nearby drive units stop
 - Step back, check the opening, confirm clear, then press and hold Resume
 - Never resume for someone else
 
@@ -36,4 +36,4 @@ Practice each one on the prototype:
 - Accessibility modes: high contrast, large text, spoken guidance, left-hand layout, reduced sound
 - How to report something confusing, and what happens with your feedback
 
-**Check for understanding:** each worker completes one normal task, two exceptions, and one safety stop without help before working alone.
+**Check for understanding:** each associate completes one normal task, two exceptions, and one safety stop without help before working alone.

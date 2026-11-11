@@ -94,7 +94,7 @@ main { padding: 0; }
   }
 }
 @media (max-width: 900px) {
-  .station, .station.left-handed { grid-template-columns: 1fr; grid-template-areas: "dock" "screen" "physical" "sim" "how"; padding-top: 0; row-gap: 16px; }
+  .station, .station.left-handed { grid-template-columns: minmax(0, 1fr); grid-template-areas: "dock" "screen" "physical" "sim" "how"; padding-top: 0; row-gap: 16px; }
   .rail { display: none; }
   .dock { display: flex; }
   .screen { scroll-margin-top: 92px !important; }
@@ -156,7 +156,7 @@ main { padding: 0; }
 .tier-green.on { box-shadow: 0 0 28px var(--green); }
 .tier-blue.on { color: #fff; box-shadow: 0 0 28px var(--blue); }
 .tower-pole { width: 14px; height: 90px; background: linear-gradient(90deg, #888, #ccc, #888); border-radius: 2px; }
-.tower figcaption { text-align: center; }
+.tower figcaption { text-align: center; max-width: 110px; }
 .tower-label { font-weight: 700; color: var(--ink); }
 .blink-slow { animation: blink-slow 1.6s ease-in-out infinite; }
 .blink-fast { animation: blink-fast .5s steps(2) infinite; }
@@ -172,7 +172,7 @@ main { padding: 0; }
 .bin-item { width: 58%; height: auto; opacity: .9; }
 .bin.lit .bin-item { filter: brightness(0) invert(1); opacity: 1; }
 .bin.lit-amber .bin-item { filter: none; }
-.tote-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.tote-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .tote { font: inherit; font-weight: 700; cursor: pointer; border: 2px solid var(--border); background: var(--bg); color: var(--ink); border-radius: 6px; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .tote-light { width: 26px; height: 8px; border-radius: 4px; background: var(--off); opacity: .35; }
 .tote.lit { border-color: var(--green); }
@@ -247,6 +247,7 @@ th { background: var(--bg); }
 }
 
 /* Robot under the pod on the station page */
+.pod { overflow: hidden; }
 .pod-rig { position: relative; }
 .pod-robot { display: block; width: 62%; max-height: 40px; margin: -1px auto 0; }
 .pod-arriving .pod-rig { animation: pod-arrive 2.4s ease-in-out infinite; }
@@ -422,9 +423,9 @@ th { background: var(--bg); }
 .dock-seg.branched { background: var(--amber); }
 .dock-text { margin: 0; display: flex; gap: 8px; align-items: baseline; min-width: 0; }
 .dock-step { font-size: .72em; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); flex: none; }
-.dock-text strong { font-size: .95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dock-text strong { font-size: .95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .dock-chip {
-  margin: 6px 0 0; display: inline-flex; align-items: center; gap: 8px; max-width: 100%;
+  margin: 6px 0 0; display: flex; width: fit-content; align-items: center; gap: 8px; max-width: 100%;
   font-size: .8em; font-weight: 600; padding: 4px 10px; border-radius: 999px;
   background: color-mix(in srgb, var(--amber) 16%, var(--panel)); border: 1px solid color-mix(in srgb, var(--amber) 55%, transparent);
 }
@@ -456,8 +457,37 @@ dialog.sheet::backdrop { background: rgba(10, 18, 28, .5); }
 .whats svg { width: 36px; height: 32px; flex: none; }
 .whats strong { color: var(--ink); margin-right: 4px; }
 
+/* Simulate-the-floor panel */
+.sim-lede { margin: -4px 0 12px; font-size: .9em; color: var(--muted); max-width: 70ch; }
+.sim-groups { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-bottom: 8px; }
+.sim-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.sim-group-label { width: 100%; font-size: .72em; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sim-hint { margin: 0 0 8px; }
+.sim summary span { margin-left: 6px; }
+
+/* Wave strip on the station screen */
+.wave { list-style: none; margin: 0; padding: 8px 16px; display: flex; gap: 8px; border-bottom: 1px solid rgba(255,255,255,.1); overflow-x: auto; }
+.wave-item { display: flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px; border-radius: 999px; font-size: .8em; white-space: nowrap; background: rgba(255,255,255,.06); opacity: .6; }
+.wave-icon { width: 22px; height: 22px; background: rgba(255,255,255,.9); border-radius: 50%; padding: 2px; flex: none; }
+.wave-current { opacity: 1; background: rgba(255,255,255,.16); box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); font-weight: 700; }
+.wave-done { opacity: .85; }
+.wave-done .wave-mark { color: #5fd38d; font-weight: 800; }
+.wave-skipped { opacity: .7; text-decoration: line-through; }
+.wave-skipped .wave-mark { color: var(--amber); font-weight: 800; }
+.sm-sub { font-size: .72em; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+.rail .sm-sub, .sheet .sm-sub { display: block; margin: 2px 0 0; }
+
 /* ---------- Mobile ---------- */
 @media (max-width: 700px) {
+  .physical { grid-template-columns: 76px minmax(0, 1fr) !important; }
+  .tower figcaption { max-width: 76px; font-size: .72em; }
+  .tower-kind { display: block; }
+  .tote { min-width: 0; }
+  .tote-order { font-size: .62em; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .wave { flex-wrap: wrap; overflow: visible; padding: 8px 12px; gap: 6px; }
+  .wave-item { font-size: .75em; }
+  .dock { margin: 0 -16px; box-sizing: border-box; min-width: 0; }
+  .dock-chip-text { min-width: 0; }
   .how { padding: 14px; }
   .how-loop { grid-template-columns: 1fr; gap: 8px; }
   .how-loop li { flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 12px; }
@@ -498,7 +528,8 @@ dialog.sheet::backdrop { background: rgba(10, 18, 28, .5); }
   .tote { padding: 8px 2px 6px; }
 
   .sim { padding: 14px 16px; }
-  .sim-grid .btn { flex: 1 1 calc(50% - 8px); }
+  .sim-groups { flex-direction: column; }
+  .sim-group .btn { flex: 1 1 auto; }
 
   .chart-card, .pattern { padding: 16px; }
   .stats { grid-template-columns: 1fr 1fr; }

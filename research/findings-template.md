@@ -32,12 +32,12 @@
 
 ## Sample journey map (illustrative)
 
-A first-week worker's pick, including one exception.
+A first-week associate's pick, including one exception.
 
-| Stage | Pod arrives | Pick | Wrong item | Recover | Put | Confirm |
+| Stage | Pod arrives | Pick | Mispick | Recover | Put | Confirm |
 | --- | --- | --- | --- | --- | --- | --- |
 | **Doing** | Waits, watches the pod | Reads screen, finds bin | Scans a look-alike item | Returns item, finds the right one | Places in tote, presses button | Glances at screen |
 | **Looking at** | Pod | Screen, then bin | Screen | Bin light | Tote light | Screen |
 | **Feeling** | Neutral | Rushed | Embarrassed | Relieved | Confident | Neutral |
 | **Pain point** | No sense of wait time | Small bin labels | Look-alike items | — | — | — |
-| **Opportunity** | Show pod ETA on the tower | Larger bin ID in the light | Item photo at pick | — | — | — |
+| **Opportunity** | Show pod ETA on the stack light | Larger bin ID in the light | Item photo at pick | — | — | — |

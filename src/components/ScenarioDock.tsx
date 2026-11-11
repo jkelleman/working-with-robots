@@ -29,7 +29,11 @@ export default function ScenarioDock({
   const idx = HAPPY_PATH.findIndex((s) => s.id === step);
   const active = SCENARIOS.find((s) => s.state === stateKey || (s.kind === 'safety' && stateKey.startsWith('safetyStop')));
   const done = stateKey === 'done';
-  const label = done ? 'All tasks done' : idx >= 0 ? HAPPY_PATH[idx].label : stateKey === 'idle' ? 'Ready to start' : 'Lead on the way';
+  const label = done ? 'Wave complete'
+    : stateKey.startsWith('safetyStop') ? 'E-stop: work paused'
+    : idx >= 0 ? HAPPY_PATH[idx].label
+    : stateKey === 'idle' ? 'Ready to start'
+    : stateKey === 'working.escalated' ? 'Andon: Problem Solve coming' : '';
 
   return (
     <>
@@ -41,13 +45,13 @@ export default function ScenarioDock({
             ))}
           </div>
           <p className="dock-text">
-            <span className="dock-step">{idx >= 0 && !done ? `Step ${idx + 1} of 4` : 'Happy path'}</span>
+            <span className="dock-step">{stateKey.startsWith('safetyStop') ? 'Safety' : stateKey === 'working.escalated' ? 'Exception' : 'Each pick'}</span>
             <strong>{label}</strong>
           </p>
           {active && (
             <p className={`dock-chip ${active.kind === 'safety' ? 'dock-chip-stop' : ''}`}>
               <span aria-hidden="true" className={active.kind === 'safety' ? 'sm-oct' : 'sm-tri'} />
-              {active.label} → {active.outcome}
+              <span className="dock-chip-text">{active.label} → {active.outcome}</span>
             </p>
           )}
         </div>

@@ -1,8 +1,8 @@
 # Workstation Guidance System
 
-**A design concept for guiding a person at a robotic fulfillment workstation through every step, safely, with one clear next step when something goes wrong.**
+**A design concept for guiding an associate at a goods-to-person (GTP) robotic pick station through every step, safely, with one clear next step when something goes wrong.**
 
-At a goods-to-person station, a robot brings a storage pod to the worker, who picks items from lit bins into lit totes. The work is fast and repetitive, the floor is loud, and the hard moments are the exceptions: the wrong item, an empty bin, a jammed scanner, a full tote, a safety stop. This project designs and prototypes the guidance for all of it across **screen, lights, sound, and haptics**, driven by one state machine so the channels can never disagree.
+At a goods-to-person pick station, a drive unit (AMR) brings a pod (a mobile shelf of bins) to the associate, who picks items from a lit bin and puts them to a lit order tote on the put wall. The work is fast and repetitive, the floor is loud, and the hard moments are the exceptions: a mispick, a short pick, a scanner fault, a full tote, a starved station, a light curtain trip. This project designs and prototypes the guidance for all of it across **screen, stack light, pick-to-light, put-to-light, sound, and haptics**, driven by one state machine so the channels can never disagree.
 
 > **Concept project.** Fictional station, fictional items, synthetic data. Not affiliated with any company.
 
@@ -16,22 +16,38 @@ At a goods-to-person station, a robot brings a storage pod to the worker, who pi
 
 | Area | What it shows |
 | --- | --- |
-| **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit guide sets up the use case and scenario (Maya, a newer night-shift picker), shows the work in three illustrated steps, and defines key terms. A banner on every page restates the scenario and the four claims, with an illustrated station scene. |
+| **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit guide sets up the use case and scenario (Maya, a newer night-shift associate), shows the work in three illustrated steps, and defines key terms. A banner on every page restates the scenario and the four claims, with an illustrated station scene. |
 | **[Scenario map](src/components/ScenarioMap.tsx)** | The happy path as four steps, with each of the 7 deviations attached to the step where it happens. Tap one to jump straight to it, or auto-play the happy path. On desktop it stays pinned beside the station as a rail; on phones a slim progress bar sticks to the top and opens the full map as a bottom sheet. Tests prove every scenario lands in the right state. |
-| **[Station simulator](src/pages/Station.tsx)** | A robot delivers the pod (animated), then a 1280×800 workstation screen, a 4-tier light tower, pick-to-light pod bins, and a put-to-light tote wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
-| **[Exception and recovery flows](src/machine/stationMachine.ts)** | Wrong item, missing item, damaged item, scanner fault, tote full, late pod, escalation to a lead, and a safety stop that overrides everything. |
-| **[Accessibility modes](src/App.tsx)** | High contrast, large text, spoken guidance, shapes on lights for color-blind workers, left-hand layout, reduced sound (safety tones stay audible). |
+| **[Station simulator](src/pages/Station.tsx)** | A drive unit delivers the pod (animated), then a 1280×800 station screen, a 4-tier stack light, pick-to-light on the pod bins, and a put-to-light put wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
+| **[Exception and recovery flows](src/machine/stationMachine.ts)** | Mispick, short pick, damaged item, scanner fault, tote full, starved station, the andon to Problem Solve, and a light curtain trip (E-stop) that overrides everything. |
+| **[Accessibility modes](src/App.tsx)** | High contrast, large text, spoken guidance, shapes on lights for color-blind associates, left-hand layout, reduced sound (safety tones stay audible). |
 | **[Pattern library](PATTERNS.md)** | 8 reusable patterns, each with a screen / light / sound / haptic mapping table and do/don't guidance. |
 | **[Ops metrics](src/pages/Metrics.tsx)** | Synthetic before/after data: units per hour, cycle time, exception rate, time to recover, safety stops, and which design change moves each one. |
 | **[Research kit](research/)** | Contextual inquiry and shadowing guide, usability test plan, findings template, illustrative journey map. |
 | **[Rollout playbook](playbook/)** | Multi-site launch readiness: pilot criteria, training outline, standard work card, go/no-go metrics, site feedback loop. |
+
+## Key terms
+
+| Term | Meaning |
+| --- | --- |
+| Goods-to-person (GTP) | Robots bring storage to the associate instead of the associate walking aisles |
+| Pod | Mobile shelf of fabric bins holding items; never shipped |
+| Drive unit (AMR) | The autonomous mobile robot that lifts and carries a pod |
+| Pick-to-light / put-to-light | A light marks the bin to pick from and the tote to put to |
+| Put wall | Rack of order totes; each tote is one customer order |
+| Stack light | Tower of status lights visible across the floor |
+| Light curtain trip | Safety beam broken; nearby drive units E-stop |
+| Short pick / mispick | Item missing from the bin / wrong item picked |
+| Starved station | Associate is ready, next pod hasn't arrived |
+| Andon / Problem Solve | The call for help / the team that answers it |
+| WES, fleet manager | Software that assigns pods to stations and dispatches drive units |
 
 ## Design principles
 
 1. **Safe first.** A safety stop overrides every state, and restarting is a deliberate two-step act: confirm the area is clear, then press and hold Resume. Work picks up exactly where it stopped.
 2. **One next step.** Every state, including every exception, has a single primary action. The headline says what happened; the body says what to do.
 3. **Every signal has a second channel.** Color is always paired with a blink rate, a shape, and a text label. Tones differ in rhythm, not just pitch, so they hold up in noise and for people with partial hearing loss.
-4. **Recover without a supervisor when possible.** Self-service recovery comes first; escalation is always available but never the default.
+4. **Recover without Problem Solve when possible.** Self-service recovery comes first; the andon is always available but never the default.
 5. **Keep eyes on the work.** The screen hands attention to the lights (bin and tote IDs repeat in both places), and a tote-button press confirms a put with no screen tap.
 
 ## How it works
@@ -72,7 +88,7 @@ stateDiagram-v2
 ```
 
 - **[`stationMachine.ts`](src/machine/stationMachine.ts)**: an [XState v5](https://stately.ai/docs/xstate) machine. Safety stop uses a deep history state, so resuming returns to the exact state that was interrupted, including an open exception.
-- **[`signals.ts`](src/machine/signals.ts)**: maps each state to one signal set (tower color, blink pattern, shape, label, tone, haptic, headline, instruction, lit bin, lit tote). The UI renders from it; nothing else decides what a channel shows.
+- **[`signals.ts`](src/machine/signals.ts)**: maps each state to one signal set (stack light color, blink pattern, shape, label, tone, haptic, headline, instruction, lit bin, lit tote). The UI renders from it; nothing else decides what a channel shows.
 - Tested with Vitest: every exception path, the safety-stop override from any working state, two-step resume, resume into an interrupted exception, and the rule that only the safety stop uses red and the octagon.
 
 ## Run it

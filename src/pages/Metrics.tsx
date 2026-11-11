@@ -73,7 +73,7 @@ export default function Metrics() {
             <Bar dataKey="after" name="New flows" fill={C.primary} radius={[3, 3, 0, 0]} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
-        <p className="muted small">Pod late barely moves: the worker can't fix it, so the design goal there is a calm wait, not a faster one.</p>
+        <p className="muted small">Starved station barely moves: the associate can't fix a late pod, so the design goal there is a calm wait, not a faster one.</p>
       </section>
 
       <section className="chart-card">
@@ -91,7 +91,7 @@ export default function Metrics() {
 
       <section className="chart-card">
         <h3>Safety stops</h3>
-        <p>{stops.b} in the 14-day baseline, {stops.a} in the 14 days after. Every stop is logged with the task ID so leads can review patterns by station.</p>
+        <p>{stops.b} in the 14-day baseline, {stops.a} in the 14 days after. Every stop is logged with the task ID so shift leads and safety can review patterns by station.</p>
       </section>
 
       <section className="chart-card">

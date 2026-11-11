@@ -22,8 +22,13 @@ export interface A11yPrefs {
   reducedSound: boolean;
 }
 
+const LOG_LABELS: Record<string, string> = {
+  wrongItem: 'Mispick', missingItem: 'Short pick', damagedItem: 'Damaged item', scannerFault: 'Scanner fault',
+  toteFull: 'Tote full', podLate: 'Starved station', safetyStop: 'Light curtain trip (E-stop)', escalation: 'Andon pulled',
+};
+
 const REASONS: EscalationReason[] = [
-  'Item not in bin after recount',
+  'Short pick after recount',
   'Damage needs inspection',
   'Equipment fault',
   'Safety concern',
@@ -100,12 +105,14 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
     clearTimers();
     send({ type: 'RESET' });
     send({ type: 'START' });
-    const steps = [
+    // Run the whole wave: every pick goes pod arrives → pick → put → complete.
+    const steps = SAMPLE_TASKS.flatMap((t) => [
       () => send({ type: 'POD_ARRIVED' }),
-      () => send({ type: 'SCAN', sku: SAMPLE_TASKS[0].sku }),
+      () => send({ type: 'SCAN', sku: t.sku }),
       () => send({ type: 'PUT_CONFIRMED' }),
-    ];
-    steps.forEach((fn, i) => timers.current.push(window.setTimeout(fn, 1600 * (i + 1))));
+      () => send({ type: 'NEXT' }),
+    ]);
+    steps.forEach((fn, i) => timers.current.push(window.setTimeout(fn, 1300 * (i + 1))));
     showStation();
   };
 
@@ -119,7 +126,11 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
     if (prefs.audioGuidance) speak(`${signal.headline}. ${signal.instruction}`);
   }, [key, signal, prefs.reducedSound, prefs.audioGuidance]);
 
-  const progress = `${Math.min(ctx.index + (key === 'done' ? 0 : 1), ctx.tasks.length)} of ${ctx.tasks.length}`;
+  const pickNo = Math.min(ctx.index + 1, ctx.tasks.length);
+  const skippedIds = new Set(ctx.log.filter((l) => ['missingItem', 'damagedItem', 'escalation'].includes(l.type)).map((l) => l.taskId));
+  const taskStatus = (i: number) =>
+    key === 'done' || i < ctx.index ? (skippedIds.has(ctx.tasks[i].id) ? 'skipped' : 'done')
+    : i === ctx.index && key !== 'idle' ? 'current' : 'todo';
 
   const actions = (() => {
     switch (key) {
@@ -180,8 +191,20 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       <section ref={screenRef} className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
         <header className="screen-top">
           <span>Station 14 · Maya · Night shift</span>
-          <span>Task {progress} · Done {ctx.completed} · Skipped {ctx.skipped}</span>
+          <span>{key === 'done' ? `Wave complete · ${ctx.completed} picked · ${ctx.skipped} skipped` : `Pick ${pickNo} of ${ctx.tasks.length} in this wave`}</span>
         </header>
+        <ol className="wave" aria-label="Picks in this wave">
+          {ctx.tasks.map((t, i) => {
+            const st = taskStatus(i);
+            return (
+              <li key={t.id} className={`wave-item wave-${st}`} aria-current={st === 'current' ? 'step' : undefined}>
+                <ItemIcon kind={t.icon} className="wave-icon" />
+                <span className="wave-name">{t.short[t.quantity === 1 ? 0 : 1]}{t.quantity > 1 ? ` ×${t.quantity}` : ''}</span>
+                <span className="wave-mark" aria-label={st}>{st === 'done' ? '✓' : st === 'skipped' ? '–' : ''}</span>
+              </li>
+            );
+          })}
+        </ol>
 
         <div className="screen-body">
           {isStop && <div className="stop-badge" aria-hidden="true">STOP</div>}
@@ -229,26 +252,43 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         <WhatsWhat />
       </section>
 
-      {/* Simulation controls: things that happen on the floor, not worker actions */}
-      <section className="sim" aria-label="Simulate floor events">
-        <h3>Simulate floor events</h3>
-        <div className="sim-grid">
-          <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Pod arrives</button>
-          <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Pod runs late</button>
-          <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCAN', sku: 'SKU-99999' })}>Scan wrong item</button>
-          <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCANNER_FAULT' })}>Scanner fault</button>
-          <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Problem Solve clears task</button>
-          <button className="btn btn-sm btn-danger" disabled={!key.startsWith('working')} onClick={() => send({ type: 'LIGHT_CURTAIN_BROKEN' })}>Trip light curtain</button>
+      {/* Simulation controls: events outside the associate's control */}
+      <section className="sim" aria-labelledby="sim-title">
+        <h3 id="sim-title">Simulate the floor</h3>
+        <p className="sim-lede">These stand in for everything the associate doesn’t control: the drive units, the WES, equipment, and Problem Solve. Trigger one to see how the station responds.</p>
+        <div className="sim-groups">
+          <div className="sim-group">
+            <span className="sim-group-label">Drive units &amp; WES</span>
+            <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Pod arrives</button>
+            <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Pod runs late</button>
+          </div>
+          <div className="sim-group">
+            <span className="sim-group-label">Associate error</span>
+            <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCAN', sku: 'SKU-99999' })}>Mispick (wrong scan)</button>
+          </div>
+          <div className="sim-group">
+            <span className="sim-group-label">Equipment</span>
+            <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCANNER_FAULT' })}>Scanner fault</button>
+          </div>
+          <div className="sim-group">
+            <span className="sim-group-label">Problem Solve</span>
+            <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Clears andon task</button>
+          </div>
+          <div className="sim-group">
+            <span className="sim-group-label">Safety</span>
+            <button className="btn btn-sm btn-danger" disabled={!key.startsWith('working')} onClick={() => send({ type: 'LIGHT_CURTAIN_BROKEN' })}>Trip light curtain</button>
+          </div>
         </div>
+        <p className="sim-hint muted small">Buttons are grey when that event can’t happen in the current step.</p>
         <details>
-          <summary>Exception log ({ctx.log.length})</summary>
+          <summary>Exception log ({ctx.log.length}) <span className="muted small">what the WES would record</span></summary>
           <ol className="log">
             {ctx.log.map((l, i) => (
-              <li key={i}><code>{l.taskId}</code> {l.type}{l.detail ? ` · ${l.detail}` : ''}</li>
+              <li key={i}><code>{l.taskId}</code> {LOG_LABELS[l.type] ?? l.type}{l.detail ? ` · ${l.detail}` : ''}</li>
             ))}
           </ol>
         </details>
-        <p className="muted small">State: <code>{key}</code></p>
+        <p className="muted small">Machine state, for engineers: <code>{key}</code></p>
       </section>
       <HowItWorks />
     </div>

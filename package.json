@@ -32,5 +32,5 @@
     "vite": "^8.3.6",
     "vitest": "^5.1.0"
   },
-  "description": "Concept: multimodal guidance and exception recovery for a robotic fulfillment workstation."
+  "description": "Concept: multimodal guidance and exception recovery for a goods-to-person robotic pick station."
 }

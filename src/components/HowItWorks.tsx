@@ -71,7 +71,7 @@ const STEPS = [
 export default function HowItWorks() {
   return (
     <section className="how" aria-labelledby="how-title">
-      <h3 id="how-title">How do the robots know what to do?</h3>
+      <h3 id="how-title">How do the drive units know what to do?</h3>
       <p className="how-lede">
         A warehouse execution system (WES) and a fleet manager assign each drive unit its job, and the pick station
         reports every step back.

@@ -4,22 +4,22 @@
 
 ## Every task
 
-1. **Pod arrives** (blue, slow blink). Keep hands clear.
+1. **Pod arrives** (blue, slow blink). A drive unit docks the pod. Keep hands clear.
 2. **Pick** (green, steady). Take the quantity shown from the lit bin. Scan it.
-3. **Put** (green, steady). Place it in the lit tote. Press the tote button.
-4. **Done** (two rising tones). Next task loads.
+3. **Put** (green, steady). Put it to the lit tote on the put wall. Press the tote button.
+4. **Task complete** (two rising tones). The pod leaves; the next one docks.
 
 ## If something goes wrong (amber, triangle)
 
 | You see | Do this |
 | --- | --- |
-| That's not the right item | Put it back. Pick the item shown. |
-| Bin looks empty | Recount once. Still empty? **Skip and flag bin.** |
-| Item damaged | Damage tote → **Done.** |
-| Scanner isn't responding | Check the label → **Verify manually.** |
-| Tote is full | Swap the tote → **Tote swapped.** |
-| Pod running late | Wait at the station. |
-| Still stuck | **Call your lead**, pick a reason. |
+| Mispick (wrong item) | Return it to the bin. Pick the item shown. |
+| Short pick (bin looks empty) | Recount once. Still short? **Flag bin.** |
+| Damaged item | Damage tote → **Done.** It won’t ship. |
+| Scanner fault | Check the label → **Key in item.** |
+| Tote full | Tote swap → **Tote swapped.** |
+| Starved station (pod late) | Wait at the station. |
+| Still stuck | **Pull the andon**, pick a reason. Problem Solve comes to you. |
 
 ## STOP (red, fast blink, octagon, three low tones)
 
@@ -28,4 +28,4 @@
 3. Tap **Area is clear**.
 4. **Press and hold Resume.**
 
-Never reach into the pod while the tower is red.
+Never reach into the pod while the stack light is red.

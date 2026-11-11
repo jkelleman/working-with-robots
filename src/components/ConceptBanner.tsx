@@ -15,7 +15,7 @@ export default function ConceptBanner() {
       <div className="concept-inner">
         <div className="concept-copy">
           <p className="concept-eyebrow">Design concept · Goods-to-person (GTP) picking</p>
-          <h1 id="concept-title" className="concept-title">Guiding people who work alongside robots</h1>
+          <h1 id="concept-title" className="concept-title">Guiding associates at a robotic pick station</h1>
           <dl className="concept-story">
             <div>
               <dt>Use case</dt>
