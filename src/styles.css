@@ -1096,3 +1096,87 @@ dialog.intro { border-radius: 12px; width: min(760px, calc(100vw - 32px)); }
   .tl-label { font-size: .62em; line-height: 1.2; }
   .app-header .tag { display: none; }
 }
+
+/* =====================================================================
+   Clean pass: no grid texture, focus view, simpler phone layout.
+   ===================================================================== */
+.concept, .page-header { background-image: none; background-color: var(--night); }
+
+/* Page banners: art spans the full width on phones */
+@media (max-width: 760px) {
+  .page-header-inner { grid-template-columns: 1fr; }
+  .page-header-art { order: -1; max-width: none; width: 100%; padding: 18px 20px; }
+  .page-header-art svg { max-height: 120px; margin: 0 auto; }
+}
+
+/* Stage: the scene alone, then the caption */
+.stage, .left-handed .stage { grid-template-columns: minmax(0, 1fr); }
+.rig, .left-handed .rig { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-areas: "screen focus"; align-items: stretch; }
+.left-handed .rig { grid-template-areas: "focus screen"; }
+.rig-focus { grid-area: focus; display: flex; flex-direction: column; justify-content: center; gap: 10px; background: var(--bg); border-radius: 6px; padding: 16px 18px; }
+.focus-label { margin: 0; font-weight: 600; }
+.focus-label span { display: block; font-family: var(--mono); font-size: .7em; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.rig-focus .touch-title { display: none; }
+.rig-focus .pod, .rig-focus .totes { width: 100%; max-width: 380px; margin: 0 auto; }
+
+/* Compact stack light in the station's top bar */
+.mini-light { display: inline-flex; align-items: center; gap: 8px; margin-right: auto; }
+.mini-tiers { display: inline-flex; flex-direction: column; gap: 2px; padding: 3px; background: #2a3138; border-radius: 3px; }
+.mini-tier { width: 18px; height: 7px; border-radius: 2px; background: #3a424a; display: grid; place-items: center; }
+.mini-red.on { background: var(--red); } .mini-amber.on { background: var(--amber); } .mini-green.on { background: var(--green); } .mini-blue.on { background: var(--blue); }
+.mini-shape { width: 5px; height: 5px; background: rgba(0,0,0,.55); border-radius: 50%; }
+.mini-triangle { border-radius: 0; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.mini-octagon { border-radius: 0; clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+.mini-square { border-radius: 0; }
+.mini-text { font-size: .82em; color: var(--muted); }
+.mini-text b { color: var(--ink); font-weight: 600; }
+
+/* Caption under the scene */
+.narrate { position: static; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 32px; padding: 22px 24px; }
+.narrate-title { font-size: 1.35em; }
+.narrate-happening { margin-bottom: 0; }
+.narrate-side { min-width: 0; }
+.narrate-back { width: auto; margin-top: 14px; }
+
+/* What if… sheet on phones */
+.tl-whatif { font-family: var(--mono); font-size: .74em; letter-spacing: .06em; text-transform: uppercase; gap: 6px; }
+.tl-whatif span { color: var(--night-muted); }
+dialog.wi-sheet { padding: 0; }
+.wi-sheet-body { padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
+.wi-sheet .whatif-head { position: relative; padding-right: 40px; }
+.wi-sheet .intro-x { top: -4px; right: 0; }
+.wi-sheet .whatif-list { display: grid; grid-template-columns: 1fr; gap: 8px; overflow: visible; padding: 0; }
+.wi-sheet .whatif-list li { flex: none; }
+
+@media (max-width: 1000px) {
+  .rig, .left-handed .rig { grid-template-columns: minmax(0, 1fr); grid-template-areas: "screen" "focus"; }
+}
+@media (max-width: 760px) {
+  .scene { padding: 10px; }
+  .scene-toolbar { margin-bottom: 10px; gap: 8px; }
+  .scene-label { display: none; }
+  .scene .seg button { font-size: .74em; padding: 5px 8px; }
+  .scene-hint { display: none; }
+  .rig-focus { padding: 12px; }
+  .wave-name { display: none; }
+  .wave-item { padding: 4px; }
+  .task-card { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .task-card .task-item { grid-column: 1 / -1; }
+  .task-card div { padding: 8px 10px; }
+  .task-card dd.big { font-size: 1.5em; }
+  .narrate { grid-template-columns: 1fr; padding: 16px; gap: 4px; }
+  .narrate-title { font-size: 1.15em; }
+  .timeline { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .tl-controls { grid-column: 1 / -1; }
+  .tl-controls .tl-btn[aria-label="Restart"] { display: none; }
+  .tl-track { grid-column: 1; }
+  .tl-whatif { grid-column: 2; grid-row: 2; min-height: 36px; }
+}
+@media (max-width: 760px) {
+  .rig .actions { gap: 8px; }
+  .rig .actions .btn { width: auto; flex: 1 1 auto; min-height: 44px; padding: 8px 12px; font-size: .9em; }
+  .rig .actions .btn-primary { flex-basis: 100%; }
+  .tl-step:not(.tl-current):not(.tl-branched) .tl-label { visibility: hidden; }
+  .concept-compact .concept-lede { font-size: .88em; line-height: 1.55; }
+  .concept-compact .concept-subtitle { font-size: .74em; }
+}

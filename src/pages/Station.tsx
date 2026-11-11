@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useMachine } from '@xstate/react';
 import { stationMachine, currentTask, type EscalationReason, type StationEvent } from '../machine/stationMachine';
 import { signalFor, stateKey, type VerifyMode } from '../machine/signals';
 import ErgoView from '../components/ErgoView';
-import { LightTower, PodBins, ToteWall } from '../components/Physical';
+import { PodBins, ToteWall } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
 import More from '../components/More';
 import ConceptBanner from '../components/ConceptBanner';
@@ -72,10 +72,36 @@ function HoldButton({ label, onComplete, ms = 1500 }: { label: string; onComplet
   );
 }
 
+/** True on phone-width screens, kept in sync with the viewport. */
+const PHONE = '(max-width: 760px)';
+function useIsPhone() {
+  return useSyncExternalStore(
+    (cb) => { const m = window.matchMedia(PHONE); m.addEventListener('change', cb); return () => m.removeEventListener('change', cb); },
+    () => window.matchMedia(PHONE).matches,
+    () => false,
+  );
+}
+
+/** Compact stack light for the station's top bar: four tiers, one lit, with a text label. */
+function MiniLight({ tower, pattern, label, shape, colorSafe }: { tower: string; pattern: string; label: string; shape: string; colorSafe: boolean }) {
+  return (
+    <span className="mini-light" role="img" aria-label={`Stack light: ${label || 'off'}${label ? `, ${pattern === 'steady' ? 'steady' : `${pattern} blink`}` : ''}`}>
+      <span className="mini-tiers" aria-hidden="true">
+        {['red', 'amber', 'green', 'blue'].map((t) => (
+          <span key={t} className={`mini-tier mini-${t} ${tower === t ? `on blink-${pattern}` : ''}`}>{tower === t && colorSafe ? <i className={`mini-shape mini-${shape}`} /> : null}</span>
+        ))}
+      </span>
+      <span className="mini-text"><b>{label || 'Off'}</b>{label ? ` · ${pattern === 'steady' ? 'steady' : `${pattern} blink`}` : ''}</span>
+    </span>
+  );
+}
+
 export default function Station({ prefs }: { prefs: A11yPrefs }) {
   const [snapshot, send, actorRef] = useMachine(stationMachine);
   const [escalating, setEscalating] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const isPhone = useIsPhone();
+  const sheetRef = useRef<HTMLDialogElement>(null);
   const [verify, setVerifyState] = useState<VerifyMode>(() => {
     try { return localStorage.getItem('wgs-verify') === 'camera' ? 'camera' : 'scan'; } catch { return 'scan'; }
   });
@@ -254,6 +280,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
     : offPath ? 'Recover on the screen, or press Next.'
     : 'Press Next, or let it play.';
 
+  const focus: 'pod' | 'totes' = ['working.put', 'working.exception.toteFull', 'working.confirm', 'done'].includes(key) ? 'totes' : 'pod';
   const coverClosed = key === 'idle' || key === 'working.podArriving' || key === 'working.exception.podLate' || key === 'working.confirm' || key === 'done' || isStop;
   const scenarioFor = (s: Scenario) => (s.at === 'any' ? 'Any step' : HAPPY_PATH.find((h) => h.id === s.at)!.label);
 
@@ -265,7 +292,8 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         {/* One station: everything Maya sees, in one place */}
         <section className="scene" aria-label="Pick station">
           <div className="scene-toolbar">
-            <span className="scene-label">Station 14 · Night shift</span>
+            <span className="scene-label">Station 14</span>
+            <MiniLight tower={signal.tower} pattern={signal.pattern} label={signal.towerLabel} shape={signal.shape} colorSafe={prefs.colorSafe} />
             <div className="seg" role="radiogroup" aria-label="Confirm picks by">
               <button type="button" role="radio" aria-checked={verify === 'scan'} className={verify === 'scan' ? 'on' : ''} onClick={() => setVerify('scan')}>Handheld scan</button>
               <button type="button" role="radio" aria-checked={verify === 'camera'} className={verify === 'camera' ? 'on' : ''} onClick={() => setVerify('camera')}>Overhead camera</button>
@@ -273,8 +301,6 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           </div>
 
           <div className="rig">
-            <div className="rig-light"><LightTower signal={signal} colorSafe={prefs.colorSafe} /></div>
-
             {/* Pick station screen (1280×800 target) */}
             <section className={`screen rig-screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
               <header className="screen-top">
@@ -323,47 +349,58 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
               </div>
             </section>
 
-            <div className="rig-pod">
-              <PodBins
-                signal={signal}
-                camera={verify === 'camera'}
-                coverClosed={coverClosed}
-                onBinPress={key === 'working.pick' ? (bin) => send({ type: 'SCAN', sku: bin === task?.bin ? task!.sku : 'SKU-99999' }) : undefined}
-              />
-            </div>
-            <div className="rig-totes">
-              <ToteWall
-                signal={signal}
-                task={task}
-                justPut={key === 'working.confirm'}
-                onPress={(slot) => { if (key === 'working.put' && slot === task?.tote) send({ type: 'PUT_CONFIRMED' }); }}
-              />
+            <div className="rig-focus">
+              <p className="focus-label"><span>Maya is looking at</span> {focus === 'pod' ? 'the pod' : 'the put wall'}</p>
+              {focus === 'pod' ? (
+                <PodBins
+                  signal={signal}
+                  camera={verify === 'camera'}
+                  coverClosed={coverClosed}
+                  onBinPress={key === 'working.pick' ? (bin) => send({ type: 'SCAN', sku: bin === task?.bin ? task!.sku : 'SKU-99999' }) : undefined}
+                />
+              ) : (
+                <ToteWall
+                  signal={signal}
+                  task={task}
+                  justPut={key === 'working.confirm'}
+                  onPress={(slot) => { if (key === 'working.put' && slot === task?.tote) send({ type: 'PUT_CONFIRMED' }); }}
+                />
+              )}
             </div>
           </div>
           <p className="scene-hint">{hint}</p>
         </section>
 
-        {/* Narration: what's happening, and why it's designed this way */}
-        <aside className={`narrate ${offPath ? 'narrate-off' : ''} ${isStop ? 'narrate-stop' : ''}`} aria-live="polite">
+      </div>
+
+      {/* Narration: what's happening, and why it's designed this way */}
+      <section className={`narrate ${offPath ? 'narrate-off' : ''} ${isStop ? 'narrate-stop' : ''}`} aria-live="polite" aria-label="What’s happening">
+        <div className="narrate-main">
           <p className="narrate-step">
             {offPath ? `What if · ${SCENARIOS.find((s) => s.id === activeId)?.label ?? 'Andon'}` : step ? `Step ${stepIdx + 1} of 4` : key === 'done' ? 'Done' : 'Ready'}
           </p>
           <h2 className="narrate-title">{n.title}</h2>
           <p className="narrate-happening">{n.happening}</p>
-          <div className="narrate-why">
-            <h3>Why I designed it this way</h3>
-            <p>{n.why}</p>
-          </div>
-          <More label="What every channel is doing" hint="Screen, lights, sound, vibration" className="more-compact">
+          {offPath && step && (
+            <button className="btn btn-sm narrate-back" onClick={() => { setPlaying(false); replayTo(taskIdx, step); }}>← Back to the happy path</button>
+          )}
+        </div>
+        <div className="narrate-side">
+          {isPhone ? (
+            <More label="Why I designed it this way" className="more-compact"><p>{n.why}</p></More>
+          ) : (
+            <div className="narrate-why">
+              <h3>Why I designed it this way</h3>
+              <p>{n.why}</p>
+            </div>
+          )}
+          <More label="What every channel is doing" hint={isPhone ? undefined : 'Screen, lights, sound, vibration'} className="more-compact">
             <dl className="channels">
               {channels.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
             </dl>
           </More>
-          {offPath && step && (
-            <button className="btn btn-sm narrate-back" onClick={() => { setPlaying(false); replayTo(taskIdx, step); }}>← Back to the happy path</button>
-          )}
-        </aside>
-      </div>
+        </div>
+      </section>
 
       {/* Timeline: the user sets the pace */}
       <div className="timeline" role="group" aria-label="Timeline controls">
@@ -377,6 +414,11 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
             <span>Next</span><span className="tl-next-what">{nextAction?.label ?? 'Hold Resume on screen'}</span>
           </button>
         </div>
+        {isPhone && (
+          <button className="tl-btn tl-whatif" onClick={() => sheetRef.current?.showModal()} aria-haspopup="dialog">
+            What if…<span>{exploredCount}/{SCENARIOS.length}</span>
+          </button>
+        )}
         <ol className="tl-track" aria-label="The four steps of every pick">
           {HAPPY_PATH.map((h, i) => {
             const st = key === 'done' || (stepIdx > i) ? 'past' : stepIdx === i ? (offPath ? 'branched' : 'current') : 'todo';
@@ -392,7 +434,40 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         </ol>
       </div>
 
-      <section className="whatif" aria-labelledby="whatif-h">
+      {isPhone ? (
+        <dialog ref={sheetRef} className="sheet wi-sheet" aria-labelledby="wi-sheet-h" onClick={(e) => { if (e.target === sheetRef.current) sheetRef.current?.close(); }}>
+          <div className="wi-sheet-body">
+            <div className="whatif-head">
+              <h2 id="wi-sheet-h">What if…</h2>
+              <span className="whatif-progress">{exploredCount} of {SCENARIOS.length} explored</span>
+              <button className="intro-x" onClick={() => sheetRef.current?.close()} aria-label="Close">×</button>
+            </div>
+        <ul className="whatif-list">
+          {SCENARIOS.map((s) => {
+            const here = s.at === step || s.at === 'any';
+            return (
+              <li key={s.id}>
+                <button
+                  className={`wi-chip wi-${s.kind} ${activeId === s.id ? 'is-active' : ''} ${explored.has(s.id) ? 'is-explored' : ''} ${suggested === s.id ? 'is-suggested' : ''} ${here ? 'is-here' : ''}`}
+                  onClick={() => { runScenario(s); sheetRef.current?.close(); }}
+                  aria-pressed={activeId === s.id}
+                >
+                  <span className={s.kind === 'safety' ? 'sm-oct' : 'sm-tri'} aria-hidden="true" />
+                  <span className="wi-text">
+                    <strong>…{WHAT_IF[s.id]}</strong>
+                    <span>{s.label} · {scenarioFor(s)}</span>
+                  </span>
+                  {explored.has(s.id) && <span className="wi-done" aria-label="explored">✓</span>}
+                  {suggested === s.id && !explored.has(s.id) && <span className="try-tag">Try</span>}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+          </div>
+        </dialog>
+      ) : (
+              <section className="whatif" aria-labelledby="whatif-h">
         <div className="whatif-head">
           <h2 id="whatif-h">What if…</h2>
           <span className="whatif-progress" aria-live="polite">{exploredCount} of {SCENARIOS.length} explored</span>
@@ -420,6 +495,8 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           })}
         </ul>
       </section>
+
+      )}
 
       <div className="stage-more">
         <More label="Body and reach" hint="Where each pick lands on Maya’s body">
