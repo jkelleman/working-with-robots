@@ -26,7 +26,7 @@ export default function Metrics() {
   const stops = { b: before.reduce((s, d) => s + d.safetyStops, 0), a: after.reduce((s, d) => s + d.safetyStops, 0) };
   return (
     <div className="page">
-      <h1>Ops metrics</h1>
+      <h2 className="page-title">Ops metrics</h2>
       <p className="note">Synthetic data for demonstration. The scenario: redesigned exception and recovery flows ship on day 15.</p>
 
       <div className="stats">
@@ -37,7 +37,7 @@ export default function Metrics() {
       </div>
 
       <section className="chart-card">
-        <h2>Units per hour and cycle time</h2>
+        <h3>Units per hour and cycle time</h3>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={days} margin={{ top: 8, right: 16, bottom: 0, left: -8 }}>
             <CartesianGrid stroke={C.grid} strokeOpacity={0.6} vertical={false} />
@@ -54,7 +54,7 @@ export default function Metrics() {
       </section>
 
       <section className="chart-card">
-        <h2>Time to recover, by exception (seconds)</h2>
+        <h3>Time to recover, by exception (seconds)</h3>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={recovery} margin={{ top: 8, right: 16, bottom: 0, left: -8 }}>
             <CartesianGrid stroke={C.grid} strokeOpacity={0.6} vertical={false} />
@@ -70,7 +70,7 @@ export default function Metrics() {
       </section>
 
       <section className="chart-card">
-        <h2>Exception mix (% of exceptions)</h2>
+        <h3>Exception mix (% of exceptions)</h3>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={mix} layout="vertical" margin={{ top: 8, right: 24, bottom: 0, left: 24 }}>
             <CartesianGrid stroke={C.grid} strokeOpacity={0.6} horizontal={false} />
@@ -83,12 +83,12 @@ export default function Metrics() {
       </section>
 
       <section className="chart-card">
-        <h2>Safety stops</h2>
+        <h3>Safety stops</h3>
         <p>{stops.b} in the 14-day baseline, {stops.a} in the 14 days after. Every stop is logged with the task ID so leads can review patterns by station.</p>
       </section>
 
       <section className="chart-card">
-        <h2>Which design changes move each metric</h2>
+        <h3>Which design changes move each metric</h3>
         <dl className="levers">
           {Object.entries(DESIGN_LEVERS).map(([k, v]) => (
             <div key={k}><dt>{k}</dt><dd>{v}</dd></div>

@@ -14,6 +14,7 @@ At a goods-to-person station, a robot brings a storage pod to the worker, who pi
 
 | Area | What it shows |
 | --- | --- |
+| **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit modal explains the concept, key terms (pod, pick-to-light, light curtain…), and how it was built. A banner on every page states the question, the four claims being tested, and how to try them. |
 | **[Station simulator](src/pages/Station.tsx)** | 1280×800 workstation screen, a 4-tier light tower, pick-to-light pod bins, and a put-to-light tote wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
 | **[Exception and recovery flows](src/machine/stationMachine.ts)** | Wrong item, missing item, damaged item, scanner fault, tote full, late pod, escalation to a lead, and a safety stop that overrides everything. |
 | **[Accessibility modes](src/App.tsx)** | High contrast, large text, spoken guidance, shapes on lights for color-blind workers, left-hand layout, reduced sound (safety tones stay audible). |
@@ -80,7 +81,7 @@ npm test        # state machine and signal tests
 npm run build   # production build to dist/
 ```
 
-Requires Node 20+.
+Requires Node 20+. The layout is responsive and tested on iPhone and Pixel viewports.
 
 ## Built with
 

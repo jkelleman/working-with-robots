@@ -2,6 +2,8 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Station, { type A11yPrefs } from './pages/Station';
 import Patterns from './pages/Patterns';
+import ConceptBanner from './components/ConceptBanner';
+import IntroModal from './components/IntroModal';
 const Metrics = lazy(() => import('./pages/Metrics'));
 
 const DEFAULT_PREFS: A11yPrefs = {
@@ -22,6 +24,12 @@ const PREF_LABELS: Record<keyof A11yPrefs, string> = {
   reducedSound: 'Reduced sound (safety tones stay audible)',
 };
 
+const INTRO_KEY = 'wgs-intro-seen';
+
+function introSeen(): boolean {
+  try { return localStorage.getItem(INTRO_KEY) === '1'; } catch { return false; }
+}
+
 function loadPrefs(): A11yPrefs {
   try {
     const raw = localStorage.getItem('wgs-prefs');
@@ -34,6 +42,11 @@ function loadPrefs(): A11yPrefs {
 export default function App() {
   const [prefs, setPrefs] = useState<A11yPrefs>(loadPrefs);
   const [open, setOpen] = useState(false);
+  const [introOpen, setIntroOpen] = useState(() => !introSeen());
+  const closeIntro = () => {
+    setIntroOpen(false);
+    try { localStorage.setItem(INTRO_KEY, '1'); } catch { /* storage unavailable: show again next visit */ }
+  };
 
   useEffect(() => {
     try { localStorage.setItem('wgs-prefs', JSON.stringify(prefs)); } catch { /* storage unavailable */ }
@@ -55,9 +68,12 @@ export default function App() {
           <NavLink to="/patterns">Patterns</NavLink>
           <NavLink to="/metrics">Metrics</NavLink>
         </nav>
-        <button className="btn btn-sm" aria-expanded={open} aria-controls="a11y" onClick={() => setOpen((o) => !o)}>
-          Accessibility
-        </button>
+        <div className="header-actions">
+          <button className="btn btn-sm" onClick={() => setIntroOpen(true)} aria-haspopup="dialog">About</button>
+          <button className="btn btn-sm" aria-expanded={open} aria-controls="a11y" onClick={() => setOpen((o) => !o)}>
+            Accessibility
+          </button>
+        </div>
       </header>
 
       {open && (
@@ -71,6 +87,9 @@ export default function App() {
           ))}
         </fieldset>
       )}
+
+      <IntroModal open={introOpen} onClose={closeIntro} />
+      <ConceptBanner />
 
       <main id="main">
         <Routes>

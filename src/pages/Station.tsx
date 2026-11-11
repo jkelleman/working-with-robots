@@ -138,7 +138,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
 
         <div className="screen-body">
           {isStop && <div className="stop-badge" aria-hidden="true">STOP</div>}
-          <h1 className="headline">{signal.headline}</h1>
+          <h2 className="headline">{signal.headline}</h2>
           <p className="instruction">{signal.instruction}</p>
 
           {task && (key === 'working.pick' || key === 'working.put' || inException) && (
@@ -179,7 +179,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
 
       {/* Simulation controls: things that happen on the floor, not worker actions */}
       <section className="sim" aria-label="Simulate floor events">
-        <h2>Simulate floor events</h2>
+        <h3>Simulate floor events</h3>
         <div className="sim-grid">
           <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Pod arrives</button>
           <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Pod runs late</button>
