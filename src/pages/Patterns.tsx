@@ -1,10 +1,17 @@
 import { PATTERNS } from '../data/patterns';
+import PageHeader, { PatternsArt } from '../components/PageHeader';
 
 export default function Patterns() {
   return (
+    <>
+    <PageHeader
+      accent="blue"
+      eyebrow="Design system"
+      title="Pattern library"
+      sub="The 8 reusable patterns behind the station. Each one carries a single meaning across screen, light, sound, and vibration."
+      art={<PatternsArt />}
+    />
     <div className="page">
-      <h2 className="page-title">Pattern library</h2>
-      <p className="note">Reusable patterns for robotic workstations. Each one maps a single meaning across screen, light, sound, and haptics.</p>
       {PATTERNS.map((p) => (
         <article key={p.name} className="pattern" id={p.name.toLowerCase().replace(/\W+/g, '-')}>
           <h3>{p.name}</h3>
@@ -24,5 +31,6 @@ export default function Patterns() {
         </article>
       ))}
     </div>
+    </>
   );
 }

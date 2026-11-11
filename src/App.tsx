@@ -2,7 +2,6 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Station, { type A11yPrefs } from './pages/Station';
 import Patterns from './pages/Patterns';
-import ConceptBanner from './components/ConceptBanner';
 import IntroModal from './components/IntroModal';
 import { DriveUnit } from './components/Illustrations';
 const Metrics = lazy(() => import('./pages/Metrics'));
@@ -90,7 +89,6 @@ export default function App() {
       )}
 
       <IntroModal open={introOpen} onClose={closeIntro} />
-      <ConceptBanner />
 
       <main id="main">
         <Routes>

@@ -1,7 +1,6 @@
-import { useLocation } from 'react-router-dom';
 import { ClaimIcon, StationScene } from './Illustrations';
 
-/** Shown at the top of every page: what this is, what it claims, how to check it. */
+/** Station page hero: the use case, the scenario, and the claims being tested. */
 
 const CLAIMS = [
   { icon: 'step', text: 'One clear next step' },
@@ -10,16 +9,7 @@ const CLAIMS = [
   { icon: 'shape', text: 'Never color alone' },
 ] as const;
 
-const PAGE_NOTES: Record<string, { label: string; text: string }> = {
-  '/': { label: 'Try it', text: 'Play the happy path, then tap any scenario to see what happens when it goes wrong.' },
-  '/patterns': { label: 'On this page', text: '8 reusable patterns behind the station.' },
-  '/metrics': { label: 'On this page', text: 'How success is measured (synthetic data).' },
-};
-
 export default function ConceptBanner() {
-  const { pathname } = useLocation();
-  const note = PAGE_NOTES[pathname] ?? PAGE_NOTES['/'];
-
   return (
     <section className="concept" aria-labelledby="concept-title">
       <div className="concept-inner">
@@ -54,8 +44,8 @@ export default function ConceptBanner() {
         <StationScene className="concept-art" />
 
         <p className="concept-page">
-          <span className="concept-page-label">{note.label}</span>
-          {note.text}
+          <span className="concept-page-label">Try it</span>
+          Play the happy path, then tap any scenario to see what happens when it goes wrong.
         </p>
       </div>
     </section>

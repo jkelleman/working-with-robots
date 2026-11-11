@@ -1,5 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { DESIGN_LEVERS, generateMetrics } from '../data/metrics';
+import PageHeader, { MetricsArt } from '../components/PageHeader';
 
 const { days, recovery, mix } = generateMetrics();
 const avg = (xs: number[]) => (xs.reduce((a, b) => a + b, 0) / xs.length);
@@ -25,9 +26,15 @@ const C = { primary: '#2f6fe0', secondary: '#d0811a', baseline: '#9aa3ab', grid:
 export default function Metrics() {
   const stops = { b: before.reduce((s, d) => s + d.safetyStops, 0), a: after.reduce((s, d) => s + d.safetyStops, 0) };
   return (
+    <>
+    <PageHeader
+      accent="green"
+      eyebrow="Measuring success"
+      title="Ops metrics"
+      sub="How you’d know the design works on the floor: the new recovery flows ship on day 15. Synthetic data."
+      art={<MetricsArt />}
+    />
     <div className="page">
-      <h2 className="page-title">Ops metrics</h2>
-      <p className="note">Synthetic data for demonstration. The scenario: redesigned exception and recovery flows ship on day 15.</p>
 
       <div className="stats">
         <Stat label="Units per hour" b={avg(before.map((d) => d.unitsPerHour))} a={avg(after.map((d) => d.unitsPerHour))} unit="UPH" />
@@ -96,5 +103,6 @@ export default function Metrics() {
         </dl>
       </section>
     </div>
+    </>
   );
 }

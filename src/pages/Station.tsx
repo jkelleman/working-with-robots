@@ -5,6 +5,7 @@ import { signalFor, stateKey } from '../machine/signals';
 import { LightTower, PodBins, ToteWall } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
 import ScenarioMap from '../components/ScenarioMap';
+import ConceptBanner from '../components/ConceptBanner';
 import { SAMPLE_TASKS } from '../data/tasks';
 import type { Scenario } from '../data/scenarios';
 
@@ -163,6 +164,8 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
   })();
 
   return (
+    <>
+    <ConceptBanner />
     <div className={`station ${prefs.leftHanded ? 'left-handed' : ''}`}>
       <ScenarioMap stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
 
@@ -236,5 +239,6 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         <p className="muted small">State: <code>{key}</code></p>
       </section>
     </div>
+    </>
   );
 }
