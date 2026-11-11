@@ -1,6 +1,6 @@
 import { BIN_COLS, BIN_ROWS, BIN_STOCK, TOTE_ORDERS, TOTE_SLOTS, type PickTask } from '../data/tasks';
 import type { SignalSet, TowerColor } from '../machine/signals';
-import { DriveUnit, ItemIcon } from './Illustrations';
+import { DriveUnit, ItemIcon, Pod } from './Illustrations';
 
 const TIERS: TowerColor[] = ['red', 'amber', 'green', 'blue'];
 
@@ -44,7 +44,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
     <figure className={`pod pod-${motion}`} aria-label={`Shelf brought by robot${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. Robot ${motion === 'docked' ? 'docked at station' : motion === 'arriving' ? 'arriving' : 'delayed'}.`}>
-      <p className="touch-title">Shelf <span>brought by robot</span></p>
+      <p className="touch-title">Storage shelf <span>stays in the warehouse</span></p>
       <div className="pod-rig">
       <div className="pod-grid">
         {BIN_ROWS.map((r) =>
@@ -71,7 +71,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
 export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet; task?: PickTask; justPut?: boolean; onPress?: (slot: string) => void }) {
   return (
     <figure className="totes" aria-label="Customer order totes">
-      <p className="touch-title">Order totes <span>one per customer</span></p>
+      <p className="touch-title">Order totes <span>these go to customers</span></p>
       <div className="tote-grid">
         {TOTE_SLOTS.map((t) => {
           const lit = signal.litTote === t;
@@ -93,5 +93,25 @@ export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet
       </div>
       <figcaption>{signal.litTote ? `Lit tote ${signal.litTote}: put it here, then press its button` : 'Waiting for the next item'}</figcaption>
     </figure>
+  );
+}
+
+/** Plain-language key: what moves, what ships, what stays. */
+export function WhatsWhat() {
+  return (
+    <ul className="whats" aria-label="What's what">
+      <li>
+        <svg viewBox="0 0 44 40" aria-hidden="true"><Pod x={8} y={0} w={28} lit={null} /><DriveUnit x={8} y={28} w={28} /></svg>
+        <span><strong>Storage shelf</strong> The robot brings it, then takes it back. Never shipped.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 40 40" aria-hidden="true"><ItemIcon kind="bottle" /></svg>
+        <span><strong>Product</strong> The one item you take out. This is what ships.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 44 40" aria-hidden="true"><path d="M2 12 h40 l-4 24 h-32z" fill="#5b636b" /><rect x="14" y="5" width="16" height="4" rx="2" fill="#1f9d55" /></svg>
+        <span><strong>Order tote</strong> The customer’s box. Goes to packing when the order is complete.</span>
+      </li>
+    </ul>
   );
 }

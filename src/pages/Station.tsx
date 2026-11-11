@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useMachine } from '@xstate/react';
 import { stationMachine, currentTask, type EscalationReason } from '../machine/stationMachine';
 import { signalFor, stateKey } from '../machine/signals';
-import { LightTower, PodBins, ToteWall } from '../components/Physical';
+import { LightTower, PodBins, ToteWall, WhatsWhat } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
 import ScenarioMap from '../components/ScenarioMap';
 import ScenarioDock from '../components/ScenarioDock';
@@ -226,6 +226,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           justPut={key === 'working.confirm'}
           onPress={(slot) => { if (key === 'working.put' && slot === task?.tote) send({ type: 'PUT_CONFIRMED' }); }}
         />
+        <WhatsWhat />
       </section>
 
       {/* Simulation controls: things that happen on the floor, not worker actions */}

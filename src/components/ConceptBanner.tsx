@@ -19,7 +19,7 @@ export default function ConceptBanner() {
           <dl className="concept-story">
             <div>
               <dt>Use case</dt>
-              <dd>Filling customer orders at a station where robots bring the shelves to the worker.</dd>
+              <dd>Filling customer orders. Robots carry storage shelves to Maya; she takes out each product and drops it in the customer’s box.</dd>
             </div>
             <div>
               <dt>Scenario</dt>

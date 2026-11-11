@@ -7,15 +7,15 @@ import { StepIcon } from './Illustrations';
  */
 
 const STEPS = [
-  { kind: 'deliver', title: 'Robot brings a shelf', text: 'No walking the aisles.' },
-  { kind: 'pick', title: 'Pick from the lit bin', text: 'Scan to confirm.' },
-  { kind: 'put', title: 'Put in the lit tote', text: 'Press its button. Done.' },
+  { kind: 'deliver', title: 'Robot brings a storage shelf', text: 'No walking the aisles.' },
+  { kind: 'pick', title: 'Take the product from the lit bin', text: 'Scan to confirm.' },
+  { kind: 'put', title: 'Drop it in the customer’s tote', text: 'The shelf goes back; the product ships.' },
 ] as const;
 
 const TERMS: Array<[string, string]> = [
-  ['Shelf (pod)', 'Rows of bins a robot carries to the station.'],
+  ['Storage shelf', 'Bins of products a robot carries over, then back. Never shipped.'],
   ['Lit bin', 'The bin whose light is on. Your item is in it.'],
-  ['Lit tote', 'The order box whose light is on. The item goes in it.'],
+  ['Lit tote', 'The customer’s order box with its light on. This ships.'],
   ['Light tower', 'Stacked beacon showing station status.'],
   ['Light curtain', 'Safety beam; breaking it stops the robots.'],
   ['Exception', 'Anything that interrupts a normal pick.'],
