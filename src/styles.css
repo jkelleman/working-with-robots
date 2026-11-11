@@ -78,21 +78,33 @@ main { padding: 0; }
 
 /* Station layout */
 .station {
-  max-width: 1440px; margin: 0 auto; padding: 24px;
-  display: grid; gap: 24px;
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
-  grid-template-areas: "map map" "screen physical" "sim sim" "how how";
+  max-width: 1480px; margin: 0 auto; padding: 24px;
+  display: grid; gap: 20px 24px; align-items: start;
+  grid-template-columns: 300px minmax(0, 1.6fr) minmax(280px, 1fr);
+  grid-template-areas: "rail screen physical" "rail sim sim" "rail how how";
 }
-.station.left-handed { grid-template-areas: "map map" "physical screen" "sim sim" "how how"; grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr); }
+.station.left-handed { grid-template-areas: "rail physical screen" "rail sim sim" "rail how how"; grid-template-columns: 300px minmax(280px, 1fr) minmax(0, 1.6fr); }
+/* The scenario rail stays pinned beside the station while you watch it */
+.rail { grid-area: rail; position: sticky; top: 12px; max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
+.dock, dialog.sheet:not([open]) { display: none; }
+@media (max-width: 1180px) {
+  .station, .station.left-handed {
+    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-areas: "rail screen" "rail physical" "rail sim" "rail how";
+  }
+}
 @media (max-width: 900px) {
-  .station, .station.left-handed { grid-template-columns: 1fr; grid-template-areas: "map" "screen" "physical" "sim" "how"; }
+  .station, .station.left-handed { grid-template-columns: 1fr; grid-template-areas: "dock" "screen" "physical" "sim" "how"; padding-top: 0; row-gap: 16px; }
+  .rail { display: none; }
+  .dock { display: flex; }
+  .screen { scroll-margin-top: 92px !important; }
 }
 
 /* Workstation screen */
 .screen {
   grid-area: screen;
   background: var(--screen); color: var(--screen-ink);
-  border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 10; min-height: 420px;
+  border-radius: 16px; overflow: hidden; min-height: 460px;
   display: flex; flex-direction: column; border-top: 14px solid var(--off);
   box-shadow: 0 0 0 8px #2a2f33, 0 12px 32px rgba(0,0,0,.25);
 }
@@ -248,7 +260,7 @@ th { background: var(--bg); }
 
 /* ---------- Scenario map ---------- */
 .screen { scroll-margin-top: 12px; }
-.scenario-map { grid-area: map; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 16px 20px 18px; }
+.scenario-map { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
 .sm-head { display: flex; align-items: center; gap: 10px 20px; flex-wrap: wrap; margin-bottom: 14px; }
 .sm-head h2 { margin: 0; font-size: 1.05em; text-transform: uppercase; letter-spacing: .06em; }
 .sm-legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 0; flex: 1; font-size: .82em; color: var(--muted); }
@@ -305,9 +317,6 @@ th { background: var(--bg); }
   .sm-head .btn { width: 100%; order: 3; }
   .sm-legend { flex-basis: 100%; order: 2; gap: 10px; }
   /* Vertical track: a line runs down the happy path, branches hang off each step */
-  .sm-track { grid-template-columns: 1fr; gap: 6px; }
-  .sm-step:not(:last-child) .sm-node::after { display: block; left: 24px; top: calc(100% + 2px); width: 3px; height: 8px; }
-  .sm-branches { margin-left: 24px; }
 }
 
 /* ---------- Page headers (Patterns, Metrics) ---------- */
@@ -385,6 +394,61 @@ th { background: var(--bg); }
 @media (max-width: 700px) {
   .story-cards, .story-flow { grid-template-columns: 1fr; }
 }
+
+/* Scenario map as a vertical rail (desktop) and inside the phone sheet */
+.rail .sm-head, .sheet .sm-head { margin-bottom: 12px; }
+.rail .sm-legend, .sheet .sm-legend { flex-basis: 100%; order: 2; gap: 4px 12px; font-size: .76em; }
+.rail .sm-head .btn, .sheet .sm-head .btn { width: 100%; order: 3; }
+.rail .sm-track, .sheet .sm-track { grid-template-columns: 1fr; gap: 6px; }
+.rail .sm-step:not(:last-child) .sm-node::after, .sheet .sm-step:not(:last-child) .sm-node::after {
+  display: block; left: 24px; top: calc(100% + 2px); width: 3px; height: 8px;
+}
+.rail .sm-branches, .sheet .sm-branches { margin-left: 24px; }
+.rail .sm-node { padding: 6px 8px; }
+
+/* Phone: slim sticky progress dock */
+.dock {
+  grid-area: dock; position: sticky; top: 0; z-index: 20; align-items: center; gap: 12px;
+  margin: 0 -16px; padding: 10px 16px;
+  background: color-mix(in srgb, var(--panel) 97%, transparent);
+  box-shadow: 0 6px 16px -10px rgba(0,0,0,.25);
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.dock-main { flex: 1; min-width: 0; }
+.dock-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px; }
+.dock-seg { height: 4px; border-radius: 2px; background: var(--border); transition: background .25s; }
+.dock-seg.past, .dock-seg.current { background: var(--green); }
+.dock-seg.branched { background: var(--amber); }
+.dock-text { margin: 0; display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.dock-step { font-size: .72em; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); flex: none; }
+.dock-text strong { font-size: .95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dock-chip {
+  margin: 6px 0 0; display: inline-flex; align-items: center; gap: 8px; max-width: 100%;
+  font-size: .8em; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  background: color-mix(in srgb, var(--amber) 16%, var(--panel)); border: 1px solid color-mix(in srgb, var(--amber) 55%, transparent);
+}
+.dock-chip-stop { background: color-mix(in srgb, var(--red) 12%, var(--panel)); border-color: color-mix(in srgb, var(--red) 55%, transparent); }
+.dock-chip .sm-tri { border-left-width: 6px; border-right-width: 6px; border-bottom-width: 10px; }
+.dock-chip .sm-oct { width: 12px; height: 12px; }
+.dock-btn {
+  font: inherit; font-weight: 700; font-size: .88em; cursor: pointer; flex: none; min-height: 44px;
+  padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); color: var(--ink);
+}
+
+/* Phone: bottom sheet holding the full scenario map */
+dialog.sheet {
+  margin: auto 0 0; width: 100%; max-width: 100%; max-height: 86dvh; padding: 8px 12px calc(16px + env(safe-area-inset-bottom));
+  border: 0; border-radius: 20px 20px 0 0; background: var(--panel); color: var(--ink);
+  box-shadow: 0 -12px 40px rgba(0,0,0,.25); overflow-y: auto;
+}
+dialog.sheet[open] { animation: sheet-up .25s ease-out; }
+@keyframes sheet-up { from { transform: translateY(40px); opacity: .4; } }
+dialog.sheet::backdrop { background: rgba(10, 18, 28, .5); }
+.sheet-grip { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 4px auto 8px; }
+.sheet .scenario-map { border: 0; padding: 4px; }
+.sheet-x { top: 6px !important; right: 6px !important; }
+@media (prefers-reduced-motion: reduce) { dialog.sheet[open] { animation: none; } }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 700px) {

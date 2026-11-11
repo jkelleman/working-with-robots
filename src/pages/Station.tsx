@@ -5,6 +5,7 @@ import { signalFor, stateKey } from '../machine/signals';
 import { LightTower, PodBins, ToteWall } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
 import ScenarioMap from '../components/ScenarioMap';
+import ScenarioDock from '../components/ScenarioDock';
 import ConceptBanner from '../components/ConceptBanner';
 import HowItWorks from '../components/HowItWorks';
 import { ItemIcon } from '../components/Illustrations';
@@ -170,7 +171,10 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
     <>
     <ConceptBanner />
     <div className={`station ${prefs.leftHanded ? 'left-handed' : ''}`}>
-      <ScenarioMap stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
+      <aside className="rail" aria-label="Scenario map">
+        <ScenarioMap stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
+      </aside>
+      <ScenarioDock stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
 
       {/* Workstation touchscreen (1280×800 target) */}
       <section ref={screenRef} className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
