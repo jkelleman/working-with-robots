@@ -60,7 +60,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
           <button type="button" className="intro-x" onClick={onClose} aria-label="Close">×</button>
         </header>
 
-        <section>
+        <section className="intro-story-box">
           <h3>The story</h3>
           <dl className="intro-story">
             <div><dt>Who</dt><dd>Maya, three weeks into the job, on a 10-hour night shift.</dd></div>

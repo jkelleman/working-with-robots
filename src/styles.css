@@ -1180,3 +1180,11 @@ dialog.wi-sheet { padding: 0; }
   .concept-compact .concept-lede { font-size: .88em; line-height: 1.55; }
   .concept-compact .concept-subtitle { font-size: .74em; }
 }
+
+/* About: tinted story box to break up the text */
+.intro-story-box { background: color-mix(in srgb, var(--green) 9%, var(--panel)); border: 1px solid color-mix(in srgb, var(--green) 28%, var(--border)); border-radius: 10px; padding: 24px 26px; }
+.intro-story-box h3 { color: color-mix(in srgb, var(--green) 70%, var(--ink)); }
+.intro-story-box .intro-story dt { color: color-mix(in srgb, var(--green) 60%, var(--muted)); }
+.intro-story-box .intro-lingo { border-left-color: var(--green); }
+:root[data-contrast='high'] .intro-story-box { background: #000; border-color: #fff; }
+@media (max-width: 700px) { .intro-story-box { padding: 18px 16px; } }
