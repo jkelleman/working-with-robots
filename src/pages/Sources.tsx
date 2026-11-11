@@ -34,7 +34,7 @@ const RESEARCH: Source[] = [
     by: 'Kardex (product page)',
     url: 'https://www.kardex.com/en-us/products/autostore/intuitive-picking-assistant',
     borrowed: 'Camera-verified picks: a camera watches the hand and flags a mispick the moment it happens.',
-    why: 'It removes a scan from every pick and catches mispicks at the source instead of at the scanner.',
+    why: 'It removes a scan from every pick and catches mispicks the moment they happen.',
     where: 'Station setup toggle on the Station page: “Overhead camera” changes the instructions, buttons, and mispick wording.',
     notBorrowed: 'Projecting instructions onto the work surface. Noted as a future idea.',
   },
@@ -68,7 +68,7 @@ const PRACTICES: Source[] = [
     name: 'Pick-to-light and put-to-light',
     by: 'Common warehouse practice',
     borrowed: 'Lights that mark the bin to pick from and the tote to put to, with a button to confirm the put.',
-    why: 'It keeps eyes on the work instead of the screen.',
+    why: 'It keeps eyes on the work.',
     where: 'Pick-to-light on the pod bins and put-to-light on the put wall.',
   },
   {

@@ -9,13 +9,13 @@
 - Get site safety training and required PPE. Walk the floor with the site safety lead first.
 - Agree with the operations manager that observation will not affect anyone's rate metrics.
 - Recruit across tenure (first week, 3–12 months, 1+ year), shift (day, night, weekend), and dominant hand.
-- Prepare consent forms; no video of faces without explicit consent.
+- Prepare consent forms. No video of faces without explicit consent.
 
 ## Observation checklist
 
 **Body and environment**
 
-- [ ] Posture during pick: reaching, bending, twisting; which bin rows cause the most reach
+- [ ] Posture during pick: reaching, bending, and twisting, and which bin rows cause the most reach
 - [ ] Repetitive motion: wrist and shoulder movements per pick
 - [ ] Gloves: can associates use the station screen, handheld scanner, and put-to-light buttons while wearing them?
 - [ ] Noise: can tones be heard over conveyors and neighboring stations? Are earplugs worn?
@@ -32,10 +32,10 @@
 
 **People**
 
-- [ ] When and how the andon is pulled; how long until Problem Solve arrives
+- [ ] When and how the andon is pulled, and how long until Problem Solve arrives
 - [ ] How knowledge passes between experienced and new associates
 
-## Questions to ask (after the pick, not during)
+## Questions to ask (after the pick)
 
 1. "Walk me through what just happened there."
 2. "How did you know what to do next?"

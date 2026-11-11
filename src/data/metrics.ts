@@ -53,9 +53,9 @@ export function generateMetrics(seed = 14) {
 }
 
 export const DESIGN_LEVERS: Record<string, string> = {
-  'Units per hour': 'Fewer screen reads per task: show bin and tote IDs in the pick-to-light and put-to-light, not only on screen.',
+  'Units per hour': 'Fewer screen reads per pick: repeat bin and tote IDs in the pick-to-light and put-to-light.',
   'Pick cycle time': 'Pre-stage the next pick during the put so the screen is ready when the pod lands.',
   'Exception rate': 'Show item photos at pick to cut mispicks, the largest exception type.',
-  'Time to recover': 'One clear next step per exception; self-serve recovery before pulling the andon.',
+  'Time to recover': 'One clear next step per exception, and a self-service fix before the andon.',
   'Safety stops': 'A light curtain at the pod opening plus hold-to-resume prevents rushed restarts after an E-stop.',
 };

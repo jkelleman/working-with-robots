@@ -74,7 +74,7 @@ export default function Metrics() {
             <Bar dataKey="after" name="New flows" fill={C.primary} radius={[3, 3, 0, 0]} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
-        <More className="more-compact" label="Why starved station barely moves"><p className="muted small">The associate can’t fix a late pod, so the design goal there is a calm wait, not a faster one.</p></More>
+        <More className="more-compact" label="Why starved station barely moves"><p className="muted small">The associate can’t fix a late pod, so the design goal there is a calm wait.</p></More>
       </section>
 
       <div className="acc-group">

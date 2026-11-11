@@ -80,7 +80,7 @@ export default function App() {
       </main>
 
       <footer className="app-footer">
-        A design concept by Jen Kelleman. Fictional station, synthetic data; not affiliated with any company.
+        A design concept by Jen Kelleman. Fictional station and synthetic data. Not affiliated with any company.
       </footer>
     </HashRouter>
   );

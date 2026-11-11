@@ -97,7 +97,7 @@ function Tote({ x, y, lit = false }: { x: number; y: number; lit?: boolean }) {
   );
 }
 
-/** Hero scene: a drive unit carries a pod to the station; the associate picks from the bin with its light on. */
+/** Hero scene: a drive unit carries a pod to the station, and the associate picks from the bin with its light on. */
 export function StationScene({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 360 190" role="img"

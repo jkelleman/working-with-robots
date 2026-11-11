@@ -30,7 +30,7 @@ const STEPS = [
   },
   {
     phase: 'Prototype',
-    did: 'Built the station as working code. A state machine drives every signal, so the prototype behaves like a real station, not a slideshow.',
+    did: 'Built the station as working code. A state machine drives every signal, so the prototype behaves like a real station.',
     out: 'A clickable station with every exception',
   },
   {
@@ -57,7 +57,7 @@ const A11Y = [
   ['Either hand', 'A left-hand layout mirrors the station.'],
   ['Motion', 'Animations play once and stop, and turn off for people who ask their device for reduced motion.'],
   ['Keyboard and screen readers', 'A skip link, visible focus, labeled controls, and live status updates that are announced.'],
-  ['No accidental taps', 'Resuming after a safety stop takes a press-and-hold, not a single tap.'],
+  ['No accidental taps', 'Resuming after a safety stop takes a deliberate press-and-hold.'],
 ];
 
 const OUTCOME = [
@@ -88,7 +88,7 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
             <p>
               Goods-to-person stations bring the work to the associate, and the happy path is fast. The hard part is a
               mispick, a late pod, or a light curtain trip. As a design engineer, I wanted to show how I design the moments
-              that break the flow, not just the flow, and to build it so the design can be tried, not just described.
+              that break the flow, and to build them so anyone can try the design.
             </p>
           </More>
         </section>

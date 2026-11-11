@@ -47,7 +47,7 @@ function HoldButton({ label, onComplete, ms = 1500 }: { label: string; onComplet
     timer.current = null;
     setProgress(0);
   };
-  // Timing uses the frame timestamp rAF passes in; the first frame sets the start.
+  // Timing uses the frame timestamp rAF passes in. The first frame sets the start.
   const tick = (now: number) => {
     if (startAt.current === 0) startAt.current = now;
     const p = Math.min(1, (now - startAt.current) / ms);

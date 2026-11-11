@@ -14,8 +14,8 @@ const STEPS = [
 ] as const;
 
 const TERMS: Array<[string, string]> = [
-  ['Goods-to-person (GTP)', 'Drive units bring inventory to the associate instead of the associate walking the aisles.'],
-  ['Pod', 'A rolling storage tower of fabric bins holding inventory. It never ships; it returns to the storage field.'],
+  ['Goods-to-person (GTP)', 'Drive units bring inventory to the associate, so no one walks the aisles.'],
+  ['Pod', 'A rolling storage tower of fabric bins holding inventory. It never ships. It goes back to the storage field.'],
   ['Bin', 'One fabric compartment in a pod, labeled by row and column (bin B3).'],
   ['Drive unit', 'The low robot that slides under a pod, lifts it, and carries it. A type of AMR (autonomous mobile robot).'],
   ['Pick station', 'Where the associate works: screen, handheld scanner, stack light, put wall.'],
@@ -55,7 +55,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
         <header className="intro-head">
           <p className="intro-eyebrow">Design concept</p>
           <h2 id="intro-title">Workstation Guidance System</h2>
-          <p className="intro-sub">A day in the life of a robotic fulfillment center: robots bring pods, rolling towers of bins holding thousands of products, to an associate, who picks each order by hand. When something goes wrong, what should the station tell her?</p>
+          <p className="intro-sub">A day in the life of a robotic fulfillment center: robots bring products to a person, who picks each customer order by hand. When something goes wrong, what should her station tell her?</p>
           <button type="button" className="intro-x" onClick={onClose} aria-label="Close">×</button>
         </header>
 
@@ -84,7 +84,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
               </li>
             ))}
           </ol>
-          <p className="intro-callout">Seven pain points break Maya’s journey. The scenario map frames each one as a design challenge, and the prototype tests a recovery path for every one.</p>
+          <p className="intro-callout">Seven pain points can break Maya’s flow. The scenario map frames each one as a design challenge, and the prototype tests a recovery path for each.</p>
         </section>
 
         <More label={`Key terms (${TERMS.length})`} hint="Floor vocabulary, in plain words">

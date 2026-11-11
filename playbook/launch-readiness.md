@@ -14,7 +14,7 @@ How to take a new station guidance release from one pilot station to every site,
 
 **During the pilot**
 
-- Daily 10-minute check-in with shift leads; log every confusion, workaround, and andon pull
+- Daily 10-minute check-in with shift leads to log every confusion, workaround, and andon pull
 - Designer or researcher on the floor at least 3 shifts per week, including one night shift
 - Weekly readout to product, engineering, operations, and safety
 
@@ -50,6 +50,6 @@ Any safety metric miss is an automatic no-go. Productivity misses can go forward
 ## 4. Feedback loop from sites back to design
 
 - Shift leads log issues in one shared form with the station ID and the screen state shown
-- Design reviews the log weekly; every item gets an owner and a status within 5 working days
+- Design reviews the log weekly. Every item gets an owner and a status within 5 working days
 - Monthly cross-site review to spot patterns that only show up at scale
 - Changes ship in the next release and are called out in the release notes for shift leads

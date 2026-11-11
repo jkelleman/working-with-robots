@@ -24,7 +24,7 @@ Run tasks 2–8 in a randomized order after task 1.
 - Task success (unassisted / assisted / failed)
 - Time to recover, from exception to next productive action
 - Errors, including any attempt to resume a safety stop with one tap
-- Where eyes go first (moderator notes; eye tracking optional)
+- Where eyes go first (moderator notes, with optional eye tracking)
 - Post-task confidence (1–5) and a short debrief
 
 ## Severity scale
@@ -32,8 +32,8 @@ Run tasks 2–8 in a randomized order after task 1.
 | Level | Definition |
 | --- | --- |
 | **4, Critical** | Safety risk, or the associate cannot continue without help. Fix before any pilot. |
-| **3, Serious** | Significant delay or confusion; most participants affected. Fix before rollout. |
-| **2, Moderate** | Slows some participants; workaround exists. Fix in the next iteration. |
+| **3, Serious** | Significant delay or confusion for most participants. Fix before rollout. |
+| **2, Moderate** | Slows some participants, but a workaround exists. Fix in the next iteration. |
 | **1, Minor** | Cosmetic or preference. Backlog. |
 
 ## Ergonomics validation

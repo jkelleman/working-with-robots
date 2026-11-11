@@ -17,7 +17,7 @@ _Generated from [`src/data/patterns.ts`](src/data/patterns.ts) by `npm run patte
 
 Tell the associate, at a glance and from any angle, what the station needs.
 
-**When to use:** Every state. It is the backbone all other patterns sit on.
+**When to use:** Every state. The other patterns build on it.
 
 **States:** Ready · Pod inbound · Pick/Put · Exception · Andon · E-stop
 
@@ -45,7 +45,7 @@ Show exactly what to pick and where it goes, readable at arm’s length.
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
-| Large bin, tote and quantity; item name secondary | Pick-to-light and put-to-light repeat the IDs | Attention tone on new pick | None |
+| Large bin, tote and quantity, with the item name smaller | Pick-to-light and put-to-light repeat the IDs | Attention tone on new pick | None |
 
 **Do**
 
@@ -72,7 +72,7 @@ Name the problem in plain words and give one next step.
 **Do**
 
 - Write the headline as what happened, the body as what to do
-- Offer the andon as a secondary path, not the first
+- Offer the andon as the secondary action
 
 **Don't**
 
@@ -159,7 +159,7 @@ Show where the associate is in the wave without adding pressure.
 
 **Do**
 
-- Count skipped picks separately so exceptions are not hidden
+- Count skipped picks separately so exceptions stay visible
 
 **Don't**
 
@@ -180,7 +180,7 @@ Move the associate’s attention from the screen to the physical location.
 **Do**
 
 - Repeat the location ID in both places
-- Let a tote-button press confirm the put, no screen tap needed
+- Let pressing the put-to-light confirm the put, with no screen tap
 
 **Don't**
 

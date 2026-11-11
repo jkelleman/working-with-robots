@@ -7,7 +7,7 @@
 1. **Pod arrives** (blue, slow blink). A drive unit docks the pod. Keep hands clear.
 2. **Pick** (green, steady). Take the quantity shown from the bin with its pick-to-light on. Scan it.
 3. **Put** (green, steady). Put it to the tote where put-to-light is on. Press the light to confirm.
-4. **Pick complete** (two rising tones). The pod leaves; the next one docks.
+4. **Pick complete** (two rising tones). The pod leaves and the next one docks.
 
 ## If something goes wrong (amber, triangle)
 

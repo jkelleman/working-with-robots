@@ -47,5 +47,5 @@ export const rowZone = (bin: string): BodyZone => (bin.startsWith('A') ? 'reach'
 export const ZONE_TIP: Record<BodyZone, string> = {
   reach: 'Top row: above your power zone. Use the step if you need it.',
   zone: '',
-  bend: 'Bottom row: bend at the knees, not the back.',
+  bend: 'Bottom row: bend your knees and keep your back straight.',
 };

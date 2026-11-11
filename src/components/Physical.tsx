@@ -72,7 +72,7 @@ export function PodBins({ signal, coverClosed, camera }: { signal: SignalSet; co
   );
 }
 
-/** Put wall: one order tote per location. Put-to-light marks the tote; pressing the light confirms the put. */
+/** Put wall: one order tote per location. Put-to-light marks the tote, and pressing the light confirms the put. */
 export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet; task?: PickTask; justPut?: boolean; onPress?: (slot: string) => void }) {
   return (
     <figure className="totes" aria-label="Put wall of customer order totes">

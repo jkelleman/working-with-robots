@@ -12,7 +12,7 @@ export const PATTERNS: Pattern[] = [
   {
     name: 'Status signal',
     purpose: 'Tell the associate, at a glance and from any angle, what the station needs.',
-    whenToUse: 'Every state. It is the backbone all other patterns sit on.',
+    whenToUse: 'Every state. The other patterns build on it.',
     states: ['Ready', 'Pod inbound', 'Pick/Put', 'Exception', 'Andon', 'E-stop'],
     mapping: { screen: 'Colored top band + headline', light: 'One stack light tier, color + blink rate + shape', sound: 'Tone family by severity', haptic: 'Pulse count by severity' },
     do: ['Pair every color with a shape, blink rate and text label', 'Reserve red and the octagon for safety only'],
@@ -23,7 +23,7 @@ export const PATTERNS: Pattern[] = [
     purpose: 'Show exactly what to pick and where it goes, readable at arm’s length.',
     whenToUse: 'Pick and put steps, and inside exceptions so context is never lost.',
     states: ['Active', 'In exception', 'Completed'],
-    mapping: { screen: 'Large bin, tote and quantity; item name secondary', light: 'Pick-to-light and put-to-light repeat the IDs', sound: 'Attention tone on new pick', haptic: 'None' },
+    mapping: { screen: 'Large bin, tote and quantity, with the item name smaller', light: 'Pick-to-light and put-to-light repeat the IDs', sound: 'Attention tone on new pick', haptic: 'None' },
     do: ['Make the bin, tote and quantity the largest text', 'Keep the card visible during exceptions'],
     dont: ['Hide the quantity in a sentence', 'Truncate item names without a full-name fallback'],
   },
@@ -33,7 +33,7 @@ export const PATTERNS: Pattern[] = [
     whenToUse: 'Mispick, short pick, damaged item, scanner fault, tote full, starved station.',
     states: ['Raised', 'Self-resolved', 'Andon pulled'],
     mapping: { screen: 'Amber band, problem headline, single primary action', light: 'Amber, slow blink, triangle', sound: 'Two equal mid tones', haptic: 'Two short pulses' },
-    do: ['Write the headline as what happened, the body as what to do', 'Offer the andon as a secondary path, not the first'],
+    do: ['Write the headline as what happened, the body as what to do', 'Offer the andon as the secondary action'],
     dont: ['Show error codes as the headline', 'Offer more than one primary action'],
   },
   {
@@ -69,7 +69,7 @@ export const PATTERNS: Pattern[] = [
     whenToUse: 'Persistent header on every screen.',
     states: ['In progress', 'Complete'],
     mapping: { screen: 'Pick X of Y in the wave, picked and skipped counts', light: 'None', sound: 'None', haptic: 'None' },
-    do: ['Count skipped picks separately so exceptions are not hidden'],
+    do: ['Count skipped picks separately so exceptions stay visible'],
     dont: ['Show rate-based pressure metrics to the associate in real time'],
   },
   {
@@ -78,7 +78,7 @@ export const PATTERNS: Pattern[] = [
     whenToUse: 'Every pick and put, when the action happens away from the screen.',
     states: ['Screen leads', 'Light leads'],
     mapping: { screen: 'Headline names the bin or tote', light: 'Bin or tote lights with a downward arrow', sound: 'Tone when the light changes', haptic: 'None' },
-    do: ['Repeat the location ID in both places', 'Let a tote-button press confirm the put, no screen tap needed'],
+    do: ['Repeat the location ID in both places', 'Let pressing the put-to-light confirm the put, with no screen tap'],
     dont: ['Make the associate look back at the screen to confirm a physical action'],
   },
 ];

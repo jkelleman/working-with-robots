@@ -168,7 +168,7 @@ export const stationMachine = setup({
         },
 
         exception: {
-          // Always entered by targeting a specific child; the initial is required by XState.
+          // Always entered by targeting a specific child. XState still requires an initial.
           initial: 'wrongItem',
           on: {
             ESCALATE: { target: 'escalated', actions: ['setEscalation', 'logEscalation'] },

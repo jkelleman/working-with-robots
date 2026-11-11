@@ -44,7 +44,7 @@ export function stateKey(value: unknown): string {
 
 export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'scan'): SignalSet {
   const tip = task ? ZONE_TIP[rowZone(task.bin)] : '';
-  const confirmHow = verify === 'camera' ? 'Just lift it out; the camera confirms the pick.' : 'Scan it when it’s in your hand.';
+  const confirmHow = verify === 'camera' ? 'Lift it out. The camera confirms the pick.' : 'Scan it when it’s in your hand.';
   const qty = task ? itemPhrase(task) : '';
   const one = task ? task.short[0] : 'item';
   const order = task ? TOTE_ORDERS[task.tote] : '';
@@ -63,7 +63,7 @@ export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'sc
         headline: `Put to tote ${task?.tote}`, instruction: `Put-to-light is on at tote ${task?.tote}, order ${order}. Press the light once it’s in.`, litTote: task?.tote };
     case 'working.confirm':
       return { key, severity: 'success', tower: 'green', pattern: 'slow', shape: 'circle', towerLabel: 'Done', tone: 'confirm', vibrate: [40],
-        headline: 'Pick complete', instruction: `The ${one} is in order ${order}. The drive unit takes this pod away; the next one is queued.` };
+        headline: 'Pick complete', instruction: `The ${one} is in order ${order}. The drive unit takes this pod away. The next one is queued.` };
     case 'working.exception.wrongItem':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Mispick', tone: 'attention', vibrate: [80, 60, 80],
         headline: verify === 'camera' ? 'Mispick: wrong bin' : 'Mispick: wrong item', instruction: verify === 'camera' ? `The camera saw your hand in another bin. Return the item and pick from bin ${task?.bin}.` : `Return it to bin ${task?.bin} and pick the ${one} instead.`, litBin: task?.bin, binColor: 'amber' };
@@ -81,7 +81,7 @@ export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'sc
         headline: `Tote ${task?.tote} is full`, instruction: 'Push the full tote out to the conveyor, slide in an empty one, then tap Tote swapped.', litTote: task?.tote };
     case 'working.exception.podLate':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Starved', tone: 'none',
-        headline: 'Station starved: pod is late', instruction: 'Nothing to do. Stay at the station; the drive unit is on its way.' };
+        headline: 'Station starved: pod is late', instruction: 'Nothing to do. Stay at the station. The drive unit is on its way.' };
     case 'working.escalated':
       return { key, severity: 'warning', tower: 'blue', pattern: 'fast', shape: 'square', towerLabel: 'Andon', tone: 'attention',
         headline: 'Andon pulled: Problem Solve is coming', instruction: 'Stay at the station. Problem Solve will clear it.' };

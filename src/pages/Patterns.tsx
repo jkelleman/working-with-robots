@@ -5,8 +5,8 @@ import More from '../components/More';
 const slug = (name: string) => name.toLowerCase().replace(/\W+/g, '-');
 
 const WHY = [
-  { title: 'Safety depends on it', text: 'An associate who learns that red means stop at one station has to see the same thing at every station. Inconsistency on a robotic floor isn’t cosmetic.' },
-  { title: 'Many teams build stations', text: 'Hardware, software, and operations teams each touch the experience. Shared patterns let them decide once, instead of re-deciding per program.' },
+  { title: 'Safety depends on it', text: 'An associate who learns that red means stop at one station has to see the same thing at every station. On a robotic floor, consistency is a safety issue.' },
+  { title: 'Many teams build stations', text: 'Hardware, software, and operations teams each touch the experience. Shared patterns let them decide once and reuse the answer on every program.' },
   { title: 'New people ramp faster', text: 'Designers, engineers, and site trainers get one reference for what each signal means and when to use it.' },
 ];
 
@@ -19,7 +19,7 @@ const HOW = [
 ];
 
 const SCALE = [
-  { title: 'New robotic programs', text: 'A new station type adds its own states, then maps them to existing patterns. A new exception reuses the Exception card instead of inventing a screen.' },
+  { title: 'New robotic programs', text: 'A new station type adds its own states, then maps them to existing patterns. A new exception reuses the Exception card.' },
   { title: 'New sites', text: 'The patterns ship with the rollout playbook and a printed standard work card, so every site trains to the same signals.' },
   { title: 'New patterns', text: 'Propose with evidence from the floor, review with design, safety, and engineering, test with associates, then publish and version it.' },
 ];
