@@ -1,5 +1,6 @@
 import { BIN_COLS, BIN_ROWS, TOTE_SLOTS } from '../data/tasks';
 import type { SignalSet, TowerColor } from '../machine/signals';
+import { DriveUnit } from './Illustrations';
 
 const TIERS: TowerColor[] = ['red', 'amber', 'green', 'blue'];
 
@@ -38,10 +39,12 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
   );
 }
 
-/** Pick-to-light grid on the face of the robot-delivered pod. */
+/** Pick-to-light grid on the face of the robot-delivered pod, riding on its drive unit. */
 export function PodBins({ signal }: { signal: SignalSet }) {
+  const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
-    <figure className="pod" aria-label="Storage pod, pick-to-light">
+    <figure className={`pod pod-${motion}`} aria-label={`Storage pod, pick-to-light. Robot ${motion === 'docked' ? 'docked at station' : motion === 'arriving' ? 'arriving' : 'delayed'}.`}>
+      <div className="pod-rig">
       <div className="pod-grid">
         {BIN_ROWS.map((r) =>
           BIN_COLS.map((c) => {
@@ -56,7 +59,9 @@ export function PodBins({ signal }: { signal: SignalSet }) {
           }),
         )}
       </div>
-      <figcaption>Pod · pick-to-light</figcaption>
+      <svg className="pod-robot" viewBox="0 0 120 40" aria-hidden="true"><DriveUnit x={4} y={2} w={112} /></svg>
+      </div>
+      <figcaption>{motion === 'arriving' ? 'Robot delivering pod…' : motion === 'stalled' ? 'Robot delayed' : 'Pod docked · pick-to-light'}</figcaption>
     </figure>
   );
 }

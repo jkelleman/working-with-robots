@@ -14,8 +14,8 @@ At a goods-to-person station, a robot brings a storage pod to the worker, who pi
 
 | Area | What it shows |
 | --- | --- |
-| **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit modal explains the concept, key terms (pod, pick-to-light, light curtain…), and how it was built. A banner on every page states the question, the four claims being tested, and how to try them. |
-| **[Station simulator](src/pages/Station.tsx)** | 1280×800 workstation screen, a 4-tier light tower, pick-to-light pod bins, and a put-to-light tote wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
+| **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit guide sets up the use case and scenario (Maya, a newer night-shift picker), shows the work in three illustrated steps, and defines key terms. A banner on every page restates the scenario and the four claims, with an illustrated station scene. |
+| **[Station simulator](src/pages/Station.tsx)** | A robot delivers the pod (animated), then a 1280×800 workstation screen, a 4-tier light tower, pick-to-light pod bins, and a put-to-light tote wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
 | **[Exception and recovery flows](src/machine/stationMachine.ts)** | Wrong item, missing item, damaged item, scanner fault, tote full, late pod, escalation to a lead, and a safety stop that overrides everything. |
 | **[Accessibility modes](src/App.tsx)** | High contrast, large text, spoken guidance, shapes on lights for color-blind workers, left-hand layout, reduced sound (safety tones stay audible). |
 | **[Pattern library](PATTERNS.md)** | 8 reusable patterns, each with a screen / light / sound / haptic mapping table and do/don't guidance. |

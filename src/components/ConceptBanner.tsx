@@ -1,42 +1,19 @@
 import { useLocation } from 'react-router-dom';
+import { ClaimIcon, StationScene } from './Illustrations';
 
-/**
- * Shown at the top of every page so anyone landing anywhere knows
- * what this concept is, what it claims, and how to check the claims.
- */
+/** Shown at the top of every page: what this is, what it claims, how to check it. */
 
-const PROOFS = [
-  {
-    title: 'One clear next step, always',
-    body: 'Every exception, from a wrong item to a jammed scanner, has a single recovery action. No dead ends.',
-  },
-  {
-    title: 'Every signal agrees',
-    body: 'One state machine drives the screen, lights, sound, and haptics, so they can never contradict each other.',
-  },
-  {
-    title: 'Safety overrides everything',
-    body: 'A safety stop interrupts any step. Restarting takes two deliberate actions and resumes exactly where work stopped.',
-  },
-  {
-    title: 'Color is never the only cue',
-    body: 'Every light pairs color with a shape, blink rate, and label, with modes for low vision, hearing, and handedness.',
-  },
-];
+const CLAIMS = [
+  { icon: 'step', text: 'One clear next step' },
+  { icon: 'sync', text: 'Every signal agrees' },
+  { icon: 'stop', text: 'Safety overrides all' },
+  { icon: 'shape', text: 'Never color alone' },
+] as const;
 
 const PAGE_NOTES: Record<string, { label: string; text: string }> = {
-  '/': {
-    label: 'Try it',
-    text: 'Tap Start shift, then Pod arrives. Then break something: scan a wrong item, report a full tote, or break the light curtain.',
-  },
-  '/patterns': {
-    label: 'On this page',
-    text: 'The 8 reusable patterns behind the station, each mapped across screen, light, sound, and haptics.',
-  },
-  '/metrics': {
-    label: 'On this page',
-    text: 'How you would measure whether the design works on the floor. The data is synthetic.',
-  },
+  '/': { label: 'Try it', text: 'Start shift → Pod arrives → then break something below.' },
+  '/patterns': { label: 'On this page', text: '8 reusable patterns behind the station.' },
+  '/metrics': { label: 'On this page', text: 'How success is measured (synthetic data).' },
 };
 
 export default function ConceptBanner() {
@@ -46,32 +23,35 @@ export default function ConceptBanner() {
   return (
     <section className="concept" aria-labelledby="concept-title">
       <div className="concept-inner">
-        <p className="concept-eyebrow">Design concept · Robotic fulfillment</p>
-        <h1 id="concept-title" className="concept-title">
-          When a robot brings the work to a person, how do you keep them safe, fast, and confident, especially when
-          something goes wrong?
-        </h1>
-        <p className="concept-lede">
-          This is a working prototype of the guidance for a goods-to-person pick station. A robot delivers a shelf
-          of bins; the worker picks from a lit bin into a lit tote. The prototype tests four design claims:
-        </p>
+        <div className="concept-copy">
+          <p className="concept-eyebrow">Design concept · Robotic fulfillment</p>
+          <h1 id="concept-title" className="concept-title">Guiding people who work alongside robots</h1>
+          <dl className="concept-story">
+            <div>
+              <dt>Use case</dt>
+              <dd>Filling customer orders at a station where robots bring the shelves to the worker.</dd>
+            </div>
+            <div>
+              <dt>Scenario</dt>
+              <dd>Maya, three weeks in, works the night shift. Tonight she’ll hit an empty bin, a full tote, and a safety stop.</dd>
+            </div>
+          </dl>
 
-        <ol className="concept-proofs">
-          {PROOFS.map((p, i) => (
-            <li key={p.title}>
-              <span className="proof-num" aria-hidden="true">{i + 1}</span>
-              <div>
-                <strong>{p.title}</strong>
-                <span>{p.body}</span>
-              </div>
-            </li>
-          ))}
-        </ol>
+          <p className="concept-lede">This prototype designs what her station shows, lights, and sounds at every step. It tests four claims:</p>
 
-        <p className="concept-evidence">
-          <strong>How it's proven:</strong> each claim is a rule in the code, checked by 14 automated tests on every
-          change. <a href="https://github.com/jkelleman/workstation-guidance-system#readme">See the code and tests</a>
-        </p>
+          <ul className="concept-claims">
+            {CLAIMS.map((c) => (
+              <li key={c.text}><ClaimIcon kind={c.icon} /><span>{c.text}</span></li>
+            ))}
+          </ul>
+
+          <p className="concept-evidence">
+            Enforced in code, checked by 14 tests.{' '}
+            <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a>
+          </p>
+        </div>
+
+        <StationScene className="concept-art" />
 
         <p className="concept-page">
           <span className="concept-page-label">{note.label}</span>

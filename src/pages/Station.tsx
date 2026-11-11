@@ -132,7 +132,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       {/* Workstation touchscreen (1280×800 target) */}
       <section className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
         <header className="screen-top">
-          <span>Station 14 · Pick</span>
+          <span>Station 14 · Maya · Night shift</span>
           <span>Task {progress} · Done {ctx.completed} · Skipped {ctx.skipped}</span>
         </header>
 

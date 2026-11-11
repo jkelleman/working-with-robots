@@ -4,6 +4,7 @@ import Station, { type A11yPrefs } from './pages/Station';
 import Patterns from './pages/Patterns';
 import ConceptBanner from './components/ConceptBanner';
 import IntroModal from './components/IntroModal';
+import { DriveUnit } from './components/Illustrations';
 const Metrics = lazy(() => import('./pages/Metrics'));
 
 const DEFAULT_PREFS: A11yPrefs = {
@@ -59,7 +60,7 @@ export default function App() {
       <a className="skip" href="#main">Skip to content</a>
       <header className="app-header">
         <div className="brand">
-          <span className="brand-mark" aria-hidden="true">◧</span>
+          <svg className="brand-mark" viewBox="0 0 120 40" width="34" height="14" aria-hidden="true"><DriveUnit x={2} y={2} w={116} /></svg>
           Workstation Guidance System
           <span className="tag">Concept</span>
         </div>
