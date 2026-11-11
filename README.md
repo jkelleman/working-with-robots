@@ -25,7 +25,7 @@ At a goods-to-person pick station, a drive unit (AMR) brings a pod (a mobile she
 | **[Safety cover](src/components/Physical.tsx)** | A cover over the pod opening that closes while the pod moves and during an E-stop, and opens when it's time to pick. |
 | **[Sources & inspiration](src/pages/Sources.tsx)** | What was borrowed from industry, research, and established practice, why, and where it shows up, plus what's original. |
 | **[Exception and recovery flows](src/machine/stationMachine.ts)** | Mispick, short pick, damaged item, scanner fault, tote full, starved station, the andon to Problem Solve, and a light curtain trip (E-stop) that overrides everything. |
-| **[Accessibility modes](src/App.tsx)** | High contrast, large text, spoken guidance, shapes on lights for color-blind associates, left-hand layout, reduced sound (safety tones stay audible). |
+| **[Design process and accessibility](src/pages/Process.tsx)** | A first-person case study: why I built it, the five design thinking steps, principles, accessibility considerations, and the outcome. The accessibility modes live here: high contrast, large text, spoken guidance, shapes on lights for color-blind associates, left-hand layout, reduced sound (safety tones stay audible). |
 | **[Pattern library](PATTERNS.md)** | 8 reusable patterns, each with a screen / light / sound / haptic mapping table and do/don't guidance. |
 | **[Ops metrics](src/pages/Metrics.tsx)** | Synthetic before/after data: units per hour, cycle time, exception rate, time to recover, safety stops, and which design change moves each one. |
 | **[Research kit](research/)** | Contextual inquiry and shadowing guide, usability test plan, findings template, illustrative journey map. |

@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Station, { type A11yPrefs } from './pages/Station';
 import Patterns from './pages/Patterns';
+import Process from './pages/Process';
 import IntroModal from './components/IntroModal';
 import { DriveUnit } from './components/Illustrations';
 const Metrics = lazy(() => import('./pages/Metrics'));
@@ -14,15 +15,6 @@ const DEFAULT_PREFS: A11yPrefs = {
   colorSafe: true,
   leftHanded: false,
   reducedSound: false,
-};
-
-const PREF_LABELS: Record<keyof A11yPrefs, string> = {
-  highContrast: 'High contrast',
-  largeText: 'Large text',
-  audioGuidance: 'Spoken guidance',
-  colorSafe: 'Shapes on lights (color-blind safe)',
-  leftHanded: 'Left-hand layout',
-  reducedSound: 'Reduced sound (safety tones stay audible)',
 };
 
 const INTRO_KEY = 'wgs-intro-seen';
@@ -42,7 +34,6 @@ function loadPrefs(): A11yPrefs {
 
 export default function App() {
   const [prefs, setPrefs] = useState<A11yPrefs>(loadPrefs);
-  const [open, setOpen] = useState(false);
   const [introOpen, setIntroOpen] = useState(() => !introSeen());
   const closeIntro = () => {
     setIntroOpen(false);
@@ -66,35 +57,22 @@ export default function App() {
         </div>
         <nav aria-label="Main">
           <NavLink to="/" end>Station</NavLink>
+          <NavLink to="/process">Process</NavLink>
           <NavLink to="/patterns">Patterns</NavLink>
           <NavLink to="/metrics">Metrics</NavLink>
           <NavLink to="/sources">Sources</NavLink>
         </nav>
         <div className="header-actions">
           <button className="btn btn-sm" onClick={() => setIntroOpen(true)} aria-haspopup="dialog">About</button>
-          <button className="btn btn-sm" aria-expanded={open} aria-controls="a11y" onClick={() => setOpen((o) => !o)}>
-            Accessibility
-          </button>
         </div>
       </header>
-
-      {open && (
-        <fieldset id="a11y" className="a11y-panel">
-          <legend>Accessibility modes</legend>
-          {(Object.keys(PREF_LABELS) as (keyof A11yPrefs)[]).map((k) => (
-            <label key={k} className="toggle">
-              <input type="checkbox" checked={prefs[k]} onChange={(e) => setPrefs({ ...prefs, [k]: e.target.checked })} />
-              {PREF_LABELS[k]}
-            </label>
-          ))}
-        </fieldset>
-      )}
 
       <IntroModal open={introOpen} onClose={closeIntro} />
 
       <main id="main">
         <Routes>
           <Route path="/" element={<Station prefs={prefs} />} />
+          <Route path="/process" element={<Process prefs={prefs} setPrefs={setPrefs} />} />
           <Route path="/patterns" element={<Patterns />} />
           <Route path="/metrics" element={<Suspense fallback={<p>Loading charts…</p>}><Metrics /></Suspense>} />
           <Route path="/sources" element={<Suspense fallback={<p>Loading…</p>}><Sources /></Suspense>} />

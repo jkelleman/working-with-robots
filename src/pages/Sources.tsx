@@ -76,7 +76,7 @@ const PRACTICES: Source[] = [
     url: 'https://www.w3.org/TR/WCAG22/',
     borrowed: 'Contrast, visible focus, and never using color as the only cue.',
     why: 'Associates vary in vision, hearing, and handedness, and the floor is loud and bright.',
-    where: 'Accessibility modes, shapes on the stack light, and labeled tones.',
+    where: 'The accessibility section of the Process page, shapes on the stack light, and labeled tones.',
   },
 ];
 
