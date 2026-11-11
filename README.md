@@ -1,6 +1,6 @@
 # Workstation Guidance System
 
-**A design concept for guiding an associate at a goods-to-person (GTP) robotic pick station through every step, safely, with one clear next step when something goes wrong.**
+**A day in the life of a robotic fulfillment center: robots bring pods, rolling towers of bins holding thousands of products, to an associate, who picks each order by hand. When something goes wrong, what should the station tell her?**
 
 At a goods-to-person pick station, a drive unit (AMR) brings a pod (a mobile shelf of bins) to the associate, who picks items from a lit bin and puts them to a lit order tote on the put wall. The work is fast and repetitive, the floor is loud, and the hard moments are the exceptions: a mispick, a short pick, a scanner fault, a full tote, a starved station, a light curtain trip. This project designs and prototypes the guidance for all of it across **screen, stack light, pick-to-light, put-to-light, sound, and haptics**, driven by one state machine so the channels can never disagree.
 
