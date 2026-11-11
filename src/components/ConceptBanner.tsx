@@ -11,7 +11,8 @@ export default function ConceptBanner() {
       <div className="concept-inner">
         <div className="concept-copy">
           <p className="concept-eyebrow">Design concept</p>
-          <h1 id="concept-title" className="concept-title">Robots bring the work. People make every pick.</h1>
+          <h1 id="concept-title" className="concept-title">Working With Robots</h1>
+          <p className="concept-subtitle">Designing a Fulfillment Pick Station</p>
           <p className="concept-lede">
             Robots bring products to a person, who picks each customer order by hand. The work is fast and the floor is
             loud. When something goes wrong, she needs to know what to do, in seconds.
