@@ -15,7 +15,7 @@ _Generated from [`src/data/persona.ts`](../src/data/persona.ts) by `npm run pers
 
 > “Just tell me what to do next, and whether I messed up.”
 
-Maya is fast, careful, and still learning the floor. She came from a kitchen, so noise and speed don’t faze her. What does is not knowing whether a problem is her fault, and not knowing how long she’ll wait for help.
+Maya is fast, careful, and still learning the floor. She came from a kitchen, so noise and speed don’t faze her.
 
 ## Goals
 

@@ -75,7 +75,7 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
         accent="slate"
         eyebrow="Case study"
         title="How I designed it"
-        sub="Why I built this, the design thinking steps I followed, and where it landed."
+        sub="A case study in designing for people who work beside robots."
         art={<ProcessArt />}
       />
       <div className="page">
@@ -85,13 +85,6 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
             When something goes wrong at a robotic pick station, guidance is split across a screen, a light, and a sound,
             and a newer associate is left guessing. I set out to design those moments, in working code.
           </p>
-          <More label="More on why">
-            <p>
-              Goods-to-person stations bring the work to the associate, and the happy path is fast. The hard part is a
-              mispick, a late pod, or a light curtain trip. As a design engineer, I wanted to show how I design the moments
-              that break the flow, and to build them so anyone can try the design.
-            </p>
-          </More>
         </section>
 
         <section className="story" aria-labelledby="persona-h">

@@ -4,7 +4,7 @@ import { SAMPLE_TASKS } from './tasks';
 /**
  * The happy path and every scenario that deviates from it.
  * Each scenario lists the events that reproduce it from a fresh shift, so the
- * scenario map can jump straight to it, and tests can prove it lands there.
+ * What if… cards can jump straight to it, and tests can prove it lands there.
  */
 
 export type StepId = 'arrive' | 'pick' | 'put' | 'done';

@@ -37,7 +37,6 @@ export default function Patterns() {
     <div className="page">
       <section className="story" aria-labelledby="library">
         <h2 id="library" className="story-h">The patterns</h2>
-        <p className="proc-key">Each pattern gives one meaning to the screen, stack light, sound, and vibration, so no channel says something different.</p>
         <div className="acc-group">
           <More label="Why document patterns?" hint="Safety, many teams, faster ramp-up">
             <ul className="story-cards">

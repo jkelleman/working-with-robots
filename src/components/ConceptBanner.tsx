@@ -1,48 +1,32 @@
-import { StationScene } from './Illustrations';
 import More from './More';
 
 /**
- * Station page hero. Plain story first, so anyone can follow it, then the
- * same story in fulfillment-center terms.
+ * Compact intro for the station page. Plain story first, the fulfillment-center
+ * terms behind an accordion, so the station itself sits on the first screen.
  */
 export default function ConceptBanner() {
   return (
-    <section className="concept" aria-labelledby="concept-title">
+    <section className="concept concept-compact" aria-labelledby="concept-title">
       <div className="concept-inner">
         <div className="concept-copy">
           <p className="concept-eyebrow">Design concept</p>
           <h1 id="concept-title" className="concept-title">Working With Robots</h1>
           <p className="concept-subtitle">Designing a Fulfillment Pick Station</p>
+        </div>
+        <div className="concept-side">
           <p className="concept-lede">
-            Robots bring products to a person, who picks each customer order by hand. The work is fast and the floor is
-            loud. When something goes wrong, she needs to know what to do, in seconds.
+            Robots bring products to Maya, who picks each customer order by hand. When something goes wrong, her station
+            has seconds to tell her what to do. Step through her shift below, then try what happens when it breaks.
           </p>
-          <p className="concept-lingo">
-            <strong>Here’s how that plays out in a fulfillment center:</strong> drive units carry pods of inventory to
-            Maya’s pick station. Pick-to-light marks the bin, put-to-light marks the order tote, and a stack light shows
-            her status across the floor. This prototype designs every one of those signals.
-          </p>
-
-          <More label="Tonight’s scenario and proof" className="more-dark">
-            <dl className="concept-story">
-              <div>
-                <dt>Scenario</dt>
-                <dd>Maya is three weeks in, on nights. Tonight brings an empty bin (a short pick), a full tote, and a safety stop (a light curtain trip).</dd>
-              </div>
-              <div>
-                <dt>Proof</dt>
-                <dd>The design rules are enforced in code and checked by 23 tests. <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a></dd>
-              </div>
-            </dl>
+          <More label="In fulfillment-center terms" className="more-dark">
+            <p className="concept-lingo">
+              Drive units carry pods of inventory to Maya’s pick station. Pick-to-light marks the bin, put-to-light marks
+              the order tote, and a stack light shows her status across the floor. This prototype designs every one of
+              those signals, and 23 tests check the design rules.{' '}
+              <a href="https://github.com/jkelleman/working-with-robots#readme">View code →</a>
+            </p>
           </More>
         </div>
-
-        <StationScene className="concept-art" />
-
-        <p className="concept-page">
-          <span className="concept-page-label">Try it</span>
-          Play the happy path, then tap any scenario to see what happens when it goes wrong.
-        </p>
       </div>
     </section>
   );

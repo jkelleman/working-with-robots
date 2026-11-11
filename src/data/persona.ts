@@ -11,7 +11,7 @@ export const PERSONA = {
   before: 'Line cook for four years',
   quote: 'Just tell me what to do next, and whether I messed up.',
   summary:
-    'Maya is fast, careful, and still learning the floor. She came from a kitchen, so noise and speed don’t faze her. What does is not knowing whether a problem is her fault, and not knowing how long she’ll wait for help.',
+    'Maya is fast, careful, and still learning the floor. She came from a kitchen, so noise and speed don’t faze her.',
   goals: [
     'Hit her rate without mistakes before her training period ends',
     'Fix problems herself without flagging someone down',

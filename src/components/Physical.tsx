@@ -32,16 +32,16 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
         <div className="tower-pole" />
       </div>
       <figcaption>
-        <span className="tower-kind">Stack light · </span>
+        <span className="tower-kind">Stack light</span>
         <span className={`tower-label sev-${signal.severity}`}>{signal.towerLabel || 'Off'}</span>
-        <span className="muted"> · {signal.pattern === 'fast' ? 'fast blink' : signal.pattern === 'slow' ? 'slow blink' : 'steady'}</span>
+        <span className="tower-pattern muted">{signal.pattern === 'fast' ? 'fast blink' : signal.pattern === 'slow' ? 'slow blink' : 'steady'}</span>
       </figcaption>
     </figure>
   );
 }
 
 /** The pod the drive unit carries. Pick-to-light marks the bin to pick from. */
-export function PodBins({ signal, coverClosed, camera }: { signal: SignalSet; coverClosed?: boolean; camera?: boolean }) {
+export function PodBins({ signal, coverClosed, camera, onBinPress }: { signal: SignalSet; coverClosed?: boolean; camera?: boolean; onBinPress?: (bin: string) => void }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
     <figure className={`pod pod-${motion}`} aria-label={`Pod${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. ${motion === 'docked' ? 'Docked at the station' : motion === 'arriving' ? 'Drive unit arriving' : 'Pod is late, station starved'}.`}>
@@ -56,10 +56,17 @@ export function PodBins({ signal, coverClosed, camera }: { signal: SignalSet; co
             const id = `${r}${c}`;
             const lit = signal.litBin === id;
             return (
-              <div key={id} className={`bin ${lit ? `lit lit-${signal.binColor ?? 'green'}` : ''}`}>
-                <ItemIcon kind={BIN_STOCK[id]} className="bin-item" />
-                <span className="bin-id">{id}</span>
-              </div>
+              onBinPress ? (
+                <button key={id} type="button" className={`bin bin-btn ${lit ? `lit lit-${signal.binColor ?? 'green'}` : ''}`} onClick={() => onBinPress(id)} aria-label={`Bin ${id}${lit ? ', pick-to-light on' : ''}`}>
+                  <ItemIcon kind={BIN_STOCK[id]} className="bin-item" />
+                  <span className="bin-id">{id}</span>
+                </button>
+              ) : (
+                <div key={id} className={`bin ${lit ? `lit lit-${signal.binColor ?? 'green'}` : ''}`}>
+                  <ItemIcon kind={BIN_STOCK[id]} className="bin-item" />
+                  <span className="bin-id">{id}</span>
+                </div>
+              )
             );
           }),
         )}

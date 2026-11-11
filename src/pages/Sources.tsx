@@ -123,7 +123,7 @@ export default function Sources() {
         accent="slate"
         eyebrow="Credits"
         title="Sources & inspiration"
-        sub="What this concept borrows from industry, research, and established practice, why, and where it shows up."
+        sub="Credit for every idea this concept builds on."
         art={<SourcesArt />}
       />
       <div className="page">

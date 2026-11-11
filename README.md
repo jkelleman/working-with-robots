@@ -1,3 +1,22 @@
+<p align="center">
+  <img src="docs/banner.svg" alt="Working With Robots: Designing a Fulfillment Pick Station" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://jkelleman.github.io/working-with-robots/"><img alt="Live demo" src="https://img.shields.io/badge/live_demo-open-0b0e11?style=for-the-badge" /></a>
+  <a href="https://github.com/jkelleman/working-with-robots/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/jkelleman/working-with-robots/ci.yml?branch=main&label=CI&style=for-the-badge" /></a>
+  <a href="https://github.com/jkelleman/working-with-robots/actions/workflows/deploy.yml"><img alt="Deploy" src="https://img.shields.io/github/actions/workflow/status/jkelleman/working-with-robots/deploy.yml?branch=main&label=deploy&style=for-the-badge" /></a>
+</p>
+<p align="center">
+  <img alt="23 tests" src="https://img.shields.io/badge/tests-23_passing-1f9d55?style=flat-square" />
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-0b0e11?style=flat-square&logo=react" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-7-0b0e11?style=flat-square&logo=typescript" />
+  <img alt="XState v5" src="https://img.shields.io/badge/XState-v5-0b0e11?style=flat-square&logo=xstate" />
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-8-0b0e11?style=flat-square&logo=vite" />
+  <img alt="WCAG 2.2" src="https://img.shields.io/badge/WCAG-2.2-0b0e11?style=flat-square" />
+  <img alt="Concept project" src="https://img.shields.io/badge/status-concept-5c6670?style=flat-square" />
+</p>
+
 # Working With Robots: Designing a Fulfillment Pick Station
 
 **A day in the life of a robotic fulfillment center: robots bring products to a person, who picks each customer order by hand. When something goes wrong, what should her station tell her?**
@@ -8,20 +27,19 @@ The work is fast and repetitive, and the floor is loud. The hard moments are whe
 
 > **Concept project.** Fictional station, fictional items, synthetic data. Not affiliated with any company.
 
-**[Try it live →](https://jkelleman.github.io/workstation-guidance-system/)**
+**[Try it live →](https://jkelleman.github.io/working-with-robots/)**
 
 ![Station screen during a pick](docs/station-pick.png)
 
-![Scenario map: the happy path and where it can go wrong](docs/scenario-map.png)
 
 ## What's inside
 
 | Area | What it shows |
 | --- | --- |
 | **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit guide sets up the use case and scenario (Maya, a newer night-shift associate), shows the work in three illustrated steps, and defines key terms. A banner on every page restates the scenario and the four claims, with an illustrated station scene. |
-| **[Scenario map](src/components/ScenarioMap.tsx)** | The happy path as four steps, with each of the 7 deviations attached to the step where it happens. Tap one to jump straight to it, or auto-play the happy path. On desktop it stays pinned beside the station. On phones, a slim progress bar sticks to the top and opens the full map as a bottom sheet. Tests prove every scenario lands in the right state. |
+| **[Interactive stage](src/pages/Station.tsx)** | One station scene with a narration panel that explains what's happening and why it's designed that way. A media-style timeline (back, play, next) lets you set the pace. Tap the lit bin to pick and the lit tote to put. |
 | **[Station simulator](src/pages/Station.tsx)** | A drive unit delivers the pod (animated), then a 1280×800 station screen, a 4-tier stack light, pick-to-light on the pod bins, and a put-to-light put wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
-| **[Guided exploration](src/components/ScenarioMap.tsx)** | Each scenario plays once and stops on its end state, then the map lights up the next unexplored exception ("Try next") and counts progress ("Explored 3 of 7"). |
+| **[What if… cards](src/data/narration.ts)** | Seven ways the pick can go wrong, each one tap away, with a recovery path and a Back to the happy path button. Progress shows how many you've explored. |
 | **[Body and reach view](src/components/ErgoView.tsx)** | Side view of the associate at the pod with the power zone (mid-thigh to mid-chest) marked. Each pick shows whether it is in the zone, a reach, or a bend, and top- and bottom-row picks get a posture tip. |
 | **[Camera pick verification](src/machine/signals.ts)** | A station setup toggle (handheld scan or overhead camera). With the camera, the associate lifts the item out and the camera confirms it. Instructions, buttons, and mispick wording change to match. |
 | **[Safety cover](src/components/Physical.tsx)** | A cover over the pod opening that closes while the pod moves and during an E-stop, and opens when it's time to pick. |

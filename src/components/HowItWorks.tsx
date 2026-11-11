@@ -90,7 +90,7 @@ export default function HowItWorks() {
         <span className="how-oct" aria-hidden="true" />
         <span><strong>Safety is separate:</strong> a light curtain trip stops every drive unit in the zone instantly (an E-stop), whatever the WES was doing.</span>
       </p>
-      <p className="how-note">In this prototype, the “Simulate the floor” buttons stand in for the drive units and the WES.</p>
+      <p className="how-note">In this prototype, the timeline and Free play stand in for the drive units and the WES.</p>
     </More>
   );
 }

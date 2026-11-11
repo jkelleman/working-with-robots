@@ -85,7 +85,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
               </li>
             ))}
           </ol>
-          <p className="intro-callout">Seven pain points can break Maya’s flow. The scenario map frames each one as a design challenge, and the prototype tests a recovery path for each.</p>
+          <p className="intro-callout">Seven pain points can break Maya’s flow. Try each one from the What if… cards, and see how the station gets her back on track.</p>
         </section>
 
         <More label={`Key terms (${TERMS.length})`} hint="Floor vocabulary, in plain words">

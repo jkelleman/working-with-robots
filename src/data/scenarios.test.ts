@@ -4,7 +4,7 @@ import { stationMachine } from '../machine/stationMachine';
 import { stateKey } from '../machine/signals';
 import { HAPPY_PATH, SCENARIOS, stepFor } from './scenarios';
 
-describe('scenario map', () => {
+describe('scenarios', () => {
   it.each(SCENARIOS)('"$label" lands in $state', (s) => {
     const a = createActor(stationMachine).start();
     a.send({ type: 'START' });
