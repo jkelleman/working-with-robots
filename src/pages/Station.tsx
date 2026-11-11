@@ -4,6 +4,9 @@ import { stationMachine, currentTask, type EscalationReason } from '../machine/s
 import { signalFor, stateKey } from '../machine/signals';
 import { LightTower, PodBins, ToteWall } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
+import ScenarioMap from '../components/ScenarioMap';
+import { SAMPLE_TASKS } from '../data/tasks';
+import type { Scenario } from '../data/scenarios';
 
 export interface A11yPrefs {
   highContrast: boolean;
@@ -69,6 +72,38 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
   const inException = key.startsWith('working.exception');
 
   // Fire sound, haptics and speech once per state change.
+  // Scenario map: jump to a scenario from a fresh shift, or auto-play the happy path.
+  const timers = useRef<number[]>([]);
+  const clearTimers = () => { timers.current.forEach((t) => clearTimeout(t)); timers.current = []; };
+  useEffect(() => clearTimers, []);
+  // On narrow screens the station sits below the map, so bring it into view.
+  const screenRef = useRef<HTMLElement>(null);
+  const showStation = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      screenRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  };
+  const runScenario = (s: Scenario) => {
+    clearTimers();
+    send({ type: 'RESET' });
+    send({ type: 'START' });
+    s.events.forEach((e) => send(e));
+    showStation();
+  };
+  const playHappyPath = () => {
+    clearTimers();
+    send({ type: 'RESET' });
+    send({ type: 'START' });
+    const steps = [
+      () => send({ type: 'POD_ARRIVED' }),
+      () => send({ type: 'SCAN', sku: SAMPLE_TASKS[0].sku }),
+      () => send({ type: 'PUT_CONFIRMED' }),
+    ];
+    steps.forEach((fn, i) => timers.current.push(window.setTimeout(fn, 1600 * (i + 1))));
+    showStation();
+  };
+
   const lastKey = useRef<string>('');
   useEffect(() => {
     if (lastKey.current === key) return;
@@ -129,8 +164,10 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
 
   return (
     <div className={`station ${prefs.leftHanded ? 'left-handed' : ''}`}>
+      <ScenarioMap stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
+
       {/* Workstation touchscreen (1280×800 target) */}
-      <section className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
+      <section ref={screenRef} className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
         <header className="screen-top">
           <span>Station 14 · Maya · Night shift</span>
           <span>Task {progress} · Done {ctx.completed} · Skipped {ctx.skipped}</span>

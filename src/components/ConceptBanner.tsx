@@ -11,7 +11,7 @@ const CLAIMS = [
 ] as const;
 
 const PAGE_NOTES: Record<string, { label: string; text: string }> = {
-  '/': { label: 'Try it', text: 'Start shift → Pod arrives → then break something below.' },
+  '/': { label: 'Try it', text: 'Play the happy path, then tap any scenario to see what happens when it goes wrong.' },
   '/patterns': { label: 'On this page', text: '8 reusable patterns behind the station.' },
   '/metrics': { label: 'On this page', text: 'How success is measured (synthetic data).' },
 };
@@ -46,7 +46,7 @@ export default function ConceptBanner() {
           </ul>
 
           <p className="concept-evidence">
-            Enforced in code, checked by 14 tests.{' '}
+            Enforced in code, checked by 23 tests.{' '}
             <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a>
           </p>
         </div>

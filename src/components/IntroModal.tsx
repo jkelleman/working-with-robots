@@ -21,7 +21,7 @@ const TERMS: Array<[string, string]> = [
   ['Exception', 'Anything that interrupts a normal pick.'],
 ];
 
-const BUILT = ['XState state machine', 'Web Audio · Vibration · Speech APIs', '14 automated tests', 'React + TypeScript', 'GitHub Actions'];
+const BUILT = ['XState state machine', 'Web Audio · Vibration · Speech APIs', '23 automated tests', 'React + TypeScript', 'GitHub Actions'];
 
 export default function IntroModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -60,7 +60,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
         </section>
 
         <section>
-          <h3>How the work happens</h3>
+          <h3>The happy path</h3>
           <ol className="intro-steps">
             {STEPS.map((s, i) => (
               <li key={s.kind}>
@@ -70,7 +70,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
               </li>
             ))}
           </ol>
-          <p className="intro-callout">This prototype designs the guidance for every step, and for every way it can go wrong.</p>
+          <p className="intro-callout">Seven things can knock Maya off this path. The scenario map shows each one, and the prototype designs the way back.</p>
         </section>
 
         <section>

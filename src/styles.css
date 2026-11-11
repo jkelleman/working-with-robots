@@ -80,11 +80,11 @@ main { padding: 24px; max-width: 1440px; margin: 0 auto; }
 .station {
   display: grid; gap: 24px;
   grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
-  grid-template-areas: "screen physical" "sim sim";
+  grid-template-areas: "map map" "screen physical" "sim sim";
 }
-.station.left-handed { grid-template-areas: "physical screen" "sim sim"; grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr); }
+.station.left-handed { grid-template-areas: "map map" "physical screen" "sim sim"; grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr); }
 @media (max-width: 900px) {
-  .station, .station.left-handed { grid-template-columns: 1fr; grid-template-areas: "screen" "physical" "sim"; }
+  .station, .station.left-handed { grid-template-columns: 1fr; grid-template-areas: "map" "screen" "physical" "sim"; }
 }
 
 /* Workstation screen */
@@ -241,6 +241,70 @@ th { background: var(--bg); }
 .brand-mark { width: 34px; height: auto; }
 @media (prefers-reduced-motion: reduce) {
   .scene-robot, .pod-arriving .pod-rig, .pod-stalled .pod-rig { animation: none; }
+}
+
+/* ---------- Scenario map ---------- */
+.screen { scroll-margin-top: 12px; }
+.scenario-map { grid-area: map; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 16px 20px 18px; }
+.sm-head { display: flex; align-items: center; gap: 10px 20px; flex-wrap: wrap; margin-bottom: 14px; }
+.sm-head h2 { margin: 0; font-size: 1.05em; text-transform: uppercase; letter-spacing: .06em; }
+.sm-legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 0; flex: 1; font-size: .82em; color: var(--muted); }
+.sm-key { display: inline-flex; align-items: center; gap: 6px; }
+.sm-key::before { content: ''; display: inline-block; width: 12px; height: 12px; }
+.sm-key-happy::before { background: var(--green); border-radius: 50%; }
+.sm-key-exc::before { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 12px solid var(--amber); }
+.sm-key-stop::before { background: var(--red); clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+
+.sm-track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 14px; }
+.sm-step { position: relative; display: flex; flex-direction: column; gap: 8px; }
+.sm-node { position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 2px solid transparent; }
+/* connector line between happy-path steps */
+.sm-step:not(:last-child) .sm-node::after {
+  content: ''; position: absolute; left: calc(100% + 2px); top: 50%; width: 12px; height: 3px; background: var(--border); border-radius: 2px;
+}
+.sm-dot {
+  flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 800; font-size: .9em; background: var(--bg); color: var(--muted); border: 2px solid var(--border);
+}
+.sm-label { display: flex; flex-direction: column; line-height: 1.2; }
+.sm-label strong { font-size: .95em; }
+.sm-label span { font-size: .8em; color: var(--muted); }
+.sm-past .sm-dot { background: var(--green); border-color: var(--green); color: #fff; }
+.sm-past .sm-node::after { background: var(--green) !important; }
+.sm-current .sm-node { border-color: var(--green); background: color-mix(in srgb, var(--green) 10%, transparent); }
+.sm-current .sm-dot { background: var(--green); border-color: var(--green); color: #fff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 25%, transparent); }
+.sm-branched .sm-node { border-color: var(--amber); border-style: dashed; }
+.sm-branched .sm-dot { border-color: var(--amber); color: var(--ink); }
+
+.sm-branches { list-style: none; margin: 0 0 0 24px; padding: 0 0 0 14px; border-left: 2px dashed color-mix(in srgb, var(--amber) 60%, transparent); display: flex; flex-direction: column; gap: 6px; }
+.sm-branch, .sm-safety {
+  font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%;
+  display: flex; align-items: center; gap: 10px; padding: 7px 10px; min-height: 44px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+}
+.sm-branch:hover, .sm-safety:hover { border-color: var(--muted); }
+.sm-branch-text { display: flex; flex-direction: column; line-height: 1.2; }
+.sm-branch-text strong { font-size: .88em; }
+.sm-branch-text span { font-size: .78em; color: var(--muted); }
+.sm-tri { flex: none; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 14px solid var(--amber); }
+.sm-branch.is-active { border-color: var(--amber); background: color-mix(in srgb, var(--amber) 16%, var(--panel)); box-shadow: 0 0 0 2px color-mix(in srgb, var(--amber) 40%, transparent); }
+.sm-safety { margin-top: 12px; flex-wrap: wrap; gap: 4px 10px; border-color: color-mix(in srgb, var(--red) 45%, var(--border)); }
+.sm-safety strong { font-size: .9em; }
+.sm-safety span:last-child { font-size: .8em; color: var(--muted); }
+.sm-oct { flex: none; width: 16px; height: 16px; background: var(--red); clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+.sm-safety.is-active { background: color-mix(in srgb, var(--red) 14%, var(--panel)); border-color: var(--red); box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 40%, transparent); }
+@media (max-width: 1000px) {
+  .sm-track { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sm-step .sm-node::after { display: none; }
+}
+@media (max-width: 700px) {
+  .scenario-map { padding: 14px; }
+  .sm-head .btn { width: 100%; order: 3; }
+  .sm-legend { flex-basis: 100%; order: 2; gap: 10px; }
+  /* Vertical track: a line runs down the happy path, branches hang off each step */
+  .sm-track { grid-template-columns: 1fr; gap: 6px; }
+  .sm-step:not(:last-child) .sm-node::after { display: block; left: 24px; top: calc(100% + 2px); width: 3px; height: 8px; }
+  .sm-branches { margin-left: 24px; }
 }
 
 /* ---------- Mobile ---------- */

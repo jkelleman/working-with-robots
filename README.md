@@ -10,11 +10,14 @@ At a goods-to-person station, a robot brings a storage pod to the worker, who pi
 
 ![Station screen during a pick](docs/station-pick.png)
 
+![Scenario map: the happy path and where it can go wrong](docs/scenario-map.png)
+
 ## What's inside
 
 | Area | What it shows |
 | --- | --- |
 | **[Welcome guide and concept banner](src/components/IntroModal.tsx)** | A first-visit guide sets up the use case and scenario (Maya, a newer night-shift picker), shows the work in three illustrated steps, and defines key terms. A banner on every page restates the scenario and the four claims, with an illustrated station scene. |
+| **[Scenario map](src/components/ScenarioMap.tsx)** | The happy path as four steps, with each of the 7 deviations attached to the step where it happens. Tap one to jump straight to it, or auto-play the happy path. Tests prove every scenario lands in the right state. |
 | **[Station simulator](src/pages/Station.tsx)** | A robot delivers the pod (animated), then a 1280×800 workstation screen, a 4-tier light tower, pick-to-light pod bins, and a put-to-light tote wall. Tone cues via the Web Audio API, haptics via `navigator.vibrate`, optional spoken guidance. |
 | **[Exception and recovery flows](src/machine/stationMachine.ts)** | Wrong item, missing item, damaged item, scanner fault, tote full, late pod, escalation to a lead, and a safety stop that overrides everything. |
 | **[Accessibility modes](src/App.tsx)** | High contrast, large text, spoken guidance, shapes on lights for color-blind workers, left-hand layout, reduced sound (safety tones stay audible). |
