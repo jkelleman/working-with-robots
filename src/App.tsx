@@ -52,7 +52,7 @@ export default function App() {
       <header className="app-header">
         <div className="brand">
           <svg className="brand-mark" viewBox="0 0 120 40" width="34" height="14" aria-hidden="true"><DriveUnit x={2} y={2} w={116} /></svg>
-          Workstation Guidance System
+          Working With Robots
           <span className="tag">Concept</span>
         </div>
         <nav aria-label="Main">

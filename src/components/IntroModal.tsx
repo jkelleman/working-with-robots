@@ -54,7 +54,8 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
       <div className="intro-body">
         <header className="intro-head">
           <p className="intro-eyebrow">Design concept</p>
-          <h2 id="intro-title">Workstation Guidance System</h2>
+          <h2 id="intro-title">Working With Robots</h2>
+          <p className="intro-subtitle">Designing a Fulfillment Pick Station</p>
           <p className="intro-sub">A day in the life of a robotic fulfillment center: robots bring products to a person, who picks each customer order by hand. When something goes wrong, what should her station tell her?</p>
           <button type="button" className="intro-x" onClick={onClose} aria-label="Close">×</button>
         </header>

@@ -1,4 +1,4 @@
-# Workstation Guidance System
+# Working With Robots: Designing a Fulfillment Pick Station
 
 **A day in the life of a robotic fulfillment center: robots bring products to a person, who picks each customer order by hand. When something goes wrong, what should her station tell her?**
 
