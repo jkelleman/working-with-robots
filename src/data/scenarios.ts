@@ -17,9 +17,9 @@ export interface HappyStep {
 }
 
 export const HAPPY_PATH: HappyStep[] = [
-  { id: 'arrive', label: 'Robot brings pod', hint: 'Hands clear', states: ['working.podArriving'] },
-  { id: 'pick', label: 'Pick and scan', hint: 'From the lit bin', states: ['working.pick'] },
-  { id: 'put', label: 'Put in tote', hint: 'Press tote button', states: ['working.put'] },
+  { id: 'arrive', label: 'Robot brings shelf', hint: 'Hands clear', states: ['working.podArriving'] },
+  { id: 'pick', label: 'Grab and scan', hint: 'From the lit bin', states: ['working.pick'] },
+  { id: 'put', label: 'Put in tote', hint: 'The lit tote, then its button', states: ['working.put'] },
   { id: 'done', label: 'Task done', hint: 'Next task loads', states: ['working.confirm', 'done'] },
 ];
 
@@ -36,7 +36,7 @@ export interface Scenario {
 const good = SAMPLE_TASKS[0].sku;
 
 export const SCENARIOS: Scenario[] = [
-  { id: 'podLate', label: 'Pod is late', at: 'arrive', kind: 'exception', state: 'working.exception.podLate',
+  { id: 'podLate', label: 'Robot is late', at: 'arrive', kind: 'exception', state: 'working.exception.podLate',
     outcome: 'Wait, then pick', events: [{ type: 'POD_TIMEOUT' }] },
   { id: 'wrongItem', label: 'Wrong item scanned', at: 'pick', kind: 'exception', state: 'working.exception.wrongItem',
     outcome: 'Back to pick', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: 'SKU-99999' }] },

@@ -19,7 +19,7 @@ Tell the worker, at a glance and from any angle, what the station needs.
 
 **When to use:** Every state. It is the backbone all other patterns sit on.
 
-**States:** Ready · Pod moving · Pick/Put · Attention · Lead called · Stop
+**States:** Ready · Robot moving · Pick/Put · Attention · Lead called · Stop
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |

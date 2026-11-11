@@ -6,6 +6,9 @@ import { LightTower, PodBins, ToteWall } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
 import ScenarioMap from '../components/ScenarioMap';
 import ConceptBanner from '../components/ConceptBanner';
+import HowItWorks from '../components/HowItWorks';
+import { ItemIcon } from '../components/Illustrations';
+import { TOTE_ORDERS } from '../data/tasks';
 import { SAMPLE_TASKS } from '../data/tasks';
 import type { Scenario } from '../data/scenarios';
 
@@ -183,11 +186,13 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
 
           {task && (key === 'working.pick' || key === 'working.put' || inException) && (
             <dl className="task-card">
-              <div><dt>Item</dt><dd>{task.itemName}</dd></div>
+              <div className="task-item">
+                <ItemIcon kind={task.icon} className="task-item-img" />
+                <span><dt>Item</dt><dd>{task.itemName}</dd><dd className="task-sku">{task.sku}</dd></span>
+              </div>
               <div><dt>Qty</dt><dd className="big">{task.quantity}</dd></div>
-              <div><dt>Bin</dt><dd className="big">{task.bin}</dd></div>
-              <div><dt>Tote</dt><dd className="big">{task.tote}</dd></div>
-              <div><dt>SKU</dt><dd>{task.sku}</dd></div>
+              <div><dt>From bin</dt><dd className="big">{task.bin}</dd></div>
+              <div><dt>To tote</dt><dd className="big">{task.tote}</dd><dd className="task-sku">Order {TOTE_ORDERS[task.tote]}</dd></div>
             </dl>
           )}
 
@@ -213,6 +218,8 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         <PodBins signal={signal} />
         <ToteWall
           signal={signal}
+          task={task}
+          justPut={key === 'working.confirm'}
           onPress={(slot) => { if (key === 'working.put' && slot === task?.tote) send({ type: 'PUT_CONFIRMED' }); }}
         />
       </section>
@@ -221,8 +228,8 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       <section className="sim" aria-label="Simulate floor events">
         <h3>Simulate floor events</h3>
         <div className="sim-grid">
-          <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Pod arrives</button>
-          <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Pod runs late</button>
+          <button className="btn btn-sm" disabled={key !== 'working.podArriving' && key !== 'working.exception.podLate'} onClick={() => send({ type: 'POD_ARRIVED' })}>Robot arrives</button>
+          <button className="btn btn-sm" disabled={key !== 'working.podArriving'} onClick={() => send({ type: 'POD_TIMEOUT' })}>Robot runs late</button>
           <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCAN', sku: 'SKU-99999' })}>Scan wrong item</button>
           <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCANNER_FAULT' })}>Scanner fault</button>
           <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Lead clears task</button>
@@ -238,6 +245,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         </details>
         <p className="muted small">State: <code>{key}</code></p>
       </section>
+      <HowItWorks />
     </div>
     </>
   );

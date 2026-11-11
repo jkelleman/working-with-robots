@@ -4,19 +4,24 @@
  */
 
 const C = {
+  // Neutral-first palette: color is reserved for meaning (green = act, red = stop).
   navy: '#12263f',
   steel: '#8a96a3',
   steelLight: '#c3ccd5',
-  robot: '#e8a317',
-  robotDark: '#b97c0a',
-  pod: '#c8a46a',
-  bin: '#e9d6b0',
+  robot: '#4a5560',
+  robotDark: '#323b44',
+  pod: '#b9c2cb',
+  bin: '#e6eaee',
   green: '#1f9d55',
   red: '#d42e2e',
   blue: '#2f6fe0',
-  skin: '#f2c9a0',
-  shirt: '#2f6fe0',
+  off: '#3d4a5a',
+  skin: '#c3ccd5',
+  shirt: '#8a96a3',
   tote: '#5b636b',
+  n1: '#8a96a3',
+  n2: '#5b636b',
+  n3: '#c3ccd5',
 };
 
 /** Low, flat drive-unit robot (the kind that slides under a shelf and lifts it). */
@@ -26,7 +31,7 @@ export function DriveUnit({ x = 0, y = 0, w = 120 }: { x?: number; y?: number; w
     <g transform={`translate(${x} ${y})`}>
       <rect x={0} y={0} width={w} height={h} rx={h * 0.35} fill={C.robot} />
       <rect x={w * 0.06} y={h * 0.18} width={w * 0.88} height={h * 0.22} rx={h * 0.1} fill={C.robotDark} opacity={0.5} />
-      <circle cx={w * 0.12} cy={h * 0.62} r={h * 0.12} fill="#fff" />
+      <circle cx={w * 0.12} cy={h * 0.62} r={h * 0.12} fill={C.steelLight} />
       <circle cx={w * 0.12} cy={h * 0.62} r={h * 0.06} fill={C.navy} />
       <circle cx={w * 0.22} cy={h} r={h * 0.2} fill={C.navy} />
       <circle cx={w * 0.78} cy={h} r={h * 0.2} fill={C.navy} />
@@ -62,7 +67,7 @@ function LightTowerArt({ x, y, active = 'green' }: { x: number; y: number; activ
   return (
     <g transform={`translate(${x} ${y})`}>
       {tiers.map(([k, col], i) => (
-        <rect key={k} x={0} y={i * 13} width={18} height={11} rx={2} fill={col} opacity={k === active ? 1 : 0.22} />
+        <rect key={k} x={0} y={i * 13} width={18} height={11} rx={2} fill={k === active ? col : C.off} />
       ))}
       <rect x={7} y={52} width={4} height={40} fill={C.steel} />
     </g>
@@ -145,7 +150,7 @@ export function StepIcon({ kind }: { kind: 'deliver' | 'pick' | 'put' }) {
       )}
       {kind === 'put' && (
         <>
-          <rect x={44} y={22} width={30} height={22} rx={3} fill={C.robot} />
+          <rect x={44} y={22} width={30} height={22} rx={3} fill={C.n1} />
           <path d="M59 46 v10" stroke={C.green} strokeWidth={3} />
           <path d="M52 52 l7 7 l7 -7" fill="none" stroke={C.green} strokeWidth={3} strokeLinecap="round" />
           <g transform="translate(36 64) scale(1.2)"><Tote x={0} y={0} lit /></g>
@@ -155,30 +160,61 @@ export function StepIcon({ kind }: { kind: 'deliver' | 'pick' | 'put' }) {
   );
 }
 
-/** Icons for the four claims. */
+/** Icons for the four claims: single-color line icons that inherit the text color. */
 export function ClaimIcon({ kind }: { kind: 'step' | 'sync' | 'stop' | 'shape' }) {
+  const st = { fill: 'none', stroke: 'currentColor', strokeWidth: 2.2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   return (
     <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" className="claim-icon">
-      {kind === 'step' && (<>
-        <circle cx={16} cy={16} r={14} fill="#ffcb5c" />
-        <path d="M10 16 h11 m-4 -5 l5 5 l-5 5" fill="none" stroke={C.navy} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+      {kind === 'step' && <path d="M8 16 h14 m-5 -6 l6 6 l-6 6" {...st} />}
+      {kind === 'sync' && (<><rect x="6" y="8" width="10" height="8" rx="1.5" {...st} /><circle cx="23" cy="12" r="3.5" {...st} /><path d="M7 23 q2.5 -3 5 0 t5 0" {...st} /><rect x="21" y="19" width="4" height="7" rx="1" {...st} /></>)}
+      {kind === 'stop' && (<><polygon points="11,4 21,4 28,11 28,21 21,28 11,28 4,21 4,11" {...st} /><path d="M11 16 h10" {...st} /></>)}
+      {kind === 'shape' && (<><circle cx="10" cy="11" r="4" {...st} /><polygon points="22,7 27,15 17,15" {...st} /><rect x="12" y="19" width="8" height="8" {...st} /></>)}
+    </svg>
+  );
+}
+
+/** Small product drawings for bins, totes, and the task card. Generic, original shapes. */
+export function ItemIcon({ kind, className }: { kind: import('../data/tasks').ItemKind; className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
+      {kind === 'bottle' && (<>
+        <rect x="16" y="3" width="8" height="5" rx="1.5" fill="#5b636b" />
+        <path d="M14 10 q0 -2 2 -2 h8 q2 0 2 2 v24 q0 3 -3 3 h-6 q-3 0 -3 -3z" fill="#c3ccd5" />
+        <rect x="14" y="18" width="12" height="8" fill="#8a96a3" />
       </>)}
-      {kind === 'sync' && (<>
-        <circle cx={16} cy={16} r={14} fill="#ffcb5c" />
-        <rect x={8} y={9} width={9} height={7} rx={1.5} fill={C.navy} />
-        <circle cx={21.5} cy={12.5} r={3.5} fill={C.green} />
-        <path d="M9 21 q2 -3 4 0 t4 0" fill="none" stroke={C.navy} strokeWidth={2} strokeLinecap="round" />
-        <rect x={20} y={19} width={4} height={6} rx={1} fill={C.navy} />
+      {kind === 'cable' && (<>
+        <path d="M8 30 c 0 -14 24 -14 24 -2 c0 8 -14 8 -14 0 c0 -5 8 -5 8 -1" fill="none" stroke="#5b636b" strokeWidth="3" strokeLinecap="round" />
+        <rect x="4" y="29" width="8" height="5" rx="1.5" fill="#8a96a3" />
+        <rect x="20" y="25" width="6" height="4" rx="1" fill="#8a96a3" />
       </>)}
-      {kind === 'stop' && (<>
-        <polygon points="11,2 21,2 30,11 30,21 21,30 11,30 2,21 2,11" fill={C.red} />
-        <rect x={9} y={14} width={14} height={4} rx={1} fill="#fff" />
+      {kind === 'notebook' && (<>
+        <rect x="9" y="5" width="22" height="30" rx="2" fill="#8a96a3" />
+        <rect x="9" y="5" width="5" height="30" fill="#5b636b" />
+        <rect x="17" y="12" width="10" height="3" rx="1" fill="#fff" opacity=".85" />
       </>)}
-      {kind === 'shape' && (<>
-        <circle cx={16} cy={16} r={14} fill="#ffcb5c" />
-        <circle cx={10.5} cy={12} r={4} fill={C.green} />
-        <polygon points="21.5,7.5 26,15.5 17,15.5" fill="#b97c0a" />
-        <rect x={13} y={18} width={7} height={7} fill={C.blue} />
+      {kind === 'mug' && (<>
+        <path d="M8 12 h20 v16 q0 6 -6 6 h-8 q-6 0 -6 -6z" fill="#eef1f4" stroke="#5b636b" strokeWidth="2" />
+        <path d="M28 16 h3 q4 0 4 5 t-4 5 h-3" fill="none" stroke="#5b636b" strokeWidth="2.5" />
+        <path d="M14 6 q2 2 0 4 M20 5 q2 2 0 4" fill="none" stroke="#8a96a3" strokeWidth="1.5" strokeLinecap="round" />
+      </>)}
+      {kind === 'box' && (<>
+        <rect x="7" y="12" width="26" height="22" rx="1.5" fill="#9aa3ab" />
+        <path d="M7 12 l5 -6 h16 l5 6" fill="#b9c2cb" />
+        <rect x="17" y="12" width="6" height="8" fill="#e6eaee" />
+      </>)}
+      {kind === 'can' && (<>
+        <rect x="12" y="7" width="16" height="27" rx="3" fill="#8a96a3" />
+        <ellipse cx="20" cy="8" rx="8" ry="2.5" fill="#c3ccd5" />
+        <rect x="12" y="16" width="16" height="7" fill="#eef1f4" opacity=".85" />
+      </>)}
+      {kind === 'tube' && (<>
+        <path d="M13 6 h14 l-2 26 h-10z" fill="#8a96a3" opacity=".85" />
+        <rect x="16" y="32" width="8" height="4" rx="1" fill="#5b636b" />
+      </>)}
+      {kind === 'book' && (<>
+        <rect x="8" y="9" width="10" height="26" rx="1" fill="#8a96a3" />
+        <rect x="19" y="7" width="7" height="28" rx="1" fill="#5b636b" />
+        <rect x="27" y="11" width="6" height="24" rx="1" fill="#b9c2cb" />
       </>)}
     </svg>
   );

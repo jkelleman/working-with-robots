@@ -1,4 +1,4 @@
-import type { PickTask } from '../data/tasks';
+import { TOTE_ORDERS, itemPhrase, type PickTask } from '../data/tasks';
 
 /**
  * Multimodal signal map. Every state resolves to exactly one signal set,
@@ -41,26 +41,28 @@ export function stateKey(value: unknown): string {
 }
 
 export function signalFor(key: string, task?: PickTask): SignalSet {
-  const qty = task ? `${task.quantity} × ${task.itemName}` : '';
+  const qty = task ? itemPhrase(task) : '';
+  const one = task ? task.short[0] : 'item';
+  const order = task ? TOTE_ORDERS[task.tote] : '';
   switch (key) {
     case 'idle':
       return { key, severity: 'info', tower: 'off', pattern: 'steady', shape: 'square', towerLabel: 'Ready', tone: 'none',
         headline: 'Station ready', instruction: 'Check your area is clear, then tap Start shift.' };
     case 'working.podArriving':
-      return { key, severity: 'info', tower: 'blue', pattern: 'slow', shape: 'circle', towerLabel: 'Pod moving', tone: 'none',
-        headline: 'Pod arriving', instruction: 'Keep hands clear of the pod opening.' };
+      return { key, severity: 'info', tower: 'blue', pattern: 'slow', shape: 'circle', towerLabel: 'Robot moving', tone: 'none',
+        headline: 'Shelf on its way', instruction: 'A robot is bringing the next shelf. Keep hands clear of the opening.' };
     case 'working.pick':
       return { key, severity: 'info', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Pick', tone: 'attention',
-        headline: `Pick from bin ${task?.bin}`, instruction: `Take ${qty} and scan it.`, litBin: task?.bin, binColor: 'green' };
+        headline: `Grab ${qty}`, instruction: `It’s in the lit bin, ${task?.bin}. Scan it when it’s in your hand.`, litBin: task?.bin, binColor: 'green' };
     case 'working.put':
       return { key, severity: 'info', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Put', tone: 'confirm',
-        headline: `Put in tote ${task?.tote}`, instruction: 'Place the item in the lit tote, then press the tote button.', litTote: task?.tote };
+        headline: `Put it in tote ${task?.tote}`, instruction: `That’s the lit tote, order ${order}. Press its button once it’s in.`, litTote: task?.tote };
     case 'working.confirm':
       return { key, severity: 'success', tower: 'green', pattern: 'slow', shape: 'circle', towerLabel: 'Done', tone: 'confirm', vibrate: [40],
-        headline: 'Task complete', instruction: 'Next task is ready.' };
+        headline: 'Done', instruction: `The ${one} is in order ${order}. The robot takes this shelf away and brings the next one.` };
     case 'working.exception.wrongItem':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Check item', tone: 'attention', vibrate: [80, 60, 80],
-        headline: "That's not the right item", instruction: `Put it back in bin ${task?.bin}, then pick ${qty}.`, litBin: task?.bin, binColor: 'amber' };
+        headline: "That's not the right item", instruction: `Put it back in bin ${task?.bin} and grab the ${one} instead.`, litBin: task?.bin, binColor: 'amber' };
     case 'working.exception.missingItem':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Item missing', tone: 'attention', vibrate: [80, 60, 80],
         headline: `Bin ${task?.bin} looks empty`, instruction: 'Recount once. Still missing? Tap Skip and flag bin. Inventory will recount it.', litBin: task?.bin, binColor: 'amber' };
@@ -74,8 +76,8 @@ export function signalFor(key: string, task?: PickTask): SignalSet {
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Tote full', tone: 'attention', vibrate: [80, 60, 80],
         headline: `Tote ${task?.tote} is full`, instruction: 'Push the full tote out, slide in an empty one, then tap Tote swapped.', litTote: task?.tote };
     case 'working.exception.podLate':
-      return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Pod delayed', tone: 'none',
-        headline: 'Pod is running late', instruction: 'No action needed. Stay at the station; the pod is on its way.' };
+      return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Robot delayed', tone: 'none',
+        headline: 'Shelf is running late', instruction: 'Nothing to do. Stay at the station; the robot is on its way.' };
     case 'working.escalated':
       return { key, severity: 'warning', tower: 'blue', pattern: 'fast', shape: 'square', towerLabel: 'Lead called', tone: 'attention',
         headline: 'Your lead is on the way', instruction: 'Stay at the station. Your lead will clear this task.' };

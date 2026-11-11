@@ -1,6 +1,6 @@
-import { BIN_COLS, BIN_ROWS, TOTE_SLOTS } from '../data/tasks';
+import { BIN_COLS, BIN_ROWS, BIN_STOCK, TOTE_ORDERS, TOTE_SLOTS, type PickTask } from '../data/tasks';
 import type { SignalSet, TowerColor } from '../machine/signals';
-import { DriveUnit } from './Illustrations';
+import { DriveUnit, ItemIcon } from './Illustrations';
 
 const TIERS: TowerColor[] = ['red', 'amber', 'green', 'blue'];
 
@@ -39,11 +39,12 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
   );
 }
 
-/** Pick-to-light grid on the face of the robot-delivered pod, riding on its drive unit. */
+/** The robot-carried shelf. The lit bin is where the item is. */
 export function PodBins({ signal }: { signal: SignalSet }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
-    <figure className={`pod pod-${motion}`} aria-label={`Storage pod, pick-to-light. Robot ${motion === 'docked' ? 'docked at station' : motion === 'arriving' ? 'arriving' : 'delayed'}.`}>
+    <figure className={`pod pod-${motion}`} aria-label={`Shelf brought by robot${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. Robot ${motion === 'docked' ? 'docked at station' : motion === 'arriving' ? 'arriving' : 'delayed'}.`}>
+      <p className="touch-title">Shelf <span>brought by robot</span></p>
       <div className="pod-rig">
       <div className="pod-grid">
         {BIN_ROWS.map((r) =>
@@ -52,7 +53,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
             const lit = signal.litBin === id;
             return (
               <div key={id} className={`bin ${lit ? `lit lit-${signal.binColor ?? 'green'}` : ''}`}>
-                {lit && <span className="bin-arrow" aria-hidden="true">▼</span>}
+                <ItemIcon kind={BIN_STOCK[id]} className="bin-item" />
                 <span className="bin-id">{id}</span>
               </div>
             );
@@ -61,15 +62,16 @@ export function PodBins({ signal }: { signal: SignalSet }) {
       </div>
       <svg className="pod-robot" viewBox="0 0 120 40" aria-hidden="true"><DriveUnit x={4} y={2} w={112} /></svg>
       </div>
-      <figcaption>{motion === 'arriving' ? 'Robot delivering pod…' : motion === 'stalled' ? 'Robot delayed' : 'Pod docked · pick-to-light'}</figcaption>
+      <figcaption>{motion === 'arriving' ? 'Robot is bringing the shelf…' : motion === 'stalled' ? 'Robot is running late' : signal.litBin ? `Lit bin ${signal.litBin}: your item is here` : 'Shelf docked'}</figcaption>
     </figure>
   );
 }
 
-/** Put-to-light tote wall with a confirm button per slot. */
-export function ToteWall({ signal, onPress }: { signal: SignalSet; onPress?: (slot: string) => void }) {
+/** Customer order totes. The lit tote is where the item goes; its button confirms the put. */
+export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet; task?: PickTask; justPut?: boolean; onPress?: (slot: string) => void }) {
   return (
-    <figure className="totes" aria-label="Tote wall, put-to-light">
+    <figure className="totes" aria-label="Customer order totes">
+      <p className="touch-title">Order totes <span>one per customer</span></p>
       <div className="tote-grid">
         {TOTE_SLOTS.map((t) => {
           const lit = signal.litTote === t;
@@ -79,15 +81,17 @@ export function ToteWall({ signal, onPress }: { signal: SignalSet; onPress?: (sl
               type="button"
               className={`tote ${lit ? 'lit' : ''} ${lit && signal.severity === 'warning' ? 'lit-amber' : ''}`}
               onClick={() => onPress?.(t)}
-              aria-label={`Tote ${t}${lit ? ', lit' : ''}`}
+              aria-label={`Tote ${t}, order ${TOTE_ORDERS[t]}${lit ? ', lit' : ''}`}
             >
               <span className="tote-light" />
-              {t}
+              <span className="tote-id">{t}</span>
+              <span className="tote-order">{TOTE_ORDERS[t]}</span>
+              {justPut && task?.tote === t && <ItemIcon kind={task.icon} className="tote-item" />}
             </button>
           );
         })}
       </div>
-      <figcaption>Tote wall · put-to-light</figcaption>
+      <figcaption>{signal.litTote ? `Lit tote ${signal.litTote}: put it here, then press its button` : 'Waiting for the next item'}</figcaption>
     </figure>
   );
 }

@@ -13,9 +13,9 @@ const STEPS = [
 ] as const;
 
 const TERMS: Array<[string, string]> = [
-  ['Pod', 'The shelf of bins a robot carries.'],
-  ['Pick-to-light', 'A light marking which bin to pick from.'],
-  ['Put-to-light', 'A light marking which tote to fill.'],
+  ['Shelf (pod)', 'Rows of bins a robot carries to the station.'],
+  ['Lit bin', 'The bin whose light is on. Your item is in it.'],
+  ['Lit tote', 'The order box whose light is on. The item goes in it.'],
   ['Light tower', 'Stacked beacon showing station status.'],
   ['Light curtain', 'Safety beam; breaking it stops the robots.'],
   ['Exception', 'Anything that interrupts a normal pick.'],

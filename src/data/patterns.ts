@@ -13,7 +13,7 @@ export const PATTERNS: Pattern[] = [
     name: 'Status signal',
     purpose: 'Tell the worker, at a glance and from any angle, what the station needs.',
     whenToUse: 'Every state. It is the backbone all other patterns sit on.',
-    states: ['Ready', 'Pod moving', 'Pick/Put', 'Attention', 'Lead called', 'Stop'],
+    states: ['Ready', 'Robot moving', 'Pick/Put', 'Attention', 'Lead called', 'Stop'],
     mapping: { screen: 'Colored top band + headline', light: 'One tower tier, color + blink rate + shape', sound: 'Tone family by severity', haptic: 'Pulse count by severity' },
     do: ['Pair every color with a shape, blink rate and text label', 'Reserve red and the octagon for safety only'],
     dont: ['Use color alone', 'Light more than one tower tier at once'],
