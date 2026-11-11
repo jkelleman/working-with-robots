@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -b",
-    "patterns": "node scripts/gen-patterns.mjs"
+    "patterns": "node scripts/gen-patterns.mjs",
+    "persona": "node scripts/gen-persona.mjs"
   },
   "dependencies": {
     "@xstate/react": "^6.1.0",

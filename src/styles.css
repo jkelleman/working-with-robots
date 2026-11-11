@@ -554,6 +554,39 @@ dialog.sheet::backdrop { background: rgba(10, 18, 28, .5); }
 .src-borrowed { margin: 0; font-size: .95em; }
 .pattern .more { margin-top: 10px; }
 
+/* ---------- Persona ---------- */
+.persona { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+.persona-head { display: flex; gap: 16px; align-items: center; }
+.persona-avatar { width: 72px; height: 72px; flex: none; }
+.persona-tag { margin: 0; font-size: .72em; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.persona h3 { margin: 2px 0 0; font-size: 1.5em; }
+.persona-role { margin: 0; font-weight: 600; }
+.persona-facts { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.persona-facts li { font-size: .82em; border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; color: var(--muted); }
+.persona-quote { margin: 18px 0 10px; font-size: 1.2em; font-weight: 600; border-left: 4px solid #5b6670; padding-left: 14px; }
+.persona-summary { margin: 0 0 16px; max-width: 70ch; color: var(--muted); }
+.persona-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 8px; }
+.persona-cols h4 { margin: 0 0 6px; font-size: .78em; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.persona-cols ul, .persona-list { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.persona-day { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.persona-day li { display: grid; grid-template-columns: 72px 1fr; gap: 10px; }
+.persona-day span { font-weight: 700; font-variant-numeric: tabular-nums; }
+.persona-dl { margin: 0; display: grid; gap: 6px; }
+.persona-dl div { display: grid; grid-template-columns: 170px 1fr; gap: 10px; }
+.persona-dl dt { font-weight: 700; }
+.persona-dl dd { margin: 0; }
+.persona-table { width: 100%; border-collapse: collapse; font-size: .92em; }
+.persona-table th, .persona-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.persona-table th { font-size: .8em; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.persona .acc-group { margin-top: 10px; }
+@media (max-width: 700px) {
+  .persona { padding: 16px; }
+  .persona-cols, .persona-dl div { grid-template-columns: 1fr; gap: 2px; }
+  .persona-cols { gap: 14px; }
+  .persona-head { align-items: flex-start; }
+  .persona-avatar { width: 56px; height: 56px; }
+}
+
 /* ---------- Process page ---------- */
 .proc-why { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .proc-why p, .proc-lede { margin: 0; max-width: 70ch; }

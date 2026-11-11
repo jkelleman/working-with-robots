@@ -30,7 +30,7 @@ The work is fast and repetitive, and the floor is loud. The hard moments are whe
 | **[Design process and accessibility](src/pages/Process.tsx)** | A first-person case study: why I built it, the five design thinking steps, principles, accessibility considerations, and the outcome. The accessibility modes live here: high contrast, large text, spoken guidance, shapes on lights for color-blind associates, left-hand layout, reduced sound (safety tones stay audible). |
 | **[Pattern library](PATTERNS.md)** | 8 reusable patterns, each with a screen / light / sound / haptic mapping table and do/don't guidance. |
 | **[Ops metrics](src/pages/Metrics.tsx)** | Synthetic before/after data: units per hour, cycle time, exception rate, time to recover, safety stops, and which design change moves each one. |
-| **[Research kit](research/)** | Contextual inquiry and shadowing guide, usability test plan, findings template, illustrative journey map. |
+| **[Research kit](research/)** | [Proto-persona for Maya](research/persona-maya.md), contextual inquiry and shadowing guide, usability test plan, findings template, illustrative journey map. |
 | **[Rollout playbook](playbook/)** | Multi-site launch readiness: pilot criteria, training outline, standard work card, go/no-go metrics, site feedback loop. |
 
 ## Key terms

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import More from '../components/More';
+import PersonaCard from '../components/PersonaCard';
 import type { A11yPrefs } from './Station';
 
 const PREF_LABELS: Record<keyof A11yPrefs, string> = {
@@ -91,6 +92,11 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
               that break the flow, and to build them so anyone can try the design.
             </p>
           </More>
+        </section>
+
+        <section className="story" aria-labelledby="persona-h">
+          <h2 id="persona-h" className="story-h">Who I designed for</h2>
+          <PersonaCard />
         </section>
 
         <section className="story" aria-labelledby="steps">
