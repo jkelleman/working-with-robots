@@ -11,7 +11,7 @@ export default function PageHeader({
   eyebrow: string;
   title: string;
   sub: string;
-  accent: 'blue' | 'green';
+  accent: 'blue' | 'green' | 'slate';
   art: ReactNode;
 }) {
   return (

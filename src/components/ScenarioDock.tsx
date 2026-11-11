@@ -10,10 +10,16 @@ export default function ScenarioDock({
   stateKey,
   onHappyPath,
   onScenario,
+  suggested = null,
+  exploredCount = 0,
+  explored,
 }: {
   stateKey: string;
   onHappyPath: () => void;
   onScenario: (s: Scenario) => void;
+  suggested?: string | null;
+  exploredCount?: number;
+  explored?: Set<string>;
 }) {
   const [open, setOpen] = useState(false);
   const sheet = useRef<HTMLDialogElement>(null);
@@ -37,8 +43,8 @@ export default function ScenarioDock({
 
   return (
     <>
-      <div className="dock" role="status" aria-live="polite">
-        <div className="dock-main">
+      <div className="dock">
+        <div className="dock-main" role="status" aria-live="polite">
           <div className="dock-bar" aria-hidden="true">
             {HAPPY_PATH.map((s, i) => (
               <span key={s.id} className={`dock-seg ${done || i < idx ? 'past' : i === idx ? (active ? 'branched' : 'current') : ''}`} />
@@ -56,6 +62,17 @@ export default function ScenarioDock({
           )}
         </div>
         <button type="button" className="dock-btn" onClick={() => setOpen(true)} aria-haspopup="dialog">Scenarios</button>
+        {suggested && (
+          <button
+            type="button"
+            className="dock-next"
+            onClick={() => { if (suggested === 'happy') onHappyPath(); else { const s = SCENARIOS.find((x) => x.id === suggested); if (s) onScenario(s); } }}
+          >
+            <span className="try-tag">{suggested === 'happy' ? 'Start here' : 'Try next'}</span>
+            {suggested === 'happy' ? 'Play the happy path' : SCENARIOS.find((x) => x.id === suggested)?.label}
+            <span className="dock-next-count">{exploredCount}/{SCENARIOS.length}</span>
+          </button>
+        )}
       </div>
 
       <dialog
@@ -69,6 +86,9 @@ export default function ScenarioDock({
         <button type="button" className="intro-x sheet-x" onClick={() => setOpen(false)} aria-label="Close">×</button>
         <ScenarioMap
           stateKey={stateKey}
+          suggested={suggested}
+          exploredCount={exploredCount}
+          explored={explored}
           onHappyPath={() => { setOpen(false); onHappyPath(); }}
           onScenario={(s) => { setOpen(false); onScenario(s); }}
         />

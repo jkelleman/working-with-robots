@@ -41,11 +41,14 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
 }
 
 /** The robot-carried shelf. The lit bin is where the item is. */
-export function PodBins({ signal }: { signal: SignalSet }) {
+export function PodBins({ signal, coverClosed, camera }: { signal: SignalSet; coverClosed?: boolean; camera?: boolean }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
     <figure className={`pod pod-${motion}`} aria-label={`Pod${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. ${motion === 'docked' ? 'Docked at the station' : motion === 'arriving' ? 'Drive unit arriving' : 'Pod is late, station starved'}.`}>
       <p className="touch-title">Pod <span>mobile storage shelf, never shipped</span></p>
+      {camera && signal.litBin && (
+        <p className="cam-chip"><span className="cam-dot" aria-hidden="true" />Camera watching bin {signal.litBin}</p>
+      )}
       <div className="pod-rig">
       <div className="pod-grid">
         {BIN_ROWS.map((r) =>
@@ -60,6 +63,7 @@ export function PodBins({ signal }: { signal: SignalSet }) {
             );
           }),
         )}
+        <div className={`pod-cover ${coverClosed ? 'closed' : ''}`} aria-hidden="true"><span>Safety cover closed</span></div>
       </div>
       <svg className="pod-robot" viewBox="0 0 120 40" aria-hidden="true"><DriveUnit x={4} y={2} w={112} /></svg>
       </div>
@@ -112,6 +116,10 @@ export function WhatsWhat() {
       <li>
         <svg viewBox="0 0 44 40" aria-hidden="true"><path d="M2 12 h40 l-4 24 h-32z" fill="#5b636b" /><rect x="14" y="5" width="16" height="4" rx="2" fill="#1f9d55" /></svg>
         <span><strong>Order tote</strong> One customer order. Goes to packing when complete.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 44 40" aria-hidden="true"><rect x="8" y="4" width="28" height="30" rx="2" fill="#e6eaee" stroke="#9aa5b0" strokeWidth="1.5" /><rect x="8" y="4" width="28" height="18" rx="2" fill="#5b6670" opacity=".55" /><path d="M8 22 h28" stroke="#323b44" strokeWidth="2" /></svg>
+        <span><strong>Safety cover</strong> Slides shut over the pod opening while the pod moves or the station is stopped.</span>
       </li>
     </ul>
   );

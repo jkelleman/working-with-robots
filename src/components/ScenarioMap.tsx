@@ -8,10 +8,16 @@ export default function ScenarioMap({
   stateKey,
   onHappyPath,
   onScenario,
+  suggested = null,
+  exploredCount = 0,
+  explored = new Set<string>(),
 }: {
   stateKey: string;
   onHappyPath: () => void;
   onScenario: (s: Scenario) => void;
+  suggested?: string | null;
+  exploredCount?: number;
+  explored?: Set<string>;
 }) {
   const currentStep = stepFor(stateKey);
   const currentIdx = HAPPY_PATH.findIndex((s) => s.id === currentStep);
@@ -28,7 +34,10 @@ export default function ScenarioMap({
           <span className="sm-key sm-key-exc">Goes wrong here</span>
           <span className="sm-key sm-key-stop">Safety, anytime</span>
         </p>
-        <button type="button" className="btn btn-sm" onClick={onHappyPath}>▶ Play happy path</button>
+        <button type="button" className={`btn btn-sm ${suggested === 'happy' ? 'is-suggested' : ''}`} onClick={onHappyPath}>
+          ▶ Play happy path{suggested === 'happy' && <span className="try-tag">Start here</span>}
+        </button>
+        <p className="sm-progress" aria-live="polite">Explored {exploredCount} of {SCENARIOS.length} exceptions</p>
       </div>
 
       <ol className="sm-track">
@@ -53,13 +62,13 @@ export default function ScenarioMap({
                     <li key={b.id}>
                       <button
                         type="button"
-                        className={`sm-branch ${activeScenario?.id === b.id ? 'is-active' : ''}`}
+                        className={`sm-branch ${activeScenario?.id === b.id ? 'is-active' : ''} ${suggested === b.id ? 'is-suggested' : ''} ${explored.has(b.id) ? 'is-explored' : ''}`}
                         onClick={() => onScenario(b)}
                         aria-pressed={activeScenario?.id === b.id}
                       >
                         <span className="sm-tri" aria-hidden="true" />
                         <span className="sm-branch-text">
-                          <strong>{b.label}</strong>
+                          <strong>{b.label}{explored.has(b.id) && <span className="seen" aria-label="explored"> ✓</span>}{suggested === b.id && <span className="try-tag">Try next</span>}</strong>
                           <span>→ {b.outcome}</span>
                         </span>
                       </button>
@@ -74,12 +83,12 @@ export default function ScenarioMap({
 
       <button
         type="button"
-        className={`sm-safety ${activeScenario?.id === safety.id ? 'is-active' : ''}`}
+        className={`sm-safety ${activeScenario?.id === safety.id ? 'is-active' : ''} ${suggested === safety.id ? 'is-suggested' : ''}`}
         onClick={() => onScenario(safety)}
         aria-pressed={activeScenario?.id === safety.id}
       >
         <span className="sm-oct" aria-hidden="true" />
-        <strong>{safety.label}</strong>
+        <strong>{safety.label}{explored.has(safety.id) && <span className="seen" aria-label="explored"> ✓</span>}{suggested === safety.id && <span className="try-tag">Try next</span>}</strong>
         <span>Can happen at any step → {safety.outcome}</span>
       </button>
     </section>

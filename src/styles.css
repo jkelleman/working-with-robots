@@ -81,20 +81,20 @@ main { padding: 0; }
   max-width: 1480px; margin: 0 auto; padding: 24px;
   display: grid; gap: 20px 24px; align-items: start;
   grid-template-columns: 300px minmax(0, 1.6fr) minmax(280px, 1fr);
-  grid-template-areas: "rail screen physical" "rail sim sim" "rail how how";
+  grid-template-areas: "rail screen physical" "rail ergo ergo" "rail sim sim" "rail how how";
 }
-.station.left-handed { grid-template-areas: "rail physical screen" "rail sim sim" "rail how how"; grid-template-columns: 300px minmax(280px, 1fr) minmax(0, 1.6fr); }
+.station.left-handed { grid-template-areas: "rail physical screen" "rail ergo ergo" "rail sim sim" "rail how how"; grid-template-columns: 300px minmax(280px, 1fr) minmax(0, 1.6fr); }
 /* The scenario rail stays pinned beside the station while you watch it */
 .rail { grid-area: rail; position: sticky; top: 12px; max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
 .dock, dialog.sheet:not([open]) { display: none; }
 @media (max-width: 1180px) {
   .station, .station.left-handed {
     grid-template-columns: 280px minmax(0, 1fr);
-    grid-template-areas: "rail screen" "rail physical" "rail sim" "rail how";
+    grid-template-areas: "rail screen" "rail physical" "rail ergo" "rail sim" "rail how";
   }
 }
 @media (max-width: 900px) {
-  .station, .station.left-handed { grid-template-columns: minmax(0, 1fr); grid-template-areas: "dock" "screen" "physical" "sim" "how"; padding-top: 0; row-gap: 16px; }
+  .station, .station.left-handed { grid-template-columns: minmax(0, 1fr); grid-template-areas: "dock" "screen" "physical" "ergo" "sim" "how"; padding-top: 0; row-gap: 16px; }
   .rail { display: none; }
   .dock { display: flex; }
   .screen { scroll-margin-top: 92px !important; }
@@ -120,7 +120,7 @@ main { padding: 0; }
 .stop-badge {
   align-self: flex-start; background: var(--red); color: #fff; font-weight: 900; letter-spacing: .1em;
   padding: 8px 18px; clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
-  font-size: 1.4em; animation: blink-fast .5s steps(2) infinite;
+  font-size: 1.4em; animation: blink-fast .5s steps(2) 2;
 }
 .task-card { display: grid; grid-template-columns: 2.2fr repeat(3, 1fr); gap: 12px; margin: 0; }
 .task-card div { background: rgba(255,255,255,.06); border-radius: 10px; padding: 10px 14px; }
@@ -158,8 +158,8 @@ main { padding: 0; }
 .tower-pole { width: 14px; height: 90px; background: linear-gradient(90deg, #888, #ccc, #888); border-radius: 2px; }
 .tower figcaption { text-align: center; max-width: 110px; }
 .tower-label { font-weight: 700; color: var(--ink); }
-.blink-slow { animation: blink-slow 1.6s ease-in-out infinite; }
-.blink-fast { animation: blink-fast .5s steps(2) infinite; }
+.blink-slow { animation: blink-slow 1.6s ease-in-out 1; }
+.blink-fast { animation: blink-fast .5s steps(2) 2; }
 @keyframes blink-slow { 50% { opacity: .35; } }
 @keyframes blink-fast { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .blink-slow, .blink-fast, .stop-badge { animation: none; } }
@@ -238,20 +238,15 @@ th { background: var(--bg); }
   background: rgba(255,203,92,.12); border-left: 4px solid #ffcb5c; border-radius: 4px; padding: 8px 14px; font-size: .95em;
 }
 .concept-page-label { font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .75em; color: #ffcb5c; }
-.scene-robot { animation: scene-drive 6s ease-in-out infinite; }
-@keyframes scene-drive {
-  0% { transform: translateX(-60px); opacity: 0; }
-  12% { opacity: 1; }
-  35%, 85% { transform: translateX(0); opacity: 1; }
-  100% { transform: translateX(0); opacity: 1; }
-}
+.scene-robot { animation: scene-drive 2.4s ease-out 1 both; }
+@keyframes scene-drive { from { transform: translateX(-60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* Robot under the pod on the station page */
 .pod { overflow: hidden; }
 .pod-rig { position: relative; }
 .pod-robot { display: block; width: 62%; max-height: 40px; margin: -1px auto 0; }
-.pod-arriving .pod-rig { animation: pod-arrive 2.4s ease-in-out infinite; }
-.pod-stalled .pod-rig { animation: pod-stall 1.6s ease-in-out infinite; transform: translateX(30%); opacity: .7; }
+.pod-arriving .pod-rig { animation: pod-arrive 1.8s ease-out 1 both; }
+.pod-stalled .pod-rig { animation: pod-stall 1.6s ease-in-out 1 both; transform: translateX(30%); opacity: .7; }
 @keyframes pod-arrive { 0% { transform: translateX(110%); opacity: 0; } 15% { opacity: 1; } 70%, 100% { transform: translateX(0); opacity: 1; } }
 @keyframes pod-stall { 50% { transform: translateX(32%); } }
 .brand-mark { width: 34px; height: auto; }
@@ -476,6 +471,79 @@ dialog.sheet::backdrop { background: rgba(10, 18, 28, .5); }
 .wave-skipped .wave-mark { color: var(--amber); font-weight: 800; }
 .sm-sub { font-size: .72em; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
 .rail .sm-sub, .sheet .sm-sub { display: block; margin: 2px 0 0; }
+
+/* ---------- Body and reach ---------- */
+.ergo { grid-area: ergo; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 340px); gap: 20px; align-items: center; }
+.ergo h3 { margin: 0 0 6px; font-size: 1.1em; }
+.ergo-lede { margin: 0 0 10px; color: var(--muted); font-size: .92em; }
+.ergo-status { margin: 0 0 10px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-weight: 600; }
+.ergo-pill { font-size: .75em; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; background: var(--bg); color: var(--muted); }
+.ergo-zone .ergo-pill { background: color-mix(in srgb, var(--green) 16%, var(--panel)); color: var(--green); }
+.ergo-reach .ergo-pill, .ergo-bend .ergo-pill { background: color-mix(in srgb, var(--amber) 20%, var(--panel)); color: #9a6a00; }
+.ergo-idea { margin: 0; font-size: .88em; color: var(--muted); }
+.ergo-art { width: 100%; height: auto; }
+
+/* ---------- Safety cover and camera ---------- */
+.pod-grid { position: relative; overflow: hidden; }
+.pod-cover {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: repeating-linear-gradient(135deg, rgba(50,59,68,.78) 0 10px, rgba(50,59,68,.66) 10px 20px);
+  color: #fff; font-weight: 700; font-size: .8em; letter-spacing: .04em;
+  transform: translateY(-101%); transition: transform .45s ease-in-out;
+}
+.pod-cover.closed { transform: translateY(0); }
+.pod-cover span { background: rgba(0,0,0,.35); padding: 4px 10px; border-radius: 999px; }
+.cam-chip { margin: -2px 0 6px; display: inline-flex; align-items: center; gap: 6px; font-size: .78em; font-weight: 600; color: var(--muted); }
+.cam-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 3px color-mix(in srgb, var(--red) 25%, transparent); }
+@media (prefers-reduced-motion: reduce) { .pod-cover { transition: none; } }
+
+/* ---------- Station setup toggle ---------- */
+.sim-setup { margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 3px; background: var(--bg); width: fit-content; max-width: 100%; }
+.seg button { font: inherit; font-size: .88em; font-weight: 600; border: 0; background: transparent; color: var(--muted); padding: 6px 14px; border-radius: 999px; cursor: pointer; min-height: 36px; }
+.seg button.on { background: var(--panel); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+/* ---------- Guided exploration ---------- */
+.sm-progress { flex-basis: 100%; order: 4; margin: 2px 0 0; font-size: .8em; color: var(--muted); }
+.try-tag { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #2f6fe0; color: #fff; font-size: .72em; font-weight: 800; letter-spacing: .03em; vertical-align: 1px; }
+.is-suggested { border-color: #2f6fe0 !important; box-shadow: 0 0 0 3px color-mix(in srgb, #2f6fe0 25%, transparent); animation: suggest 1.4s ease-in-out 1; }
+@keyframes suggest { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, #2f6fe0 12%, transparent); } }
+.sm-branch.is-explored:not(.is-active):not(.is-suggested) { opacity: .75; }
+.seen { color: var(--green); font-weight: 800; }
+.dock { flex-wrap: wrap; }
+.dock-next {
+  flex-basis: 100%; display: flex; align-items: center; gap: 8px; margin-top: 2px;
+  font: inherit; font-size: .88em; font-weight: 600; text-align: left; cursor: pointer; min-height: 40px;
+  padding: 6px 12px; border-radius: 10px; border: 1px solid #2f6fe0; background: color-mix(in srgb, #2f6fe0 8%, var(--panel)); color: var(--ink);
+}
+.dock-next .try-tag { margin-left: 0; }
+.dock-next-count { margin-left: auto; font-size: .8em; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .is-suggested { animation: none; } }
+@media (max-width: 900px) { .ergo { grid-template-columns: 1fr; } .ergo-art { max-width: 360px; } }
+
+/* ---------- Sources page ---------- */
+.page-header-slate { border-top-color: #5b6670; }
+.page-header-slate .page-header-eyebrow { color: #5b6670; }
+.src-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.src-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+.src-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 10px; }
+.src-head h4 { margin: 0; font-size: 1.02em; }
+.src-head a { color: var(--ink); text-decoration-color: color-mix(in srgb, var(--accent) 60%, transparent); text-underline-offset: 3px; }
+.src-by { font-size: .82em; color: var(--muted); }
+.src-card dl { margin: 0; display: grid; gap: 6px; }
+.src-card dl div { display: grid; grid-template-columns: 140px 1fr; gap: 12px; }
+.src-card dt { font-size: .74em; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.src-card dd { margin: 0; font-size: .92em; }
+.src-original { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.src-tools { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+.src-tools li { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.src-tools a { font-weight: 700; color: var(--ink); }
+.src-tools span { font-size: .84em; color: var(--muted); }
+@media (max-width: 700px) {
+  .src-card dl div { grid-template-columns: 1fr; gap: 0; }
+  .app-header nav a { padding: 8px 4px; font-size: .9em; }
+}
 
 /* ---------- Mobile ---------- */
 @media (max-width: 700px) {

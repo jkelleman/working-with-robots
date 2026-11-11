@@ -5,6 +5,7 @@ import Patterns from './pages/Patterns';
 import IntroModal from './components/IntroModal';
 import { DriveUnit } from './components/Illustrations';
 const Metrics = lazy(() => import('./pages/Metrics'));
+const Sources = lazy(() => import('./pages/Sources'));
 
 const DEFAULT_PREFS: A11yPrefs = {
   highContrast: false,
@@ -67,6 +68,7 @@ export default function App() {
           <NavLink to="/" end>Station</NavLink>
           <NavLink to="/patterns">Patterns</NavLink>
           <NavLink to="/metrics">Metrics</NavLink>
+          <NavLink to="/sources">Sources</NavLink>
         </nav>
         <div className="header-actions">
           <button className="btn btn-sm" onClick={() => setIntroOpen(true)} aria-haspopup="dialog">About</button>
@@ -95,6 +97,7 @@ export default function App() {
           <Route path="/" element={<Station prefs={prefs} />} />
           <Route path="/patterns" element={<Patterns />} />
           <Route path="/metrics" element={<Suspense fallback={<p>Loading charts…</p>}><Metrics /></Suspense>} />
+          <Route path="/sources" element={<Suspense fallback={<p>Loading…</p>}><Sources /></Suspense>} />
         </Routes>
       </main>
 

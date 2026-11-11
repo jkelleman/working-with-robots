@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMachine } from '@xstate/react';
 import { stationMachine, currentTask, type EscalationReason } from '../machine/stationMachine';
-import { signalFor, stateKey } from '../machine/signals';
+import { signalFor, stateKey, type VerifyMode } from '../machine/signals';
+import ErgoView from '../components/ErgoView';
 import { LightTower, PodBins, ToteWall, WhatsWhat } from '../components/Physical';
 import { playTone, speak, vibrate } from '../audio';
 import ScenarioMap from '../components/ScenarioMap';
@@ -11,7 +12,7 @@ import HowItWorks from '../components/HowItWorks';
 import { ItemIcon } from '../components/Illustrations';
 import { TOTE_ORDERS } from '../data/tasks';
 import { SAMPLE_TASKS } from '../data/tasks';
-import type { Scenario } from '../data/scenarios';
+import { SCENARIOS, type Scenario } from '../data/scenarios';
 
 export interface A11yPrefs {
   highContrast: boolean;
@@ -72,12 +73,16 @@ function HoldButton({ label, onComplete, ms = 1500 }: { label: string; onComplet
 }
 
 export default function Station({ prefs }: { prefs: A11yPrefs }) {
-  const [snapshot, send] = useMachine(stationMachine);
+  const [snapshot, send, actorRef] = useMachine(stationMachine);
   const [escalating, setEscalating] = useState(false);
+  const [verify, setVerifyState] = useState<VerifyMode>(() => {
+    try { return localStorage.getItem('wgs-verify') === 'camera' ? 'camera' : 'scan'; } catch { return 'scan'; }
+  });
+  const setVerify = (v: VerifyMode) => { setVerifyState(v); try { localStorage.setItem('wgs-verify', v); } catch { /* storage unavailable */ } };
   const ctx = snapshot.context;
   const task = currentTask(ctx);
   const key = stateKey(snapshot.value);
-  const signal = signalFor(key, task);
+  const signal = signalFor(key, task, verify);
   const isStop = key.startsWith('safetyStop');
   const inException = key.startsWith('working.exception');
 
@@ -116,6 +121,21 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
     showStation();
   };
 
+  // Guided exploration: remember what's been seen, then light up what to try next.
+  const [explored, setExplored] = useState<Set<string>>(() => new Set());
+  useEffect(() => {
+    const sub = actorRef.subscribe((snap) => {
+      const k = stateKey(snap.value);
+      const hit = SCENARIOS.find((s) => s.state === k || (s.kind === 'safety' && k.startsWith('safetyStop')));
+      const id = hit ? hit.id : k === 'done' ? 'happy' : null;
+      if (id) setExplored((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
+    });
+    return () => sub.unsubscribe();
+  }, [actorRef]);
+  const activeId = SCENARIOS.find((s) => s.state === key || (s.kind === 'safety' && key.startsWith('safetyStop')))?.id;
+  const suggested = !explored.has('happy') ? 'happy' : SCENARIOS.find((s) => !explored.has(s.id) && s.id !== activeId)?.id ?? null;
+  const exploredCount = SCENARIOS.filter((s) => explored.has(s.id)).length;
+
   const lastKey = useRef<string>('');
   useEffect(() => {
     if (lastKey.current === key) return;
@@ -139,7 +159,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       case 'working.pick':
         return (
           <>
-            <button className="btn btn-primary" onClick={() => send({ type: 'SCAN', sku: task!.sku })}>Scan item</button>
+            <button className="btn btn-primary" onClick={() => send({ type: 'SCAN', sku: task!.sku })}>{verify === 'camera' ? 'Lift item (camera confirms)' : 'Scan item'}</button>
             <button className="btn" onClick={() => send({ type: 'REPORT_MISSING' })}>Short pick</button>
             <button className="btn" onClick={() => send({ type: 'REPORT_DAMAGED' })}>Damaged item</button>
           </>
@@ -183,9 +203,9 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
     <ConceptBanner />
     <div className={`station ${prefs.leftHanded ? 'left-handed' : ''}`}>
       <aside className="rail" aria-label="Scenario map">
-        <ScenarioMap stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
+        <ScenarioMap stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} suggested={suggested} exploredCount={exploredCount} explored={explored} />
       </aside>
-      <ScenarioDock stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} />
+      <ScenarioDock stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} suggested={suggested} exploredCount={exploredCount} explored={explored} />
 
       {/* Workstation touchscreen (1280×800 target) */}
       <section ref={screenRef} className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
@@ -242,7 +262,11 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       {/* Physical touchpoints */}
       <section className="physical" aria-label="Physical touchpoints">
         <LightTower signal={signal} colorSafe={prefs.colorSafe} />
-        <PodBins signal={signal} />
+        <PodBins
+          signal={signal}
+          camera={verify === 'camera'}
+          coverClosed={key === 'idle' || key === 'working.podArriving' || key === 'working.exception.podLate' || key === 'working.confirm' || key === 'done' || key.startsWith('safetyStop')}
+        />
         <ToteWall
           signal={signal}
           task={task}
@@ -252,10 +276,19 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
         <WhatsWhat />
       </section>
 
+      <ErgoView task={task} active={key === 'working.pick' || key === 'working.put' || key.startsWith('working.exception') && key !== 'working.exception.podLate'} />
+
       {/* Simulation controls: events outside the associate's control */}
       <section className="sim" aria-labelledby="sim-title">
         <h3 id="sim-title">Simulate the floor</h3>
         <p className="sim-lede">These stand in for everything the associate doesn’t control: the drive units, the WES, equipment, and Problem Solve. Trigger one to see how the station responds.</p>
+        <div className="sim-setup" role="radiogroup" aria-label="Confirm picks by">
+          <span className="sim-group-label">Station setup: confirm picks by</span>
+          <div className="seg">
+            <button type="button" role="radio" aria-checked={verify === 'scan'} className={verify === 'scan' ? 'on' : ''} onClick={() => setVerify('scan')}>Handheld scan</button>
+            <button type="button" role="radio" aria-checked={verify === 'camera'} className={verify === 'camera' ? 'on' : ''} onClick={() => setVerify('camera')}>Overhead camera</button>
+          </div>
+        </div>
         <div className="sim-groups">
           <div className="sim-group">
             <span className="sim-group-label">Drive units &amp; WES</span>
@@ -264,11 +297,11 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           </div>
           <div className="sim-group">
             <span className="sim-group-label">Associate error</span>
-            <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCAN', sku: 'SKU-99999' })}>Mispick (wrong scan)</button>
+            <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCAN', sku: 'SKU-99999' })}>{verify === 'camera' ? 'Mispick (hand in wrong bin)' : 'Mispick (wrong scan)'}</button>
           </div>
           <div className="sim-group">
             <span className="sim-group-label">Equipment</span>
-            <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCANNER_FAULT' })}>Scanner fault</button>
+            <button className="btn btn-sm" disabled={key !== 'working.pick'} onClick={() => send({ type: 'SCANNER_FAULT' })}>{verify === 'camera' ? 'Camera can’t see item' : 'Scanner fault'}</button>
           </div>
           <div className="sim-group">
             <span className="sim-group-label">Problem Solve</span>

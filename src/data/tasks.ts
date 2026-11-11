@@ -37,3 +37,15 @@ export const BIN_STOCK: Record<string, ItemKind> = Object.fromEntries(
   BIN_ROWS.flatMap((r, ri) => BIN_COLS.map((c, ci) => [`${r}${c}`, FILLER[(ri * 3 + ci) % FILLER.length]])),
 );
 for (const t of SAMPLE_TASKS) BIN_STOCK[t.bin] = t.icon;
+
+/**
+ * Body zone for each pod row. The power zone (mid-thigh to mid-chest) is where
+ * picks need no reaching or bending. Row A is above it, row D below it.
+ */
+export type BodyZone = 'reach' | 'zone' | 'bend';
+export const rowZone = (bin: string): BodyZone => (bin.startsWith('A') ? 'reach' : bin.startsWith('D') ? 'bend' : 'zone');
+export const ZONE_TIP: Record<BodyZone, string> = {
+  reach: 'Top row: above your power zone. Use the step if you need it.',
+  zone: '',
+  bend: 'Bottom row: bend at the knees, not the back.',
+};

@@ -1,4 +1,6 @@
-import { TOTE_ORDERS, itemPhrase, type PickTask } from '../data/tasks';
+import { TOTE_ORDERS, ZONE_TIP, itemPhrase, rowZone, type PickTask } from '../data/tasks';
+
+export type VerifyMode = 'scan' | 'camera';
 
 /**
  * Multimodal signal map. Every state resolves to exactly one signal set,
@@ -40,7 +42,9 @@ export function stateKey(value: unknown): string {
   return '';
 }
 
-export function signalFor(key: string, task?: PickTask): SignalSet {
+export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'scan'): SignalSet {
+  const tip = task ? ZONE_TIP[rowZone(task.bin)] : '';
+  const confirmHow = verify === 'camera' ? 'Just lift it out; the camera confirms the pick.' : 'Scan it when it’s in your hand.';
   const qty = task ? itemPhrase(task) : '';
   const one = task ? task.short[0] : 'item';
   const order = task ? TOTE_ORDERS[task.tote] : '';
@@ -53,7 +57,7 @@ export function signalFor(key: string, task?: PickTask): SignalSet {
         headline: 'Pod inbound', instruction: 'A drive unit is bringing the next pod. Keep hands clear of the opening.' };
     case 'working.pick':
       return { key, severity: 'info', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Pick', tone: 'attention',
-        headline: `Pick ${qty}`, instruction: `From the lit bin, ${task?.bin}. Scan it when it’s in your hand.`, litBin: task?.bin, binColor: 'green' };
+        headline: `Pick ${qty}`, instruction: `From the lit bin, ${task?.bin}. ${confirmHow}${tip ? ` ${tip}` : ''}`, litBin: task?.bin, binColor: 'green' };
     case 'working.put':
       return { key, severity: 'info', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Put', tone: 'confirm',
         headline: `Put to tote ${task?.tote}`, instruction: `The lit tote on the put wall, order ${order}. Press its button once it’s in.`, litTote: task?.tote };
@@ -62,7 +66,7 @@ export function signalFor(key: string, task?: PickTask): SignalSet {
         headline: 'Task complete', instruction: `The ${one} is in order ${order}. The drive unit takes this pod away; the next one is queued.` };
     case 'working.exception.wrongItem':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Mispick', tone: 'attention', vibrate: [80, 60, 80],
-        headline: 'Mispick: wrong item', instruction: `Return it to bin ${task?.bin} and pick the ${one} instead.`, litBin: task?.bin, binColor: 'amber' };
+        headline: verify === 'camera' ? 'Mispick: wrong bin' : 'Mispick: wrong item', instruction: verify === 'camera' ? `The camera saw your hand in another bin. Return the item and pick from bin ${task?.bin}.` : `Return it to bin ${task?.bin} and pick the ${one} instead.`, litBin: task?.bin, binColor: 'amber' };
     case 'working.exception.missingItem':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Short pick', tone: 'attention', vibrate: [80, 60, 80],
         headline: `Short pick: bin ${task?.bin} looks empty`, instruction: 'Recount once. Still short? Tap Flag bin. Inventory control will do a cycle count.', litBin: task?.bin, binColor: 'amber' };
@@ -71,7 +75,7 @@ export function signalFor(key: string, task?: PickTask): SignalSet {
         headline: 'Damaged item', instruction: 'Place it in the damage tote, then tap Done. It won’t ship.' };
     case 'working.exception.scannerFault':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Scanner fault', tone: 'attention', vibrate: [80, 60, 80],
-        headline: 'Scanner fault', instruction: `Check the label matches ${task?.sku}, then tap Key in item.` };
+        headline: verify === 'camera' ? 'Camera can’t confirm the pick' : 'Scanner fault', instruction: `Check the label matches ${task?.sku}, then tap Key in item.` };
     case 'working.exception.toteFull':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Tote full', tone: 'attention', vibrate: [80, 60, 80],
         headline: `Tote ${task?.tote} is full`, instruction: 'Push the full tote out to the conveyor, slide in an empty one, then tap Tote swapped.', litTote: task?.tote };

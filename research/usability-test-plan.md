@@ -35,3 +35,7 @@ Run tasks 2–8 in a randomized order after task 1.
 | **3, Serious** | Significant delay or confusion; most participants affected. Fix before rollout. |
 | **2, Moderate** | Slows some participants; workaround exists. Fix in the next iteration. |
 | **1, Minor** | Cosmetic or preference. Backlog. |
+
+## Ergonomics validation
+
+Before building hardware, compare station layouts in virtual reality with motion tracking (the approach described in Amazon Science's ErgoReality paper, HFES 2024). Measure reach, trunk bend, and wrist angle for top-, middle-, and bottom-row picks, and check how often picks land in the power zone (mid-thigh to mid-chest).

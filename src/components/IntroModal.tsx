@@ -23,6 +23,8 @@ const TERMS: Array<[string, string]> = [
   ['Light curtain', 'An invisible safety beam across the pod opening. A trip stops nearby drive units (an E-stop).'],
   ['Short pick / mispick', 'Short: the bin doesn’t have the item. Mispick: the wrong item was picked.'],
   ['Starved station', 'The associate is ready but the next pod hasn’t arrived.'],
+  ['Power zone', 'Mid-thigh to mid-chest: where picks need no reaching or bending.'],
+  ['Safety cover', 'A cover that closes over the pod opening while the pod moves.'],
   ['Andon / Problem Solve', 'Andon is the call for help. Problem Solve is the team that answers it.'],
   ['WES and fleet manager', 'Software that decides which pod goes to which station and dispatches the drive units.'],
 ];
