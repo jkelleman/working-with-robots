@@ -78,7 +78,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
               </li>
             ))}
           </ol>
-          <p className="intro-callout">Seven exceptions can knock Maya off this path. The scenario map shows each one, and the prototype designs the way back.</p>
+          <p className="intro-callout">Seven pain points break Maya’s journey. The scenario map frames each one as a design challenge, and the prototype tests a recovery path for every one.</p>
         </section>
 
         <section>
