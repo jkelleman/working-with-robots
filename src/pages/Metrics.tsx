@@ -39,8 +39,8 @@ export default function Metrics() {
 
       <div className="stats">
         <Stat label="Units per hour" b={avg(before.map((d) => d.unitsPerHour))} a={avg(after.map((d) => d.unitsPerHour))} unit="UPH" />
-        <Stat label="Task cycle time" b={avg(before.map((d) => d.cycleTimeSec))} a={avg(after.map((d) => d.cycleTimeSec))} unit="sec" betterLow />
-        <Stat label="Exception rate" b={avg(before.map((d) => d.exceptionRate))} a={avg(after.map((d) => d.exceptionRate))} unit="/100 tasks" betterLow />
+        <Stat label="Pick cycle time" b={avg(before.map((d) => d.cycleTimeSec))} a={avg(after.map((d) => d.cycleTimeSec))} unit="sec" betterLow />
+        <Stat label="Exception rate" b={avg(before.map((d) => d.exceptionRate))} a={avg(after.map((d) => d.exceptionRate))} unit="/100 picks" betterLow />
         <Stat label="Avg time to recover" b={avg(recovery.map((r) => r.before))} a={avg(recovery.map((r) => r.after))} unit="sec" betterLow />
       </div>
 
@@ -93,7 +93,7 @@ export default function Metrics() {
         </More>
         <More label="Safety stops" hint="Before and after">
           <div className="chart-card chart-flat">
-        <p>{stops.b} in the 14-day baseline, {stops.a} in the 14 days after. Every stop is logged with the task ID so shift leads and safety can review patterns by station.</p>
+        <p>{stops.b} in the 14-day baseline, {stops.a} in the 14 days after. Every stop is logged with the station and order so shift leads and safety can review patterns by station.</p>
       </div>
         </More>
         <More label="Which design changes move each metric" hint="The lever behind each number">

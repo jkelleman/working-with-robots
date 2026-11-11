@@ -174,7 +174,7 @@ export const stationMachine = setup({
             ESCALATE: { target: 'escalated', actions: ['setEscalation', 'logEscalation'] },
           },
           states: {
-            // Worker scanned the wrong item: put it back, then rescan.
+            // Associate scanned the wrong item: put it back, then rescan.
             wrongItem: { on: { RESOLVE: '#station.working.pick' } },
             // Item not in bin: flag the bin for inventory and move on.
             missingItem: { on: { RESOLVE: { target: '#station.working.advancing', actions: 'markSkipped' } } },

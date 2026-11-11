@@ -24,7 +24,7 @@ const C = {
   n3: '#c3ccd5',
 };
 
-/** Low, flat drive-unit robot (the kind that slides under a shelf and lifts it). */
+/** Low, flat drive unit (slides under a pod and lifts it). */
 export function DriveUnit({ x = 0, y = 0, w = 120 }: { x?: number; y?: number; w?: number }) {
   const h = w * 0.28;
   return (
@@ -39,7 +39,7 @@ export function DriveUnit({ x = 0, y = 0, w = 120 }: { x?: number; y?: number; w
   );
 }
 
-/** Shelf pod: a grid of bins on legs, optionally with one lit bin. */
+/** Pod: a grid of fabric bins on legs, optionally with one pick-to-light on. */
 export function Pod({ x = 0, y = 0, w = 120, lit = [1, 2] }: { x?: number; y?: number; w?: number; lit?: [number, number] | null }) {
   const cols = 4, rows = 4, pad = w * 0.04;
   const cw = (w - pad * 2) / cols;
@@ -74,7 +74,7 @@ function LightTowerArt({ x, y, active = 'green' }: { x: number; y: number; activ
   );
 }
 
-function Worker({ x, y }: { x: number; y: number }) {
+function Associate({ x, y }: { x: number; y: number }) {
   return (
     <g transform={`translate(${x} ${y})`}>
       <circle cx={20} cy={12} r={11} fill={C.skin} />
@@ -97,11 +97,11 @@ function Tote({ x, y, lit = false }: { x: number; y: number; lit?: boolean }) {
   );
 }
 
-/** Hero scene: robot carries a pod to the station, worker picks from the lit bin. */
+/** Hero scene: a drive unit carries a pod to the station; the associate picks from the bin with its light on. */
 export function StationScene({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 360 190" role="img"
-      aria-label="Illustration: a drive unit carries a pod to a pick station, where an associate picks from a lit bin.">
+      aria-label="Illustration: a drive unit carries a pod to a pick station, where an associate picks from the bin marked by pick-to-light.">
       <rect x={0} y={170} width={360} height={4} rx={2} fill={C.steel} opacity={0.5} />
       {/* motion trail */}
       <g opacity={0.35} stroke={C.steelLight} strokeWidth={3} strokeLinecap="round">
@@ -120,8 +120,8 @@ export function StationScene({ className }: { className?: string }) {
       <rect x={222} y={116} width={6} height={54} fill={C.steel} />
       <LightTowerArt x={268} y={40} />
       <Tote x={190} y={146} lit />
-      <Worker x={290} y={64} />
-      {/* attention from bin to worker */}
+      <Associate x={290} y={64} />
+      {/* attention from bin to associate */}
       <path d="M120 74 C 170 40, 250 40, 300 70" fill="none" stroke={C.green} strokeWidth={2} strokeDasharray="4 5" opacity={0.8} />
     </svg>
   );

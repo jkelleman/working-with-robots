@@ -9,10 +9,10 @@
 - Red and the octagon mean one thing only: stop
 - Where the bin and tote IDs show up: screen and lights
 
-## Module 2: A normal task (5 min)
+## Module 2: A normal pick (5 min)
 
-- Pick from the lit bin, scan, place in the lit tote, press the tote button
-- Practice 5 tasks with the trainer watching
+- Pick from the bin with its pick-to-light on, scan, put to the tote with its put-to-light on, press the light to confirm
+- Practice 5 picks with the trainer watching
 
 ## Module 3: When something goes wrong (10 min)
 
@@ -36,4 +36,4 @@ Practice each one on the prototype:
 - Accessibility modes: high contrast, large text, spoken guidance, left-hand layout, reduced sound
 - How to report something confusing, and what happens with your feedback
 
-**Check for understanding:** each associate completes one normal task, two exceptions, and one safety stop without help before working alone.
+**Check for understanding:** each associate completes one normal pick, two exceptions, and one safety stop without help before working alone.

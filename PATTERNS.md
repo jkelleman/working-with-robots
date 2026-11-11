@@ -5,17 +5,17 @@ Reusable patterns for robotic workstations. Each pattern maps one meaning across
 _Generated from [`src/data/patterns.ts`](src/data/patterns.ts) by `npm run patterns`. Edit the data file, not this one._
 
 - [Status signal](#status-signal)
-- [Task card](#task-card)
+- [Pick card](#pick-card)
 - [Exception card](#exception-card)
 - [Safety stop](#safety-stop)
-- [Andon (escalation)](#andon-escalation)
+- [Andon](#andon)
 - [Confirmation](#confirmation)
 - [Progress](#progress)
 - [Screen-to-light handoff](#screen-to-light-handoff)
 
 ## Status signal
 
-Tell the worker, at a glance and from any angle, what the station needs.
+Tell the associate, at a glance and from any angle, what the station needs.
 
 **When to use:** Every state. It is the backbone all other patterns sit on.
 
@@ -33,9 +33,9 @@ Tell the worker, at a glance and from any angle, what the station needs.
 **Don't**
 
 - Use color alone
-- Light more than one tower tier at once
+- Light more than one stack light tier at once
 
-## Task card
+## Pick card
 
 Show exactly what to pick and where it goes, readable at arm’s length.
 
@@ -45,7 +45,7 @@ Show exactly what to pick and where it goes, readable at arm’s length.
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
-| Large bin, tote and quantity; item name secondary | Bin and tote lights repeat the IDs | Attention tone on new task | None |
+| Large bin, tote and quantity; item name secondary | Pick-to-light and put-to-light repeat the IDs | Attention tone on new pick | None |
 
 **Do**
 
@@ -63,7 +63,7 @@ Name the problem in plain words and give one next step.
 
 **When to use:** Mispick, short pick, damaged item, scanner fault, tote full, starved station.
 
-**States:** Raised · Self-resolved · Escalated
+**States:** Raised · Self-resolved · Andon pulled
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
@@ -72,7 +72,7 @@ Name the problem in plain words and give one next step.
 **Do**
 
 - Write the headline as what happened, the body as what to do
-- Offer escalation as a secondary path, not the first
+- Offer the andon as a secondary path, not the first
 
 **Don't**
 
@@ -83,7 +83,7 @@ Name the problem in plain words and give one next step.
 
 Halt work instantly and make restarting a deliberate act.
 
-**When to use:** Light curtain broken, e-stop pressed, or any robot motion hazard.
+**When to use:** Light curtain trip, E-stop pressed, or any drive unit motion hazard.
 
 **States:** Halted · Area confirmed clear · Resumed
 
@@ -102,7 +102,7 @@ Halt work instantly and make restarting a deliberate act.
 - Allow a single tap to resume
 - Let reduced-sound settings silence it
 
-## Andon (escalation)
+## Andon
 
 Pull the andon: get Problem Solve to the station with the right context, without the associate leaving.
 
@@ -112,21 +112,21 @@ Pull the andon: get Problem Solve to the station with the right context, without
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
-| Reason picker, then a calm waiting message | Blue, fast blink, square | Attention tone once | None |
+| Reason list, then a calm waiting message | Blue, fast blink, square | Attention tone once | None |
 
 **Do**
 
 - Ask for a reason with a short fixed list
-- Tell the worker what happens next and that they can stay put
+- Tell the associate what happens next and that they can stay put
 
 **Don't**
 
-- Make escalation the default action
+- Make the andon the default action
 - Require typing
 
 ## Confirmation
 
-Close the loop so the worker knows the system registered the action.
+Close the loop so the associate knows the system registered the action.
 
 **When to use:** After every put, and after resolving an exception.
 
@@ -134,12 +134,12 @@ Close the loop so the worker knows the system registered the action.
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
-| Brief success state, next task primed | Green, slow blink | Two rising notes | One short pulse |
+| Brief success state, next pick primed | Green, slow blink | Two rising notes | One short pulse |
 
 **Do**
 
 - Confirm within 100 ms of the action
-- Keep it brief so it never slows the next task
+- Keep it brief so it never slows the next pick
 
 **Don't**
 
@@ -147,7 +147,7 @@ Close the loop so the worker knows the system registered the action.
 
 ## Progress
 
-Show where the worker is in the wave without adding pressure.
+Show where the associate is in the wave without adding pressure.
 
 **When to use:** Persistent header on every screen.
 
@@ -155,19 +155,19 @@ Show where the worker is in the wave without adding pressure.
 
 | Screen | Light | Sound | Haptic |
 | --- | --- | --- | --- |
-| Task X of Y, done and skipped counts | None | None | None |
+| Pick X of Y in the wave, picked and skipped counts | None | None | None |
 
 **Do**
 
-- Count skipped tasks separately so exceptions are not hidden
+- Count skipped picks separately so exceptions are not hidden
 
 **Don't**
 
-- Show rate-based pressure metrics to the worker in real time
+- Show rate-based pressure metrics to the associate in real time
 
 ## Screen-to-light handoff
 
-Move the worker’s attention from the screen to the physical location.
+Move the associate’s attention from the screen to the physical location.
 
 **When to use:** Every pick and put, when the action happens away from the screen.
 
@@ -184,4 +184,4 @@ Move the worker’s attention from the screen to the physical location.
 
 **Don't**
 
-- Make the worker look back at the screen to confirm a physical action
+- Make the associate look back at the screen to confirm a physical action

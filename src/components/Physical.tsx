@@ -40,12 +40,12 @@ export function LightTower({ signal, colorSafe }: { signal: SignalSet; colorSafe
   );
 }
 
-/** The robot-carried shelf. The lit bin is where the item is. */
+/** The pod the drive unit carries. Pick-to-light marks the bin to pick from. */
 export function PodBins({ signal, coverClosed, camera }: { signal: SignalSet; coverClosed?: boolean; camera?: boolean }) {
   const motion = signal.key === 'working.podArriving' ? 'arriving' : signal.key === 'working.exception.podLate' ? 'stalled' : 'docked';
   return (
     <figure className={`pod pod-${motion}`} aria-label={`Pod${signal.litBin ? `, bin ${signal.litBin} lit` : ''}. ${motion === 'docked' ? 'Docked at the station' : motion === 'arriving' ? 'Drive unit arriving' : 'Pod is late, station starved'}.`}>
-      <p className="touch-title">Pod <span>mobile storage shelf, never shipped</span></p>
+      <p className="touch-title">Pod <span>storage tower of bins, never ships</span></p>
       {camera && signal.litBin && (
         <p className="cam-chip"><span className="cam-dot" aria-hidden="true" />Camera watching bin {signal.litBin}</p>
       )}
@@ -72,7 +72,7 @@ export function PodBins({ signal, coverClosed, camera }: { signal: SignalSet; co
   );
 }
 
-/** Customer order totes. The lit tote is where the item goes; its button confirms the put. */
+/** Put wall: one order tote per location. Put-to-light marks the tote; pressing the light confirms the put. */
 export function ToteWall({ signal, task, justPut, onPress }: { signal: SignalSet; task?: PickTask; justPut?: boolean; onPress?: (slot: string) => void }) {
   return (
     <figure className="totes" aria-label="Put wall of customer order totes">
@@ -107,7 +107,7 @@ export function WhatsWhat() {
     <ul className="whats" aria-label="What's what">
       <li>
         <svg viewBox="0 0 44 40" aria-hidden="true"><Pod x={8} y={0} w={28} lit={null} /><DriveUnit x={8} y={28} w={28} /></svg>
-        <span><strong>Pod + drive unit</strong> A mobile shelf of bins and the AMR that carries it. Returns to storage.</span>
+        <span><strong>Pod + drive unit</strong> A rolling tower of fabric bins and the robot that carries it. Returns to the storage field.</span>
       </li>
       <li>
         <svg viewBox="0 0 40 40" aria-hidden="true"><ItemIcon kind="bottle" /></svg>

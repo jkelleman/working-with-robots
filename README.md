@@ -2,7 +2,7 @@
 
 **A day in the life of a robotic fulfillment center: robots bring pods, rolling towers of bins holding thousands of products, to an associate, who picks each order by hand. When something goes wrong, what should the station tell her?**
 
-At a goods-to-person pick station, a drive unit (AMR) brings a pod (a mobile shelf of bins) to the associate, who picks items from a lit bin and puts them to a lit order tote on the put wall. The work is fast and repetitive, the floor is loud, and the hard moments are the exceptions: a mispick, a short pick, a scanner fault, a full tote, a starved station, a light curtain trip. This project designs and prototypes the guidance for all of it across **screen, stack light, pick-to-light, put-to-light, sound, and haptics**, driven by one state machine so the channels can never disagree.
+At a goods-to-person pick station, a drive unit brings a pod (a rolling storage tower of fabric bins) to the associate. Pick-to-light marks the bin to pick from, and put-to-light marks the order tote on the put wall. The work is fast and repetitive, the floor is loud, and the hard moments are the exceptions: a mispick, a short pick, a scanner fault, a full tote, a starved station, a light curtain trip. This project designs and prototypes the guidance for all of it across **screen, stack light, pick-to-light, put-to-light, sound, and haptics**, driven by one state machine so the channels can never disagree.
 
 > **Concept project.** Fictional station, fictional items, synthetic data. Not affiliated with any company.
 
@@ -35,11 +35,12 @@ At a goods-to-person pick station, a drive unit (AMR) brings a pod (a mobile she
 
 | Term | Meaning |
 | --- | --- |
-| Goods-to-person (GTP) | Robots bring storage to the associate instead of the associate walking aisles |
-| Pod | Mobile shelf of fabric bins holding items; never shipped |
-| Drive unit (AMR) | The autonomous mobile robot that lifts and carries a pod |
+| Goods-to-person (GTP) | Drive units bring inventory to the associate instead of the associate walking aisles |
+| Pod | Rolling storage tower of fabric bins holding inventory; never ships, returns to the storage field |
+| Bin | One fabric compartment in a pod, labeled by row and column (bin B3) |
+| Drive unit | The low robot (a type of AMR, autonomous mobile robot) that lifts and carries a pod |
 | Pick-to-light / put-to-light | A light marks the bin to pick from and the tote to put to |
-| Put wall | Rack of order totes; each tote is one customer order |
+| Put wall | Wall of locations, each holding one order tote; each tote is one customer order |
 | Stack light | Tower of status lights visible across the floor |
 | Light curtain trip | Safety beam broken; nearby drive units E-stop |
 | Short pick / mispick | Item missing from the bin / wrong item picked |
@@ -73,7 +74,7 @@ stateDiagram-v2
         put --> confirm: PUT_CONFIRMED
         put --> toteFull: TOTE_FULL
         confirm --> advancing: NEXT
-        advancing --> podArriving: more tasks
+        advancing --> podArriving: more picks
         wrongItem --> pick: RESOLVE
         missingItem --> advancing: RESOLVE
         damagedItem --> advancing: RESOLVE
@@ -89,11 +90,11 @@ stateDiagram-v2
         halted --> readyToResume: AREA_CLEAR_CONFIRMED
     }
     safetyStop --> working: RESUME (history)
-    advancing --> done: no tasks left
+    advancing --> done: no picks left
 ```
 
 - **[`stationMachine.ts`](src/machine/stationMachine.ts)**: an [XState v5](https://stately.ai/docs/xstate) machine. Safety stop uses a deep history state, so resuming returns to the exact state that was interrupted, including an open exception.
-- **[`signals.ts`](src/machine/signals.ts)**: maps each state to one signal set (stack light color, blink pattern, shape, label, tone, haptic, headline, instruction, lit bin, lit tote). The UI renders from it; nothing else decides what a channel shows.
+- **[`signals.ts`](src/machine/signals.ts)**: maps each state to one signal set (stack light color, blink pattern, shape, label, tone, haptic, headline, instruction, pick-to-light bin, put-to-light tote). The UI renders from it; nothing else decides what a channel shows.
 - Tested with Vitest: every exception path, the safety-stop override from any working state, two-step resume, resume into an interrupted exception, and the rule that only the safety stop uses red and the octagon.
 
 ## Run it

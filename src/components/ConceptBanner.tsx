@@ -18,7 +18,7 @@ export default function ConceptBanner() {
           <p className="concept-eyebrow">Design concept · Goods-to-person (GTP) picking</p>
           <h1 id="concept-title" className="concept-title">Guiding associates at a robotic pick station</h1>
           <p className="concept-lede">
-            Robots bring shelves to Maya, three weeks into night shift. This prototype designs what her station shows,
+            Drive units bring pods of inventory to Maya, three weeks into night shift. This prototype designs what her station shows,
             lights, and sounds at every step, especially when something goes wrong.
           </p>
 
@@ -32,7 +32,7 @@ export default function ConceptBanner() {
             <dl className="concept-story">
               <div>
                 <dt>Use case</dt>
-                <dd>Goods-to-person picking. Drive units carry pods (mobile shelves) to Maya’s pick station. She picks each item and puts it to the customer’s order tote.</dd>
+                <dd>Goods-to-person picking. Drive units carry pods (rolling storage towers of fabric bins) to Maya’s pick station. She picks each item and puts it to the customer’s order tote.</dd>
               </div>
               <div>
                 <dt>Scenario</dt>

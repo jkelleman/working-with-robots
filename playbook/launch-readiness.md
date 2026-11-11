@@ -27,7 +27,7 @@ How to take a new station guidance release from one pilot station to every site,
 | Time to recover from exceptions | At or below baseline |
 | Exception rate | At or below baseline |
 | Units per hour | Within 3% of baseline by week 2 |
-| Andon pulls per 100 tasks | At or below baseline |
+| Andon pulls per 100 picks | At or below baseline |
 | Associate confidence (end-of-pilot survey, 1–5) | 4.0 or higher |
 
 Any safety metric miss is an automatic no-go. Productivity misses can go forward with a written plan.

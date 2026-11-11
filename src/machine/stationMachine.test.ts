@@ -15,7 +15,7 @@ const goodScan = (a: ReturnType<typeof start>) =>
   a.send({ type: 'SCAN', sku: SAMPLE_TASKS[a.getSnapshot().context.index].sku });
 
 describe('happy path', () => {
-  it('runs every task to done', () => {
+  it('runs every pick in the wave to done', () => {
     const a = start();
     for (let i = 0; i < SAMPLE_TASKS.length; i++) {
       expect(key(a)).toBe('working.podArriving');
@@ -42,7 +42,7 @@ describe('exceptions', () => {
     expect(a.getSnapshot().context.log[0].type).toBe('wrongItem');
   });
 
-  it('missing item skips to the next task', () => {
+  it('short pick skips to the next pick', () => {
     const a = start();
     toPick(a);
     a.send({ type: 'REPORT_MISSING' });
@@ -53,7 +53,7 @@ describe('exceptions', () => {
     expect(a.getSnapshot().context.skipped).toBe(1);
   });
 
-  it('damaged item skips to the next task', () => {
+  it('damaged item skips to the next pick', () => {
     const a = start();
     toPick(a);
     a.send({ type: 'REPORT_DAMAGED' });
@@ -91,7 +91,7 @@ describe('exceptions', () => {
     expect(key(a)).toBe('working.pick');
   });
 
-  it('escalation records the reason and the lead clears the task', () => {
+  it('andon records the reason and Problem Solve clears it', () => {
     const a = start();
     toPick(a);
     a.send({ type: 'REPORT_DAMAGED' });
@@ -145,7 +145,7 @@ describe('safety stop', () => {
     expect(key(a)).toBe('working.exception.toteFull');
   });
 
-  it('ignores worker events while stopped', () => {
+  it('ignores associate events while stopped', () => {
     const a = start();
     toPick(a);
     a.send({ type: 'LIGHT_CURTAIN_BROKEN' });

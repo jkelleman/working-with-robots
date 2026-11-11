@@ -9,8 +9,8 @@ export interface PickTask {
   short: [string, string]; // [singular, plural] for plain-language instructions
   icon: ItemKind;
   quantity: number;
-  bin: string; // shelf bin, e.g. "B3"
-  tote: string; // order tote slot, e.g. "T2"
+  bin: string; // pod bin, e.g. "B3"
+  tote: string; // put wall location holding the order tote, e.g. "T2"
 }
 
 export const SAMPLE_TASKS: PickTask[] = [
@@ -31,7 +31,7 @@ export const TOTE_ORDERS: Record<string, string> = {
   T1: '#40871', T2: '#40872', T3: '#40873', T4: '#40874', T5: '#40875', T6: '#40876',
 };
 
-/** What's stocked in every bin, so the shelf looks like a real, mixed shelf. */
+/** What's stocked in every bin, so the pod looks like real mixed inventory. */
 const FILLER: ItemKind[] = ['box', 'can', 'tube', 'book', 'box', 'can', 'book', 'tube'];
 export const BIN_STOCK: Record<string, ItemKind> = Object.fromEntries(
   BIN_ROWS.flatMap((r, ri) => BIN_COLS.map((c, ci) => [`${r}${c}`, FILLER[(ri * 3 + ci) % FILLER.length]])),

@@ -18,9 +18,9 @@ export interface HappyStep {
 
 export const HAPPY_PATH: HappyStep[] = [
   { id: 'arrive', label: 'Pod arrives', hint: 'Drive unit docks the pod', states: ['working.podArriving'] },
-  { id: 'pick', label: 'Pick and scan', hint: 'From the lit bin', states: ['working.pick'] },
-  { id: 'put', label: 'Put to tote', hint: 'Lit tote on the put wall', states: ['working.put'] },
-  { id: 'done', label: 'Task complete', hint: 'Pod leaves, next one docks', states: ['working.confirm', 'done'] },
+  { id: 'pick', label: 'Pick and scan', hint: 'Pick-to-light marks the bin', states: ['working.pick'] },
+  { id: 'put', label: 'Put to tote', hint: 'Put-to-light marks the tote', states: ['working.put'] },
+  { id: 'done', label: 'Pick complete', hint: 'Pod leaves, next one docks', states: ['working.confirm', 'done'] },
 ];
 
 export interface Scenario {
@@ -29,7 +29,7 @@ export interface Scenario {
   at: StepId | 'any';
   kind: 'exception' | 'safety';
   state: string; // the station state this scenario produces
-  outcome: string; // where the worker ends up after recovering
+  outcome: string; // where the associate ends up after recovering
   events: StationEvent[];
 }
 
@@ -41,9 +41,9 @@ export const SCENARIOS: Scenario[] = [
   { id: 'wrongItem', label: 'Mispick', at: 'pick', kind: 'exception', state: 'working.exception.wrongItem',
     outcome: 'Wrong item: return it, pick again', events: [{ type: 'POD_ARRIVED' }, { type: 'SCAN', sku: 'SKU-99999' }] },
   { id: 'missingItem', label: 'Short pick', at: 'pick', kind: 'exception', state: 'working.exception.missingItem',
-    outcome: 'Bin empty: flag it, next task', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_MISSING' }] },
+    outcome: 'Bin empty: flag it, next pick', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_MISSING' }] },
   { id: 'damagedItem', label: 'Damaged item', at: 'pick', kind: 'exception', state: 'working.exception.damagedItem',
-    outcome: 'To the damage tote, next task', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_DAMAGED' }] },
+    outcome: 'To the damage tote, next pick', events: [{ type: 'POD_ARRIVED' }, { type: 'REPORT_DAMAGED' }] },
   { id: 'scannerFault', label: 'Scanner fault', at: 'pick', kind: 'exception', state: 'working.exception.scannerFault',
     outcome: 'Key in the item, then put', events: [{ type: 'POD_ARRIVED' }, { type: 'SCANNER_FAULT' }] },
   { id: 'toteFull', label: 'Tote full', at: 'put', kind: 'exception', state: 'working.exception.toteFull',

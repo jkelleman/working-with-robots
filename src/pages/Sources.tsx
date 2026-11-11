@@ -69,7 +69,7 @@ const PRACTICES: Source[] = [
     by: 'Common warehouse practice',
     borrowed: 'Lights that mark the bin to pick from and the tote to put to, with a button to confirm the put.',
     why: 'It keeps eyes on the work instead of the screen.',
-    where: 'Lit bins on the pod and lit totes on the put wall.',
+    where: 'Pick-to-light on the pod bins and put-to-light on the put wall.',
   },
   {
     name: 'Web Content Accessibility Guidelines (WCAG 2.2)',

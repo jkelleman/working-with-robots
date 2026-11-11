@@ -9,17 +9,18 @@ import More from './More';
 
 const STEPS = [
   { kind: 'deliver', title: 'A drive unit brings a pod', text: 'Goods-to-person: no walking aisles.' },
-  { kind: 'pick', title: 'Pick from the lit bin', text: 'Pick-to-light. Scan to confirm.' },
-  { kind: 'put', title: 'Put to the lit tote', text: 'Put-to-light. The tote ships.' },
+  { kind: 'pick', title: 'Pick from the bin', text: 'Pick-to-light marks the bin. Scan to confirm.' },
+  { kind: 'put', title: 'Put to the order tote', text: 'Put-to-light marks the tote. Press its light to confirm.' },
 ] as const;
 
 const TERMS: Array<[string, string]> = [
-  ['Goods-to-person (GTP)', 'Robots bring storage to the associate instead of the associate walking the aisles.'],
-  ['Pod', 'A mobile shelf of fabric bins holding items. Never shipped.'],
-  ['Drive unit (AMR)', 'The low robot that lifts a pod and carries it. AMR = autonomous mobile robot.'],
-  ['Pick station', 'Where the associate works: screen, scanner, stack light, put wall.'],
-  ['Pick-to-light / put-to-light', 'A light marks which bin to pick from, and which tote to put to.'],
-  ['Put wall', 'The rack of order totes. Each tote is one customer order.'],
+  ['Goods-to-person (GTP)', 'Drive units bring inventory to the associate instead of the associate walking the aisles.'],
+  ['Pod', 'A rolling storage tower of fabric bins holding inventory. It never ships; it returns to the storage field.'],
+  ['Bin', 'One fabric compartment in a pod, labeled by row and column (bin B3).'],
+  ['Drive unit', 'The low robot that slides under a pod, lifts it, and carries it. A type of AMR (autonomous mobile robot).'],
+  ['Pick station', 'Where the associate works: screen, handheld scanner, stack light, put wall.'],
+  ['Pick-to-light / put-to-light', 'A light at the bin shows where to pick. A light at the put wall location shows where to put, and pressing it confirms the put.'],
+  ['Put wall', 'A wall of locations, each holding one order tote. Each tote is one customer order.'],
   ['Stack light', 'The tower of colored lights showing station status from across the floor.'],
   ['Light curtain', 'An invisible safety beam across the pod opening. A trip stops nearby drive units (an E-stop).'],
   ['Short pick / mispick', 'Short: the bin doesn’t have the item. Mispick: the wrong item was picked.'],
@@ -62,7 +63,7 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
           <h3>Use case and scenario</h3>
           <dl className="intro-story">
             <div><dt>Use case</dt><dd>Goods-to-person picking at a robotic pick station.</dd></div>
-            <div><dt>Who</dt><dd>Maya, an associate (picker) three weeks into the job, on a 10-hour night shift.</dd></div>
+            <div><dt>Who</dt><dd>Maya, a pick associate three weeks into the job, on a 10-hour night shift.</dd></div>
             <div><dt>Tonight</dt><dd>A short pick, a full tote, a scanner fault, and a light curtain trip.</dd></div>
             <div><dt>The test</dt><dd>Does her station always tell her what to do next, safely?</dd></div>
           </dl>

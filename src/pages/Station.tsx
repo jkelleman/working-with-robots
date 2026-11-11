@@ -173,7 +173,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           </>
         );
       case 'working.confirm':
-        return <button className="btn btn-primary" onClick={() => send({ type: 'NEXT' })} autoFocus>Next task</button>;
+        return <button className="btn btn-primary" onClick={() => send({ type: 'NEXT' })} autoFocus>Next pick</button>;
       case 'working.exception.wrongItem':
         return <button className="btn btn-primary" onClick={() => send({ type: 'RESOLVE' })}>Item returned to bin</button>;
       case 'working.exception.missingItem':
@@ -208,7 +208,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       </aside>
       <ScenarioDock stateKey={key} onHappyPath={playHappyPath} onScenario={runScenario} suggested={suggested} exploredCount={exploredCount} explored={explored} />
 
-      {/* Workstation touchscreen (1280×800 target) */}
+      {/* Pick station screen (1280×800 target) */}
       <section ref={screenRef} className={`screen sev-${signal.severity} ${isStop ? 'screen-stop' : ''}`} aria-live="assertive" aria-atomic="true">
         <header className="screen-top">
           <span>Station 14 · Maya · Night shift</span>
@@ -306,7 +306,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           </div>
           <div className="sim-group">
             <span className="sim-group-label">Problem Solve</span>
-            <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Clears andon task</button>
+            <button className="btn btn-sm" disabled={key !== 'working.escalated'} onClick={() => send({ type: 'LEAD_CLEARED' })}>Clears the andon</button>
           </div>
           <div className="sim-group">
             <span className="sim-group-label">Safety</span>

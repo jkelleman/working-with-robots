@@ -5,7 +5,7 @@ import More from '../components/More';
 const slug = (name: string) => name.toLowerCase().replace(/\W+/g, '-');
 
 const WHY = [
-  { title: 'Safety depends on it', text: 'An associate who learns that red means stop at one station has to see the same thing at every station. Inconsistency on a robot floor isn’t cosmetic.' },
+  { title: 'Safety depends on it', text: 'An associate who learns that red means stop at one station has to see the same thing at every station. Inconsistency on a robotic floor isn’t cosmetic.' },
   { title: 'Many teams build stations', text: 'Hardware, software, and operations teams each touch the experience. Shared patterns let them decide once, instead of re-deciding per program.' },
   { title: 'New people ramp faster', text: 'Designers, engineers, and site trainers get one reference for what each signal means and when to use it.' },
 ];

@@ -57,13 +57,13 @@ export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'sc
         headline: 'Pod inbound', instruction: 'A drive unit is bringing the next pod. Keep hands clear of the opening.' };
     case 'working.pick':
       return { key, severity: 'info', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Pick', tone: 'attention',
-        headline: `Pick ${qty}`, instruction: `From the lit bin, ${task?.bin}. ${confirmHow}${tip ? ` ${tip}` : ''}`, litBin: task?.bin, binColor: 'green' };
+        headline: `Pick ${qty}`, instruction: `From bin ${task?.bin}, where the pick-to-light is on. ${confirmHow}${tip ? ` ${tip}` : ''}`, litBin: task?.bin, binColor: 'green' };
     case 'working.put':
       return { key, severity: 'info', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Put', tone: 'confirm',
-        headline: `Put to tote ${task?.tote}`, instruction: `The lit tote on the put wall, order ${order}. Press its button once it’s in.`, litTote: task?.tote };
+        headline: `Put to tote ${task?.tote}`, instruction: `Put-to-light is on at tote ${task?.tote}, order ${order}. Press the light once it’s in.`, litTote: task?.tote };
     case 'working.confirm':
       return { key, severity: 'success', tower: 'green', pattern: 'slow', shape: 'circle', towerLabel: 'Done', tone: 'confirm', vibrate: [40],
-        headline: 'Task complete', instruction: `The ${one} is in order ${order}. The drive unit takes this pod away; the next one is queued.` };
+        headline: 'Pick complete', instruction: `The ${one} is in order ${order}. The drive unit takes this pod away; the next one is queued.` };
     case 'working.exception.wrongItem':
       return { key, severity: 'warning', tower: 'amber', pattern: 'slow', shape: 'triangle', towerLabel: 'Mispick', tone: 'attention', vibrate: [80, 60, 80],
         headline: verify === 'camera' ? 'Mispick: wrong bin' : 'Mispick: wrong item', instruction: verify === 'camera' ? `The camera saw your hand in another bin. Return the item and pick from bin ${task?.bin}.` : `Return it to bin ${task?.bin} and pick the ${one} instead.`, litBin: task?.bin, binColor: 'amber' };
@@ -84,7 +84,7 @@ export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'sc
         headline: 'Station starved: pod is late', instruction: 'Nothing to do. Stay at the station; the drive unit is on its way.' };
     case 'working.escalated':
       return { key, severity: 'warning', tower: 'blue', pattern: 'fast', shape: 'square', towerLabel: 'Andon', tone: 'attention',
-        headline: 'Andon pulled: Problem Solve is coming', instruction: 'Stay at the station. A problem solver will clear this task.' };
+        headline: 'Andon pulled: Problem Solve is coming', instruction: 'Stay at the station. Problem Solve will clear it.' };
     case 'safetyStop.halted':
       return { key, severity: 'stop', tower: 'red', pattern: 'fast', shape: 'octagon', towerLabel: 'STOP', tone: 'stop', vibrate: [300, 100, 300],
         headline: 'STOP. Light curtain tripped', instruction: 'Drive units in this zone have stopped. Step back and check nothing is in the pod opening.' };
@@ -93,7 +93,7 @@ export function signalFor(key: string, task?: PickTask, verify: VerifyMode = 'sc
         headline: 'Area confirmed clear', instruction: 'When you are ready, press and hold Resume. Work picks up where it stopped.' };
     case 'done':
       return { key, severity: 'success', tower: 'green', pattern: 'steady', shape: 'circle', towerLabel: 'Complete', tone: 'confirm',
-        headline: 'All tasks complete', instruction: 'Great work. The station is ready for the next wave of orders.' };
+        headline: 'Wave complete', instruction: 'Great work. The station is ready for the next wave of orders.' };
     default:
       return { key, severity: 'info', tower: 'off', pattern: 'steady', shape: 'square', towerLabel: '', tone: 'none', headline: '', instruction: '' };
   }
