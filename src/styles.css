@@ -772,3 +772,165 @@ dialog.intro::backdrop { background: rgba(10, 18, 28, .68); }
   .intro-foot .btn { width: 100%; }
   .header-actions .btn { padding: 6px 10px; }
 }
+
+
+/* =====================================================================
+   Industrial theme: robotics-company chrome. Loaded last so it wins.
+   The station screen, lights, and signal colors are untouched.
+   ===================================================================== */
+:root {
+  --bg: #f4f5f6; --panel: #ffffff; --ink: #0d1014; --muted: #5c6670; --border: #dde1e5; --grid: #e9ecef;
+  --night: #0b0e11; --night-2: #151a1f; --night-line: rgba(255,255,255,.07); --night-ink: #e8ecef; --night-muted: #9aa5af;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --sans: "IBM Plex Sans", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-contrast='high']) { --bg: #0e1114; --panel: #161a1e; --ink: #e8ecef; --muted: #9aa5af; --border: #2a3036; --grid: #1d2227; }
+}
+body { font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-weight: 600; letter-spacing: -.015em; }
+code { font-family: var(--mono); }
+
+/* Mono spec labels */
+.tag, .concept-eyebrow, .intro-eyebrow, .page-header-eyebrow, .persona-tag, .sim-group-label, .sim h3, .sm-head h2,
+.intro h3, .intro-story dt, .concept-story dt, .concept-page-label, .more-hint, .stat-label, .proc-num, .flow-num,
+.persona-cols h4, .src-card dt, .persona-table th, .persona-day span, .screen-top, .persona-facts li, .ergo-pill,
+.try-tag, .sm-progress, .app-footer, nav a {
+  font-family: var(--mono);
+}
+.stat-value, .proc-big { font-family: var(--mono); font-weight: 500; letter-spacing: -.02em; }
+
+/* Header: dark control bar */
+.app-header { background: var(--night); border-bottom: 1px solid #000; color: var(--night-ink); padding: 0 24px; min-height: 60px; gap: 32px; }
+.brand { font-weight: 600; letter-spacing: -.01em; }
+.brand-mark { filter: brightness(1.8); }
+.app-header .tag { color: var(--night-muted); border-color: #2c333a; border-radius: 3px; font-weight: 500; }
+.app-header nav { align-self: stretch; gap: 0; }
+.app-header nav a { color: var(--night-muted); font-size: .76em; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; border-radius: 0; padding: 0 16px; display: flex; align-items: center; box-shadow: none; background: none; }
+.app-header nav a:hover { color: var(--night-ink); }
+.app-header nav a.active { color: #fff; background: none; box-shadow: inset 0 -2px 0 #fff; }
+.app-header .btn { background: transparent; color: var(--night-ink); border: 1px solid #2c333a; border-radius: 4px; font-family: var(--mono); font-size: .76em; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.app-header .btn:hover:not(:disabled) { border-color: var(--night-muted); }
+
+/* Buttons: squarer, engineered */
+.btn { border-radius: 6px; border-width: 1px; }
+
+/* Engineering grid texture */
+.concept, .page-header {
+  background-color: var(--night);
+  background-image: linear-gradient(var(--night-line) 1px, transparent 1px), linear-gradient(90deg, var(--night-line) 1px, transparent 1px);
+  background-size: 40px 40px; background-position: -1px -1px;
+}
+
+/* Station hero */
+.concept { color: var(--night-ink); border-bottom: 1px solid #000; }
+.concept-inner { padding: 56px 24px 40px; gap: 16px 56px; }
+.concept-eyebrow { color: var(--night-muted); font-weight: 500; letter-spacing: .14em; margin-bottom: 14px; }
+.concept-eyebrow::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; margin-right: 10px; vertical-align: 1px; box-shadow: 0 0 0 3px rgba(31,157,85,.25); }
+.concept-title { font-size: 2.4em; line-height: 1.08; letter-spacing: -.03em; margin-bottom: 20px; max-width: 18ch; }
+.concept-lede { font-size: 1.1em; line-height: 1.6; color: var(--night-ink); margin-bottom: 18px; }
+.concept-lingo { color: var(--night-muted); line-height: 1.65; margin-bottom: 18px; }
+.concept-lingo strong { color: var(--night-ink); font-weight: 600; }
+.concept-page { background: rgba(255,255,255,.04); border: 1px solid var(--night-line); border-left: 2px solid var(--night-ink); border-radius: 4px; padding: 12px 16px; margin-top: 16px; }
+.concept-page-label { color: var(--night-ink); font-weight: 600; letter-spacing: .14em; }
+.more-dark > summary { color: var(--night-ink); }
+.more-dark .more-chev { border-color: var(--night-ink); }
+.more-dark a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.concept-story dt { color: var(--night-muted); font-weight: 500; }
+:root[data-contrast='high'] .concept, :root[data-contrast='high'] .page-header { background: #000; }
+
+/* Page headers */
+.page-header { border-top: 0; border-bottom: 1px solid #000; color: var(--night-ink); }
+.page-header-inner { padding: 56px 24px 48px; gap: 48px; }
+.page-header h1 { font-size: 2.3em; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 12px; }
+.page-header-eyebrow, .page-header-blue .page-header-eyebrow, .page-header-green .page-header-eyebrow, .page-header-slate .page-header-eyebrow { color: var(--night-muted); font-weight: 500; letter-spacing: .14em; margin-bottom: 12px; }
+.page-header-sub { color: var(--night-muted); font-size: 1.05em; line-height: 1.6; }
+.page-header-art { background: #f4f5f6; border-radius: var(--r); padding: 14px; }
+
+/* Content pages: more air, numbered sections */
+.page { padding: 56px 24px 72px; counter-reset: sec; }
+.story { margin: 0 0 72px; }
+.story-h { counter-increment: sec; font-size: 1.5em; letter-spacing: -.02em; margin: 0 0 20px; }
+.story-h::before { content: counter(sec, decimal-leading-zero); display: block; font-family: var(--mono); font-size: .5em; font-weight: 500; letter-spacing: .14em; color: var(--muted); margin-bottom: 8px; }
+.proc-key { font-size: 1.1em; line-height: 1.65; margin-bottom: 20px; }
+.story-note { margin-top: 48px; }
+.story-cards li { border-top: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
+.story-cards li, .story-flow li, .proc-steps li, .proc-outcome li, .src-card, .persona, .pattern, .chart-card, .stat, .src-tools li, .ergo, .sim, .how, .physical, .rail .sm, .proc-try { border-radius: var(--r); }
+.proc-steps, .proc-outcome, .story-cards, .story-flow { gap: 16px; }
+.proc-steps li { padding: 20px 16px; gap: 12px; }
+.proc-num, .flow-num { border-radius: 4px; background: var(--ink); }
+.proc-outcome li { padding: 22px 20px; }
+.proc-big { font-size: 2.2em; }
+.src-list { gap: 16px; }
+.src-card { padding: 22px 24px; }
+.persona { padding: 28px 30px; }
+.persona-quote { margin: 26px 0 14px; font-size: 1.3em; letter-spacing: -.01em; border-left-width: 2px; border-left-color: var(--ink); }
+.persona-summary { margin-bottom: 24px; line-height: 1.65; }
+.persona-cols { gap: 32px; margin-bottom: 16px; }
+.persona-facts li { border-radius: 3px; font-size: .74em; letter-spacing: .02em; }
+.pattern { padding: 24px 26px; margin-bottom: 20px; }
+.stats { gap: 16px; margin: 0 0 32px; }
+.stat { padding: 20px; }
+.stat-label { font-size: .74em; letter-spacing: .06em; text-transform: uppercase; }
+.chart-card { margin-bottom: 24px; padding: 22px; }
+.more > summary { padding-top: 16px; padding-bottom: 16px; }
+.more-hint { font-size: .74em; letter-spacing: .02em; }
+
+/* Station page: calmer panels */
+.station { gap: 20px; padding-top: 28px; padding-bottom: 40px; }
+.sim { border-style: solid; }
+.sm-head h2, .sim h3 { letter-spacing: .12em; font-weight: 600; font-size: .82em; }
+.sim-group-label { letter-spacing: .1em; }
+
+/* Footer */
+.app-footer { font-size: .72em; letter-spacing: .04em; padding: 40px 24px; border-top: 1px solid var(--border); margin-top: 24px; }
+
+/* Welcome guide: room to breathe */
+dialog.intro { border-radius: 12px; width: min(760px, calc(100vw - 32px)); }
+.intro-body { padding: 44px 48px 28px; line-height: 1.6; }
+.intro-head { border-bottom: 1px solid var(--border); padding-bottom: 28px; }
+.intro-eyebrow { color: var(--muted); font-weight: 500; letter-spacing: .14em; margin-bottom: 12px; }
+.intro-head h2 { font-size: 1.9em; letter-spacing: -.03em; margin-bottom: 14px; }
+.intro-sub { font-size: 1.08em; line-height: 1.65; color: var(--ink); max-width: 60ch; }
+.intro section { margin-top: 40px; }
+.intro h3 { font-weight: 500; letter-spacing: .14em; font-size: .74em; margin-bottom: 18px; }
+.intro-story { gap: 14px; }
+.intro-story div { grid-template-columns: 110px 1fr; gap: 16px; }
+.intro-story dt { color: var(--muted); font-weight: 500; letter-spacing: .1em; font-size: .72em; }
+.intro-lingo { margin-top: 24px; padding: 4px 0 4px 16px; border-left: 2px solid var(--ink); line-height: 1.65; }
+.intro-steps { gap: 16px; }
+.intro-steps li { border-radius: var(--r); padding: 20px 14px; gap: 8px; border: 1px solid var(--border); background: var(--panel); }
+.intro-callout { margin-top: 24px; padding: 16px 18px; border-left: 2px solid var(--ink); border-radius: 4px; font-weight: 500; line-height: 1.6; }
+.intro .more { margin-top: 0; }
+.intro section + .more { margin-top: 32px; }
+.intro-terms { gap: 16px 24px; }
+.intro-built li { border-radius: 3px; font-family: var(--mono); font-size: .76em; }
+.intro-foot { bottom: -28px; margin: 36px -48px -28px; padding: 18px 48px 24px; }
+
+@media (max-width: 900px) {
+  .app-header { padding: 10px 16px; gap: 8px 12px; }
+  .app-header nav { align-self: auto; }
+  .app-header nav a { padding: 10px 2px; justify-content: center; font-size: .66em; letter-spacing: .06em; }
+  .concept-inner { padding: 36px 16px 28px; }
+  .concept-title { font-size: 1.8em; }
+  .page-header-inner { padding: 36px 16px 32px; gap: 20px; }
+  .page-header h1 { font-size: 1.75em; }
+  .page { padding: 36px 16px 56px; }
+  .story { margin-bottom: 56px; }
+  .persona { padding: 20px 18px; }
+  .station { padding-top: 0; }
+}
+@media (max-width: 700px) {
+  .intro-body { padding: 28px 20px 16px; }
+  .intro-head { padding-bottom: 20px; }
+  .intro-head h2 { font-size: 1.45em; }
+  .intro section { margin-top: 28px; }
+  .intro-story div { grid-template-columns: 1fr; gap: 2px; }
+  .intro-steps { gap: 8px; }
+  .intro-steps li { padding: 12px 6px; }
+  .intro-foot { bottom: -16px; margin: 24px -20px -16px; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); }
+  .page-header-art { max-width: 200px; }
+}
+
+.intro-foot .btn-primary { background: var(--ink); border-color: var(--ink); color: var(--panel); }
