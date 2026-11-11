@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
+import More from '../components/More';
 import type { A11yPrefs } from './Station';
 
 const PREF_LABELS: Record<keyof A11yPrefs, string> = {
@@ -79,17 +80,17 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
       <div className="page">
         <section className="story" aria-labelledby="why-built">
           <h2 id="why-built" className="story-h">Why I built it</h2>
-          <div className="proc-why">
+          <p className="proc-key">
+            When something goes wrong at a robotic pick station, guidance is split across a screen, a light, and a sound,
+            and a newer associate is left guessing. I set out to design those moments, in working code.
+          </p>
+          <More label="More on why">
             <p>
-              Goods-to-person stations bring the work to the associate. The happy path is fast. But when something goes
-              wrong, like a mispick, a late pod, or a light curtain trip, the guidance is split across a screen, a light,
-              and a sound. A newer associate is left guessing.
+              Goods-to-person stations bring the work to the associate, and the happy path is fast. The hard part is a
+              mispick, a late pod, or a light curtain trip. As a design engineer, I wanted to show how I design the moments
+              that break the flow, not just the flow, and to build it so the design can be tried, not just described.
             </p>
-            <p>
-              I’m a design engineer. I wanted to show how I design the moments that break the flow, not just the flow,
-              and to build it as working code so the design can be tried, not just described.
-            </p>
-          </div>
+          </More>
         </section>
 
         <section className="story" aria-labelledby="steps">
@@ -99,8 +100,8 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
               <li key={s.phase}>
                 <span className="proc-num" aria-hidden="true">{i + 1}</span>
                 <strong>{s.phase}</strong>
-                <span className="proc-did">{s.did}</span>
-                <span className="proc-out"><b>Result:</b> {s.out}</span>
+                <span className="proc-out">{s.out}</span>
+                <More className="more-compact" label="What I did"><p className="proc-did">{s.did}</p></More>
               </li>
             ))}
           </ol>
@@ -108,20 +109,17 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
 
         <section className="story" aria-labelledby="principles">
           <h2 id="principles" className="story-h">Principles I held to</h2>
-          <ul className="story-cards">
-            {PRINCIPLES.map(([t, d]) => <li key={t}><strong>{t}</strong><span>{d}</span></li>)}
-          </ul>
+          <div className="acc-group">
+            {PRINCIPLES.map(([t, d]) => <More key={t} label={t}><p>{d}</p></More>)}
+          </div>
         </section>
 
         <section className="story" aria-labelledby="a11y-h">
           <h2 id="a11y-h" className="story-h">Accessibility considerations</h2>
-          <p className="proc-lede">
-            Associates differ in vision, hearing, reading, and handedness, and the floor is loud and bright. I designed for
-            that from the start, following WCAG 2.2.
-          </p>
-          <ul className="proc-a11y">
-            {A11Y.map(([t, d]) => <li key={t}><strong>{t}</strong><span>{d}</span></li>)}
-          </ul>
+          <p className="proc-key">The floor is loud and bright, and associates differ in vision, hearing, reading, and handedness. I designed for that from the start, following WCAG 2.2.</p>
+          <div className="acc-group acc-2">
+            {A11Y.map(([t, d]) => <More key={t} label={t}><p>{d}</p></More>)}
+          </div>
           <fieldset className="proc-try">
             <legend>Try the accessibility modes. They change the <Link to="/">station</Link>.</legend>
             {(Object.keys(PREF_LABELS) as (keyof A11yPrefs)[]).map((k) => (
@@ -138,11 +136,18 @@ export default function Process({ prefs, setPrefs }: { prefs: A11yPrefs; setPref
           <ul className="proc-outcome">
             {OUTCOME.map(([n, d]) => <li key={d}><span className="proc-big">{n}</span><span>{d}</span></li>)}
           </ul>
-          <p className="proc-lede">
-            The <Link to="/metrics">metrics</Link> show the result I expect: faster recovery from exceptions and fewer
-            mispicks. The numbers are synthetic, a hypothesis to prove. Next I’d shadow associates on real shifts, run the
-            usability test, test reach in VR, and pilot at one site before scaling.
+          <p className="proc-key">
+            Expected result: faster recovery and fewer mispicks. The <Link to="/metrics">metrics</Link> are synthetic, a
+            hypothesis to prove.
           </p>
+          <More label="What I’d do next">
+            <ol className="proc-next">
+              <li>Shadow associates on real shifts.</li>
+              <li>Run the usability test with newer and experienced associates.</li>
+              <li>Test reach and posture in VR before building hardware.</li>
+              <li>Pilot at one site, then scale with the rollout playbook.</li>
+            </ol>
+          </More>
         </section>
 
         <p className="story-note">

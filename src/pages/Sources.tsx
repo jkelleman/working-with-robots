@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
+import More from '../components/More';
 
 interface Source {
   name: string;
@@ -103,12 +104,14 @@ function SourceCard({ s }: { s: Source }) {
         <h4>{s.url ? <a href={s.url} target="_blank" rel="noreferrer">{s.name} ↗</a> : s.name}</h4>
         <span className="src-by">{s.by}</span>
       </div>
-      <dl>
-        <div><dt>Borrowed</dt><dd>{s.borrowed}</dd></div>
-        <div><dt>Why</dt><dd>{s.why}</dd></div>
-        <div><dt>Where it shows up</dt><dd>{s.where}</dd></div>
-        {s.notBorrowed && <div><dt>Not borrowed (yet)</dt><dd>{s.notBorrowed}</dd></div>}
-      </dl>
+      <p className="src-borrowed"><b>Borrowed:</b> {s.borrowed}</p>
+      <More className="more-compact" label="Why, and where it shows up">
+        <dl>
+          <div><dt>Why</dt><dd>{s.why}</dd></div>
+          <div><dt>Where it shows up</dt><dd>{s.where}</dd></div>
+          {s.notBorrowed && <div><dt>Not borrowed (yet)</dt><dd>{s.notBorrowed}</dd></div>}
+        </dl>
+      </More>
     </li>
   );
 }
@@ -139,12 +142,11 @@ export default function Sources() {
           <ul className="src-original">{ORIGINAL.map((o) => <li key={o}>{o}</li>)}</ul>
         </section>
 
-        <section className="story">
-          <h2 className="story-h">Built with</h2>
+        <More label="Built with" hint="Open-source tools">
           <ul className="src-tools">
             {TOOLS.map(([n, u, d]) => <li key={n}><a href={u} target="_blank" rel="noreferrer">{n}</a><span>{d}</span></li>)}
           </ul>
-        </section>
+        </More>
 
         <p className="story-note">
           Company names are used only to credit public sources. No proprietary or confidential information was used, and

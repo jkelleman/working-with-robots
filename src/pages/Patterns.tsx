@@ -1,5 +1,6 @@
 import { PATTERNS } from '../data/patterns';
 import PageHeader, { PatternsArt } from '../components/PageHeader';
+import More from '../components/More';
 
 const slug = (name: string) => name.toLowerCase().replace(/\W+/g, '-');
 
@@ -34,35 +35,35 @@ export default function Patterns() {
       art={<PatternsArt />}
     />
     <div className="page">
-      <section className="story" aria-labelledby="why">
-        <h2 id="why" className="story-h">Why document patterns?</h2>
-        <ul className="story-cards">
-          {WHY.map((w) => <li key={w.title}><strong>{w.title}</strong><span>{w.text}</span></li>)}
-        </ul>
-      </section>
-
-      <section className="story" aria-labelledby="how">
-        <h2 id="how" className="story-h">How the patterns were made</h2>
-        <ol className="story-flow">
-          {HOW.map((h, i) => (
-            <li key={h.title}>
-              <span className="flow-num" aria-hidden="true">{i + 1}</span>
-              <strong>{h.title}</strong>
-              <span>{h.text}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="story" aria-labelledby="scale">
-        <h2 id="scale" className="story-h">How this scales</h2>
-        <ul className="story-cards">
-          {SCALE.map((s) => <li key={s.title}><strong>{s.title}</strong><span>{s.text}</span></li>)}
-        </ul>
-      </section>
-
       <section className="story" aria-labelledby="library">
         <h2 id="library" className="story-h">The patterns</h2>
+        <p className="proc-key">Each pattern gives one meaning to the screen, stack light, sound, and vibration, so no channel says something different.</p>
+        <div className="acc-group">
+          <More label="Why document patterns?" hint="Safety, many teams, faster ramp-up">
+            <ul className="story-cards">
+              {WHY.map((w) => <li key={w.title}><strong>{w.title}</strong><span>{w.text}</span></li>)}
+            </ul>
+          </More>
+          <More label="How the patterns were made" hint="5 steps from the state machine">
+            <ol className="story-flow">
+              {HOW.map((h, i) => (
+                <li key={h.title}>
+                  <span className="flow-num" aria-hidden="true">{i + 1}</span>
+                  <strong>{h.title}</strong>
+                  <span>{h.text}</span>
+                </li>
+              ))}
+            </ol>
+          </More>
+          <More label="How this scales" hint="Programs, sites, new patterns">
+            <ul className="story-cards">
+              {SCALE.map((x) => <li key={x.title}><strong>{x.title}</strong><span>{x.text}</span></li>)}
+            </ul>
+          </More>
+        </div>
+      </section>
+
+      <section className="story" aria-label="Jump to a pattern">
         <nav className="pattern-index" aria-label="Jump to a pattern">
           {PATTERNS.map((p) => <a key={p.name} href={`#/patterns`} onClick={(e) => { e.preventDefault(); document.getElementById(slug(p.name))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>{p.name}</a>)}
         </nav>
@@ -72,18 +73,20 @@ export default function Patterns() {
         <article key={p.name} className="pattern" id={slug(p.name)}>
           <h3>{p.name}</h3>
           <p>{p.purpose}</p>
-          <p className="muted"><strong>When to use:</strong> {p.whenToUse}</p>
-          <p className="muted"><strong>States:</strong> {p.states.join(' · ')}</p>
           <div className="table-wrap">
             <table className="mapping">
               <thead><tr><th>Screen</th><th>Light</th><th>Sound</th><th>Haptic</th></tr></thead>
               <tbody><tr><td data-label="Screen">{p.mapping.screen}</td><td data-label="Light">{p.mapping.light}</td><td data-label="Sound">{p.mapping.sound}</td><td data-label="Haptic">{p.mapping.haptic}</td></tr></tbody>
             </table>
           </div>
-          <div className="dodont">
-            <div><h4 className="do">Do</h4><ul>{p.do.map((d) => <li key={d}>{d}</li>)}</ul></div>
-            <div><h4 className="dont">Don’t</h4><ul>{p.dont.map((d) => <li key={d}>{d}</li>)}</ul></div>
-          </div>
+          <More label="When to use, do and don’t">
+            <p className="muted"><strong>When to use:</strong> {p.whenToUse}</p>
+            <p className="muted"><strong>States:</strong> {p.states.join(' · ')}</p>
+            <div className="dodont">
+              <div><h4 className="do">Do</h4><ul>{p.do.map((d) => <li key={d}>{d}</li>)}</ul></div>
+              <div><h4 className="dont">Don’t</h4><ul>{p.dont.map((d) => <li key={d}>{d}</li>)}</ul></div>
+            </div>
+          </More>
         </article>
       ))}
 

@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { DESIGN_LEVERS, generateMetrics } from '../data/metrics';
 import PageHeader, { MetricsArt } from '../components/PageHeader';
+import More from '../components/More';
 
 const { days, recovery, mix } = generateMetrics();
 const avg = (xs: number[]) => (xs.reduce((a, b) => a + b, 0) / xs.length);
@@ -73,12 +74,13 @@ export default function Metrics() {
             <Bar dataKey="after" name="New flows" fill={C.primary} radius={[3, 3, 0, 0]} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
-        <p className="muted small">Starved station barely moves: the associate can't fix a late pod, so the design goal there is a calm wait, not a faster one.</p>
+        <More className="more-compact" label="Why starved station barely moves"><p className="muted small">The associate can’t fix a late pod, so the design goal there is a calm wait, not a faster one.</p></More>
       </section>
 
-      <section className="chart-card">
-        <h3>Exception mix (% of exceptions)</h3>
-        <ResponsiveContainer width="100%" height={220}>
+      <div className="acc-group">
+        <More label="Exception mix" hint="Share of each exception type">
+          <div className="chart-card chart-flat">
+                <ResponsiveContainer width="100%" height={220}>
           <BarChart data={mix} layout="vertical" margin={{ top: 8, right: 24, bottom: 0, left: 24 }}>
             <CartesianGrid stroke={C.grid} strokeOpacity={0.6} horizontal={false} />
             <XAxis type="number" tick={AXIS} />
@@ -87,21 +89,23 @@ export default function Metrics() {
             <Bar dataKey="share" name="Share %" fill={C.secondary} radius={[0, 3, 3, 0]} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
-      </section>
-
-      <section className="chart-card">
-        <h3>Safety stops</h3>
+      </div>
+        </More>
+        <More label="Safety stops" hint="Before and after">
+          <div className="chart-card chart-flat">
         <p>{stops.b} in the 14-day baseline, {stops.a} in the 14 days after. Every stop is logged with the task ID so shift leads and safety can review patterns by station.</p>
-      </section>
-
-      <section className="chart-card">
-        <h3>Which design changes move each metric</h3>
+      </div>
+        </More>
+        <More label="Which design changes move each metric" hint="The lever behind each number">
+          <div className="chart-card chart-flat">
         <dl className="levers">
           {Object.entries(DESIGN_LEVERS).map(([k, v]) => (
             <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
           ))}
         </dl>
-      </section>
+      </div>
+        </More>
+      </div>
     </div>
     </>
   );

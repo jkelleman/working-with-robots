@@ -1,4 +1,5 @@
 import { ClaimIcon, StationScene } from './Illustrations';
+import More from './More';
 
 /** Station page hero: the use case, the scenario, and the claims being tested. */
 
@@ -16,18 +17,10 @@ export default function ConceptBanner() {
         <div className="concept-copy">
           <p className="concept-eyebrow">Design concept · Goods-to-person (GTP) picking</p>
           <h1 id="concept-title" className="concept-title">Guiding associates at a robotic pick station</h1>
-          <dl className="concept-story">
-            <div>
-              <dt>Use case</dt>
-              <dd>Goods-to-person picking. Drive units carry pods (mobile shelves) to Maya’s pick station; she picks each item and puts it to the customer’s order tote.</dd>
-            </div>
-            <div>
-              <dt>Scenario</dt>
-              <dd>Maya, an associate three weeks in, works nights. Tonight: a short pick, a full tote, and a light curtain trip.</dd>
-            </div>
-          </dl>
-
-          <p className="concept-lede">This prototype designs what her pick station shows, lights, and sounds at every step. It tests four claims:</p>
+          <p className="concept-lede">
+            Robots bring shelves to Maya, three weeks into night shift. This prototype designs what her station shows,
+            lights, and sounds at every step, especially when something goes wrong.
+          </p>
 
           <ul className="concept-claims">
             {CLAIMS.map((c) => (
@@ -35,10 +28,22 @@ export default function ConceptBanner() {
             ))}
           </ul>
 
-          <p className="concept-evidence">
-            Enforced in code, checked by 23 tests.{' '}
-            <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a>
-          </p>
+          <More label="Use case, scenario, and proof" className="more-dark">
+            <dl className="concept-story">
+              <div>
+                <dt>Use case</dt>
+                <dd>Goods-to-person picking. Drive units carry pods (mobile shelves) to Maya’s pick station. She picks each item and puts it to the customer’s order tote.</dd>
+              </div>
+              <div>
+                <dt>Scenario</dt>
+                <dd>Maya, an associate three weeks in, works nights. Tonight: a short pick, a full tote, and a light curtain trip.</dd>
+              </div>
+              <div>
+                <dt>Proof</dt>
+                <dd>Each claim is enforced in code and checked by 23 tests. <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a></dd>
+              </div>
+            </dl>
+          </More>
         </div>
 
         <StationScene className="concept-art" />

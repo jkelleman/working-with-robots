@@ -1,3 +1,4 @@
+import More from './More';
 import { BIN_ROWS, rowZone, type BodyZone, type PickTask } from '../data/tasks';
 
 /**
@@ -24,10 +25,6 @@ export default function ErgoView({ task, active }: { task?: PickTask; active: bo
     <section className="ergo" aria-labelledby="ergo-title">
       <div className="ergo-copy">
         <h3 id="ergo-title">Body and reach</h3>
-        <p className="ergo-lede">
-          The <strong>power zone</strong> runs from mid-thigh to mid-chest. Picks there need no reaching or bending,
-          the moves that add strain over a 10-hour shift.
-        </p>
         {zone ? (
           <p className={`ergo-status ergo-${zone}`}>
             <span className="ergo-pill">{ZONE_LABEL[zone]}</span>
@@ -36,10 +33,16 @@ export default function ErgoView({ task, active }: { task?: PickTask; active: bo
         ) : (
           <p className="ergo-status ergo-idle"><span className="ergo-pill">No pick</span>Start a pick to see where it lands on the body.</p>
         )}
-        <p className="ergo-idea">
-          <strong>Design response:</strong> the WES can favor the pod face that puts the item in the power zone. When it
-          can’t, the screen adds a posture tip for the top and bottom rows.
-        </p>
+        <More label="Why the power zone matters">
+          <p className="ergo-lede">
+            The <strong>power zone</strong> runs from mid-thigh to mid-chest. Picks there need no reaching or bending,
+            the moves that add strain over a 10-hour shift.
+          </p>
+          <p className="ergo-idea">
+            <strong>Design response:</strong> the WES can favor the pod face that puts the item in the power zone. When it
+            can’t, the screen adds a posture tip for the top and bottom rows.
+          </p>
+        </More>
       </div>
 
       <svg className="ergo-art" viewBox="0 0 300 210" role="img"
@@ -50,7 +53,8 @@ export default function ErgoView({ task, active }: { task?: PickTask; active: bo
         <rect x="20" y="76" width="262" height="70" rx="6" fill="#1f9d55" opacity=".12" />
         <line x1="20" y1="76" x2="282" y2="76" stroke="#1f9d55" strokeWidth="1.5" strokeDasharray="4 4" opacity=".7" />
         <line x1="20" y1="146" x2="282" y2="146" stroke="#1f9d55" strokeWidth="1.5" strokeDasharray="4 4" opacity=".7" />
-        <text x="24" y="90" fontSize="10" fontWeight="700" fill="#1f9d55">POWER ZONE</text>
+        <text x="22" y="88" fontSize="8.5" fontWeight="700" fill="#1f9d55">POWER</text>
+        <text x="22" y="99" fontSize="8.5" fontWeight="700" fill="#1f9d55">ZONE</text>
 
         {/* pod, side view: four rows */}
         {BIN_ROWS.map((r) => {

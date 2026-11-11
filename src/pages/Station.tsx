@@ -7,6 +7,7 @@ import { LightTower, PodBins, ToteWall, WhatsWhat } from '../components/Physical
 import { playTone, speak, vibrate } from '../audio';
 import ScenarioMap from '../components/ScenarioMap';
 import ScenarioDock from '../components/ScenarioDock';
+import More from '../components/More';
 import ConceptBanner from '../components/ConceptBanner';
 import HowItWorks from '../components/HowItWorks';
 import { ItemIcon } from '../components/Illustrations';
@@ -273,7 +274,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
           justPut={key === 'working.confirm'}
           onPress={(slot) => { if (key === 'working.put' && slot === task?.tote) send({ type: 'PUT_CONFIRMED' }); }}
         />
-        <WhatsWhat />
+        <More className="whats-more" label="What’s what at the station" hint="Pod, item, tote, cover"><WhatsWhat /></More>
       </section>
 
       <ErgoView task={task} active={key === 'working.pick' || key === 'working.put' || key.startsWith('working.exception') && key !== 'working.exception.podLate'} />
@@ -281,7 +282,7 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
       {/* Simulation controls: events outside the associate's control */}
       <section className="sim" aria-labelledby="sim-title">
         <h3 id="sim-title">Simulate the floor</h3>
-        <p className="sim-lede">These stand in for everything the associate doesn’t control: the drive units, the WES, equipment, and Problem Solve. Trigger one to see how the station responds.</p>
+        <p className="sim-lede">Trigger what Maya doesn’t control and watch the station respond.</p>
         <div className="sim-setup" role="radiogroup" aria-label="Confirm picks by">
           <span className="sim-group-label">Station setup: confirm picks by</span>
           <div className="seg">
@@ -312,16 +313,15 @@ export default function Station({ prefs }: { prefs: A11yPrefs }) {
             <button className="btn btn-sm btn-danger" disabled={!key.startsWith('working')} onClick={() => send({ type: 'LIGHT_CURTAIN_BROKEN' })}>Trip light curtain</button>
           </div>
         </div>
-        <p className="sim-hint muted small">Buttons are grey when that event can’t happen in the current step.</p>
-        <details>
-          <summary>Exception log ({ctx.log.length}) <span className="muted small">what the WES would record</span></summary>
+        <More label={`Exception log (${ctx.log.length})`} hint="What the WES would record">
+          <p className="muted small">These buttons stand in for the drive units, the WES, equipment, and Problem Solve. Grey means that event can’t happen in the current step.</p>
           <ol className="log">
             {ctx.log.map((l, i) => (
               <li key={i}><code>{l.taskId}</code> {LOG_LABELS[l.type] ?? l.type}{l.detail ? ` · ${l.detail}` : ''}</li>
             ))}
           </ol>
-        </details>
-        <p className="muted small">Machine state, for engineers: <code>{key}</code></p>
+          <p className="muted small">Machine state, for engineers: <code>{key}</code></p>
+        </More>
       </section>
       <HowItWorks />
     </div>

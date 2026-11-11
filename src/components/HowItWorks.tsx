@@ -1,4 +1,5 @@
 import { DriveUnit, ItemIcon, Pod } from './Illustrations';
+import More from './More';
 
 /**
  * Explains the control loop. A warehouse
@@ -70,8 +71,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="how" aria-labelledby="how-title">
-      <h3 id="how-title">How do the drive units know what to do?</h3>
+    <More className="how" label="How do the drive units know what to do?" hint="The WES and fleet manager loop">
       <p className="how-lede">
         A warehouse execution system (WES) and a fleet manager assign each drive unit its job, and the pick station
         reports every step back.
@@ -89,7 +89,7 @@ export default function HowItWorks() {
         <span className="how-oct" aria-hidden="true" />
         <span><strong>Safety is separate:</strong> a light curtain trip stops every drive unit in the zone instantly (an E-stop), whatever the WES was doing.</span>
       </p>
-      <p className="how-note">In this prototype, the “Simulate floor events” buttons stand in for the drive units and the WES.</p>
-    </section>
+      <p className="how-note">In this prototype, the “Simulate the floor” buttons stand in for the drive units and the WES.</p>
+    </More>
   );
 }

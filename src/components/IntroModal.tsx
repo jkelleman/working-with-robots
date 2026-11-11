@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { StepIcon } from './Illustrations';
+import More from './More';
 
 /**
  * Welcome dialog shown on a visitor's first entry. Native <dialog>:
@@ -81,21 +82,18 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
           <p className="intro-callout">Seven pain points break Maya’s journey. The scenario map frames each one as a design challenge, and the prototype tests a recovery path for every one.</p>
         </section>
 
-        <section>
-          <h3>Key terms</h3>
+        <More label={`Key terms (${TERMS.length})`} hint="Floor vocabulary, in plain words">
           <dl className="intro-terms">
             {TERMS.map(([t, d]) => (
               <div key={t}><dt>{t}</dt><dd>{d}</dd></div>
             ))}
           </dl>
-        </section>
-
-        <section>
-          <h3>Built with</h3>
+        </More>
+        <More label="How it was built">
           <ul className="intro-built">
             {BUILT.map((b) => <li key={b}>{b}</li>)}
           </ul>
-        </section>
+        </More>
 
         <footer className="intro-foot">
           <button type="button" className="btn btn-primary" onClick={onClose} autoFocus>Start exploring</button>
