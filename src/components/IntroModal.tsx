@@ -8,9 +8,9 @@ import More from './More';
  */
 
 const STEPS = [
-  { kind: 'deliver', title: 'A drive unit brings a pod', text: 'Goods-to-person: no walking aisles.' },
-  { kind: 'pick', title: 'Pick from the bin', text: 'Pick-to-light marks the bin. Scan to confirm.' },
-  { kind: 'put', title: 'Put to the order tote', text: 'Put-to-light marks the tote. Press its light to confirm.' },
+  { kind: 'deliver', title: 'A robot brings the products', text: 'A drive unit delivers a pod of bins. No walking the aisles.' },
+  { kind: 'pick', title: 'She takes the item', text: 'Pick-to-light marks the bin. She scans to confirm.' },
+  { kind: 'put', title: 'She puts it in the order', text: 'Put-to-light marks the order tote. She presses the light.' },
 ] as const;
 
 const TERMS: Array<[string, string]> = [
@@ -53,20 +53,24 @@ export default function IntroModal({ open, onClose }: { open: boolean; onClose: 
     >
       <div className="intro-body">
         <header className="intro-head">
-          <p className="intro-eyebrow">Design concept · Goods-to-person (GTP) picking</p>
+          <p className="intro-eyebrow">Design concept</p>
           <h2 id="intro-title">Workstation Guidance System</h2>
           <p className="intro-sub">A day in the life of a robotic fulfillment center: robots bring pods, rolling towers of bins holding thousands of products, to an associate, who picks each order by hand. When something goes wrong, what should the station tell her?</p>
           <button type="button" className="intro-x" onClick={onClose} aria-label="Close">×</button>
         </header>
 
         <section>
-          <h3>Use case and scenario</h3>
+          <h3>The story</h3>
           <dl className="intro-story">
-            <div><dt>Use case</dt><dd>Goods-to-person picking at a robotic pick station.</dd></div>
-            <div><dt>Who</dt><dd>Maya, a pick associate three weeks into the job, on a 10-hour night shift.</dd></div>
-            <div><dt>Tonight</dt><dd>A short pick, a full tote, a scanner fault, and a light curtain trip.</dd></div>
+            <div><dt>Who</dt><dd>Maya, three weeks into the job, on a 10-hour night shift.</dd></div>
+            <div><dt>Her job</dt><dd>Pick products for customer orders, one item at a time, while robots bring the products to her.</dd></div>
+            <div><dt>Tonight</dt><dd>An empty bin, a full box, a scanner that won’t read, and a safety stop.</dd></div>
             <div><dt>The test</dt><dd>Does her station always tell her what to do next, safely?</dd></div>
           </dl>
+          <p className="intro-lingo">
+            <strong>Here’s how that plays out in a fulfillment center:</strong> Maya is a pick associate at a
+            goods-to-person (GTP) station. Tonight brings a short pick, a full tote, a scanner fault, and a light curtain trip.
+          </p>
         </section>
 
         <section>

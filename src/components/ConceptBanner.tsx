@@ -1,46 +1,36 @@
-import { ClaimIcon, StationScene } from './Illustrations';
+import { StationScene } from './Illustrations';
 import More from './More';
 
-/** Station page hero: the use case, the scenario, and the claims being tested. */
-
-const CLAIMS = [
-  { icon: 'step', text: 'One clear next step' },
-  { icon: 'sync', text: 'Every signal agrees' },
-  { icon: 'stop', text: 'Safety overrides all' },
-  { icon: 'shape', text: 'Never color alone' },
-] as const;
-
+/**
+ * Station page hero. Plain story first, so anyone can follow it, then the
+ * same story in fulfillment-center terms.
+ */
 export default function ConceptBanner() {
   return (
     <section className="concept" aria-labelledby="concept-title">
       <div className="concept-inner">
         <div className="concept-copy">
-          <p className="concept-eyebrow">Design concept · Goods-to-person (GTP) picking</p>
-          <h1 id="concept-title" className="concept-title">Guiding associates at a robotic pick station</h1>
+          <p className="concept-eyebrow">Design concept</p>
+          <h1 id="concept-title" className="concept-title">Guiding the people who work alongside warehouse robots</h1>
           <p className="concept-lede">
-            Drive units bring pods of inventory to Maya, three weeks into night shift. This prototype designs what her station shows,
-            lights, and sounds at every step, especially when something goes wrong.
+            Robots bring products to a person, who picks each customer order by hand. The work is fast and the floor is
+            loud. When something goes wrong, she needs to know what to do, in seconds.
+          </p>
+          <p className="concept-lingo">
+            <strong>Here’s how that plays out in a fulfillment center:</strong> drive units carry pods of inventory to
+            Maya’s pick station. Pick-to-light marks the bin, put-to-light marks the order tote, and a stack light shows
+            her status across the floor. This prototype designs every one of those signals.
           </p>
 
-          <ul className="concept-claims">
-            {CLAIMS.map((c) => (
-              <li key={c.text}><ClaimIcon kind={c.icon} /><span>{c.text}</span></li>
-            ))}
-          </ul>
-
-          <More label="Use case, scenario, and proof" className="more-dark">
+          <More label="Tonight’s scenario and proof" className="more-dark">
             <dl className="concept-story">
               <div>
-                <dt>Use case</dt>
-                <dd>Goods-to-person picking. Drive units carry pods (rolling storage towers of fabric bins) to Maya’s pick station. She picks each item and puts it to the customer’s order tote.</dd>
-              </div>
-              <div>
                 <dt>Scenario</dt>
-                <dd>Maya, an associate three weeks in, works nights. Tonight: a short pick, a full tote, and a light curtain trip.</dd>
+                <dd>Maya is three weeks in, on nights. Tonight brings an empty bin (a short pick), a full tote, and a safety stop (a light curtain trip).</dd>
               </div>
               <div>
                 <dt>Proof</dt>
-                <dd>Each claim is enforced in code and checked by 23 tests. <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a></dd>
+                <dd>The design rules are enforced in code and checked by 23 tests. <a href="https://github.com/jkelleman/workstation-guidance-system#readme">View code →</a></dd>
               </div>
             </dl>
           </More>

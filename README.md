@@ -2,7 +2,9 @@
 
 **A day in the life of a robotic fulfillment center: robots bring pods, rolling towers of bins holding thousands of products, to an associate, who picks each order by hand. When something goes wrong, what should the station tell her?**
 
-At a goods-to-person pick station, a drive unit brings a pod (a rolling storage tower of fabric bins) to the associate. Pick-to-light marks the bin to pick from, and put-to-light marks the order tote on the put wall. The work is fast and repetitive, the floor is loud, and the hard moments are the exceptions: a mispick, a short pick, a scanner fault, a full tote, a starved station, a light curtain trip. This project designs and prototypes the guidance for all of it across **screen, stack light, pick-to-light, put-to-light, sound, and haptics**, driven by one state machine so the channels can never disagree.
+The work is fast and repetitive, and the floor is loud. The hard moments are when something goes wrong: the wrong item, an empty bin, a scanner that won't read, a full box, a robot running late, a safety stop. This project designs what the station shows, lights up, and sounds in each of those moments, so the person always knows what to do next.
+
+**Here's how that plays out in a fulfillment center:** at a goods-to-person (GTP) pick station, a drive unit brings a pod (a rolling storage tower of fabric bins) to the associate. Pick-to-light marks the bin, and put-to-light marks the order tote on the put wall. The hard moments are a mispick, a short pick, a scanner fault, a full tote, a starved station, and a light curtain trip. The guidance runs across the **screen, stack light, pick-to-light, put-to-light, sound, and haptics**, driven by one state machine so the channels can never disagree.
 
 > **Concept project.** Fictional station, fictional items, synthetic data. Not affiliated with any company.
 

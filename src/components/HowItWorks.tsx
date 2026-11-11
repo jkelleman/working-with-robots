@@ -71,10 +71,11 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <More className="how" label="How do the drive units know what to do?" hint="The WES and fleet manager loop">
+    <More className="how" label="How do the robots know what to do?" hint="Software assigns every job">
       <p className="how-lede">
-        A warehouse execution system (WES) and a fleet manager assign each drive unit its job, and the pick station
-        reports every step back.
+        Software tracks every order, decides which products go to which station, and sends a robot to fetch them. The
+        station reports each step back. <strong>Here’s how that plays out in a fulfillment center:</strong> a warehouse
+        execution system (WES) assigns the work, and a fleet manager dispatches the drive units.
       </p>
       <ol className="how-loop">
         {STEPS.map((s, i) => (
